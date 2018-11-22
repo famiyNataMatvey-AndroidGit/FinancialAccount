@@ -24,33 +24,81 @@
         app:layout_constraintVertical_bias="0.237">
 
         <TableRow>
-
-            <ImageButton
-                android:id="@+id/imageButtonExpenses"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher_round" />
+                android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/imageButtonIncome"
+                <ImageButton
+                    android:id="@+id/imageButtonExpenses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/expenses"
+                    android:src="@mipmap/ic_launcher_round" />
+                <TextView
+                    android:id="@+id/textViewExpenses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/expenses" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher_round" />
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButtonIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:contentDescription="@string/income" />
+
+                <TextView
+                    android:id="@+id/textViewIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/income" />
+            </LinearLayout>
+
         </TableRow>
 
         <TableRow>
-
-            <ImageButton
-                android:id="@+id/imageButtonPiggyBank"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/imageButtonStatistics"
+                <ImageButton
+                    android:id="@+id/imageButtonMoneybox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"
+                    android:contentDescription="@string/moneybox" />
+                <TextView
+                    android:id="@+id/textViewMoneybox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/moneybox" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButtonStatistics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"
+                    android:contentDescription="@string/title_activity_statistics" />
+                <TextView
+                    android:id="@+id/textViewStatistics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_activity_statistics" />
+            </LinearLayout>
         </TableRow>
     </TableLayout>
 </android.support.constraint.ConstraintLayout>
