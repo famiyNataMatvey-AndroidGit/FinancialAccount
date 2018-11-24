@@ -6,4 +6,127 @@
     android:layout_height="match_parent"
     tools:context=".EnterDataActivity">
 
+    <TableLayout
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:stretchColumns="*"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.237">
+
+        <TableRow>
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="5"
+                android:inputType="date"
+                android:hint="@string/default_hint_date"
+                android:textSize="24sp"
+                android:gravity="center_horizontal"/>
+
+            <EditText
+                android:id="@+id/editTextTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="5"
+                android:inputType="time"
+                android:hint="@string/default_hint_time"
+                android:textSize="24sp"
+                android:gravity="center_horizontal" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/field_date_name"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/field_time_name"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"/>
+
+        </TableRow>
+        <TableRow>
+            <EditText
+                android:id="@+id/editTextAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="5"
+                android:textSize="24sp"
+                android:inputType="numberDecimal"
+                android:hint="@string/default_hint_date"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonCurrency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:src="@mipmap/ic_launcher" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/textViewAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/field_amount_name"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:id="@+id/textViewCurrency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/currency"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"/>
+        </TableRow>
+        <TableRow>
+            <ImageButton
+                android:id="@+id/imageButtonCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:src="@mipmap/ic_launcher" />
+            <ImageButton
+                android:id="@+id/imageButtonCashVoucher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:src="@mipmap/ic_launcher" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/textViewCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:id="@+id/textViewCashVoucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cash_voucher"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"/>
+        </TableRow>
+    </TableLayout>
 </android.support.constraint.ConstraintLayout>
