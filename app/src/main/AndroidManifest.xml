@@ -21,7 +21,8 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".StatisticsActivity" />
-        <activity android:name=".SelectionDataActivity"></activity>
+        <activity android:name=".SelectionDataActivity" />
+        <activity android:name=".InformationMainActivity"></activity>
     </application>
 
 </manifest>
