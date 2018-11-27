@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="error">0</integer>
+    <integer name="click_button_statistics">1</integer>
+    <integer name="click_button_income">2</integer>
+    <integer name="click_button_expenses">3</integer>
+    <integer name="click_button_moneybox">4</integer>
+</resources>
