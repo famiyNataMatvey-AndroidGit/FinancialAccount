@@ -1,19 +1,39 @@
 package com.namutomatvey.financialaccount;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    // имя файла настройки
+    public static final String APP_PREFERENCES = "mysettings";
+    public static final String APP_PREFERENCES_FIRST_LAUNCH= "first_launch";
+    private SharedPreferences mSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Intent intent = new Intent(MainActivity.this, InformationMainActivity.class);
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        // Приложение запущено впервые или восстановлено из памяти?
+        if ( !mSettings.contains(APP_PREFERENCES_FIRST_LAUNCH))   // приложение запущено впервые
+        {
+            Log.d("MyTag","Запускаю в первый раз");
+            // инициализация суммы счета нулем
+            // другой код
+            SharedPreferences.Editor editor = mSettings.edit();
+            editor.putBoolean(APP_PREFERENCES_FIRST_LAUNCH, true);
+            editor.apply();
+        }
+        final Intent intent = new Intent(MainActivity.this, EnterDataActivity.class);
+        final Intent information_intent = new Intent(MainActivity.this, InformationMainActivity.class);
 
         // в ключ username пихаем текст из первого текстового поля
 
@@ -53,11 +73,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView statisticsTextView = findViewById(R.id.textViewStatistics);
-                intent.putExtra("title", statisticsTextView.getText().toString());
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_statistics));
-                startActivity(intent);
+                information_intent.putExtra("title", statisticsTextView.getText().toString());
+                information_intent.putExtra("number", getResources().getInteger(R.integer.click_button_statistics));
+                startActivity(information_intent);
             }
         });
     }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        // Запоминаем данные
+//        SharedPreferences.Editor editor = mSettings.edit();
+//        editor.putInt(APP_PREFERENCES_FIRST_LAUNCH, mCounter);
+//        editor.apply();
+//    }
 
 }

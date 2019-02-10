@@ -9,5 +9,7 @@ public class SelectionDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_data);
+        String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
+        setTitle(title);
     }
 }

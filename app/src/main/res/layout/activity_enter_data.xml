@@ -32,7 +32,8 @@
                 android:inputType="date"
                 android:hint="@string/default_hint_date"
                 android:textSize="24sp"
-                android:gravity="center_horizontal"/>
+                android:gravity="center_horizontal"
+                tools:text="@tools:sample/date/ddmmyy" />
 
             <EditText
                 android:id="@+id/editTextTime"
@@ -42,7 +43,8 @@
                 android:inputType="time"
                 android:hint="@string/default_hint_time"
                 android:textSize="24sp"
-                android:gravity="center_horizontal" />
+                android:gravity="center_horizontal"
+                tools:text="@tools:sample/date/hhmm" />
         </TableRow>
         <TableRow>
             <TextView
