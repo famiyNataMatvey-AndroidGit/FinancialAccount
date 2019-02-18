@@ -1,8 +1,10 @@
 package com.namutomatvey.financialaccount;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBHelper  extends SQLiteOpenHelper{
 
@@ -21,13 +23,17 @@ public class DBHelper  extends SQLiteOpenHelper{
     public static final String KEY_CATEGORY_TYPE = "type";
     public static final String KEY_PARENT = "parent_id";
 
+    public static final Integer FINANCE_TYPE_INCOME = 1;
+    public static final Integer FINANCE_TYPE_EXPENSES = 2;
+    public static final Integer FINANCE_TYPE_MONEYBOX = 3;
+
     public static final String KEY_FINANCE_TYPE = "type";
-    public static final String KEY_FINANCE_DATE = "date";
-    public static final String KEY_FINANCE_TIME = "time";
+    public static final String KEY_FINANCE_DATE_TIME = "date_time";
     public static final String KEY_FINANCE_COMMENT = "comment";
     public static final String KEY_FINANCE_AMOUNT = "amount";
     public static final String KEY_FINANCE_CATEGORY = "category_id";
     public static final String KEY_FINANCE_CURRENCY = "currency_id";
+
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,19 +41,63 @@ public class DBHelper  extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_CURRENCY + "(" + KEY_ID
-                + " integer primary key," + KEY_NAME + " text," + KEY_SHORT_NAME + " text,"
-                + KEY_COEFFICIENT + " real" + ")");
+        Log.d("MyTag","Начало");
+        db.execSQL("create table " + TABLE_CURRENCY + "("
+                + KEY_ID + " integer primary key autoincrement,"
+                + KEY_NAME + " text not null,"
+                + KEY_SHORT_NAME + " text,"
+                + KEY_COEFFICIENT + " real not null" + " check (" + KEY_COEFFICIENT + " >= 0)" + ")");
 
-        db.execSQL("create table " + TABLE_CATEGORY + "(" + KEY_ID
-                + " integer primary key," + KEY_NAME + " text,"
+        db.execSQL("create table " + TABLE_CATEGORY + "("
+                + KEY_ID + " integer primary key autoincrement,"
+                + KEY_NAME + " text not null,"
                 + KEY_CATEGORY_TYPE + " integer not null,"
                 + KEY_PARENT + " integer,"
-                + "foreign key " + "(" + KEY_PARENT + ")" + " references " + TABLE_CATEGORY + "(" + "id" + ")" + ")");
+                + "foreign key "
+                + "(" + KEY_PARENT + ")" + " references "
+                + TABLE_CATEGORY + "(" + "id" + ")" + ")");
 
-//        db.execSQL("create table " + TABLE_FINANCE + "(" + KEY_ID
-//                + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text" + ")");
+        db.execSQL("create table " + TABLE_FINANCE + "("
+                + KEY_ID + " integer primary key autoincrement,"
+                + KEY_NAME + " text not null,"
+                + KEY_FINANCE_TYPE + " integer not null"
+                + " check (" + KEY_FINANCE_TYPE + " >= 1 and " + KEY_FINANCE_TYPE + " <= 3),"
+                + KEY_FINANCE_DATE_TIME + " text not null,"
+                + KEY_FINANCE_COMMENT + " text,"
+                + KEY_FINANCE_AMOUNT + " real not null"  + " check (" + KEY_FINANCE_AMOUNT + " >= 0),"
+                + KEY_FINANCE_CATEGORY + " integer not null,"
+                + KEY_FINANCE_CURRENCY + " integer not null,"
+                + "foreign key "
+                + "(" + KEY_FINANCE_CATEGORY + ")" + " references "
+                + TABLE_CATEGORY + "(" + "id" + "),"
+                + "foreign key "
+                + "(" + KEY_FINANCE_CURRENCY + ")" + " references "
+                + TABLE_CURRENCY + "(" + "id" + ")" + ")");
+        Log.d("MyTag","Создал 3 таблицы");
+        onBaseInsertDatabase(db);
+        Log.d("MyTag","Готово");
+    }
 
+    private void onBaseInsertDatabase(SQLiteDatabase dbHelper) {
+        String [] CategoryNames = {"Фрукты", "Овощи", "Кисломолочные продукты", "Напитки", "Быт"};
+//        Integer [] CategoryTypes = {FINANCE_TYPE_INCOME, FINANCE_TYPE_EXPENSES, FINANCE_TYPE_MONEYBOX};
+        String [] CurrencyNames = {"Доллар", "Рубль", "Евро"};
+        Double [] CurrencyCoefficients = {66.7, 1.0, 75.25};
+        for (int i = 0; i < 5; i += 1) {
+            ContentValues contentCategoryValues = new ContentValues();
+            contentCategoryValues.put(KEY_NAME, CategoryNames[i]);
+            contentCategoryValues.put(KEY_CATEGORY_TYPE, FINANCE_TYPE_INCOME);
+            dbHelper.insert(TABLE_CATEGORY, null, contentCategoryValues);
+        }
+        for (int i = 0; i < 3; i += 1) {
+            ContentValues contentCurrencyValues = new ContentValues();
+            contentCurrencyValues.put(KEY_NAME, CurrencyNames[i]);
+            contentCurrencyValues.put(KEY_COEFFICIENT, CurrencyCoefficients[i]);
+            dbHelper.insert(TABLE_CURRENCY, null, contentCurrencyValues);
+        }
+        Log.d("MyTag","Заполнил таблицы");
+
+//        ContentValues contentFinanceValues = new ContentValues();
     }
 
     @Override
@@ -55,7 +105,6 @@ public class DBHelper  extends SQLiteOpenHelper{
         db.execSQL("drop table if exists " + TABLE_CURRENCY);
         db.execSQL("drop table if exists " + TABLE_CATEGORY);
         db.execSQL("drop table if exists " + TABLE_FINANCE);
-
         onCreate(db);
 
     }

@@ -1,8 +1,11 @@
 package com.namutomatvey.financialaccount;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,13 +17,16 @@ public class MainActivity extends AppCompatActivity {
     // имя файла настройки
     public static final String APP_PREFERENCES = "mysettings";
     public static final String APP_PREFERENCES_FIRST_LAUNCH= "first_launch";
+    DBHelper dbHelper;
+
     private SharedPreferences mSettings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         // Приложение запущено впервые или восстановлено из памяти?
         if ( !mSettings.contains(APP_PREFERENCES_FIRST_LAUNCH))   // приложение запущено впервые
@@ -32,6 +38,35 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean(APP_PREFERENCES_FIRST_LAUNCH, true);
             editor.apply();
         }
+        dbHelper = new DBHelper(this);
+
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        Cursor cursor = database.query(DBHelper.TABLE_CATEGORY, null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
+//            int typeIndex = cursor.getColumnIndex(DBHelper.KEY_CATEGORY_TYPE);
+            do {
+                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
+                        ", name = " + cursor.getString(nameIndex));
+            } while (cursor.moveToNext());
+        } else
+            Log.d("mLog","0 rows");
+        cursor.close();
+
+        Cursor cursor1 = database.query(DBHelper.TABLE_CURRENCY, null, null, null, null, null, null);
+        if (cursor1.moveToFirst()) {
+            int idIndex = cursor1.getColumnIndex(DBHelper.KEY_ID);
+            int nameIndex = cursor1.getColumnIndex(DBHelper.KEY_NAME);
+//            int coefficientIndex = cursor1.getColumnIndex(DBHelper.KEY_COEFFICIENT);
+            do {
+                Log.d("mLog", "ID = " + cursor1.getInt(idIndex) +
+                        ", name = " + cursor1.getString(nameIndex));
+            } while (cursor1.moveToNext());
+        } else
+            Log.d("mLog","0 rows");
+        cursor1.close();
+
         final Intent intent = new Intent(MainActivity.this, EnterDataActivity.class);
         final Intent information_intent = new Intent(MainActivity.this, InformationMainActivity.class);
 
