@@ -1,11 +1,22 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="OldAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/status_bar_orange</item>
+        <item name="closeIcon">@drawable/icon_menu</item>
+        <item name="searchViewStyle">@style/AppSearchViewStyle</item>
+    </style>
+    <style name="AppSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@android:color/transparent</item>
+        <item name="closeIcon">@drawable/icon_back</item>
+        <item name="searchIcon">@drawable/icon_accept</item>
+        <item name="android:imeActionId">6</item>
     </style>
 
 </resources>

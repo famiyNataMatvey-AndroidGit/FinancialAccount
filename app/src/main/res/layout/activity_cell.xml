@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".CellActivity">
 
+    <include layout="@layout/toolbar" />
+
     <TextView
         android:id="@+id/textViewItem"
         android:layout_width="wrap_content"

@@ -8,7 +8,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -20,12 +23,17 @@ public class MainActivity extends AppCompatActivity {
     DBHelper dbHelper;
 
     private SharedPreferences mSettings;
-
+    private Toolbar mActionBarToolbar;
+    private MenuItem backMenuItem;
+    private MenuItem acceptMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mActionBarToolbar = findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(mActionBarToolbar);
 
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         // Приложение запущено впервые или восстановлено из памяти?
@@ -113,6 +121,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(information_intent);
             }
         });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        backMenuItem = menu.findItem(R.id.action_back);
+        acceptMenuItem = menu.findItem(R.id.action_accept);
+        backMenuItem.setVisible(false);
+        acceptMenuItem.setVisible(false);
+        return true;
     }
 
 //    @Override

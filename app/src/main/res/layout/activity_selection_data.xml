@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".SelectionDataActivity">
 
+    <include layout="@layout/toolbar" />
+
     <GridView
         android:id="@+id/gridViewSelection"
         android:layout_width="336dp"
