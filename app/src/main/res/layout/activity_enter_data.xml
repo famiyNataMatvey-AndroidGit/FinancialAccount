@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_background_gray"
     tools:context=".EnterDataActivity">
 
     <include layout="@layout/toolbar" />
@@ -26,111 +27,131 @@
         app:layout_constraintVertical_bias="0.237">
 
         <TableRow>
-            <EditText
-                android:id="@+id/editTextDate"
+
+            <TextView
+                android:id="@+id/textTextDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autofillHints="@string/default_hint_date"
                 android:ems="5"
-                android:inputType="date"
+                android:gravity="center_horizontal"
                 android:hint="@string/default_hint_date"
                 android:textSize="24sp"
-                android:gravity="center_horizontal"
                 tools:text="@tools:sample/date/ddmmyy" />
 
-            <EditText
-                android:id="@+id/editTextTime"
+            <TextView
+                android:id="@+id/textTextTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autofillHints="@string/default_hint_time"
                 android:ems="5"
-                android:inputType="time"
+                android:gravity="center_horizontal"
                 android:hint="@string/default_hint_time"
                 android:textSize="24sp"
-                android:gravity="center_horizontal"
                 tools:text="@tools:sample/date/hhmm" />
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/textViewDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/field_date_name"
                 android:gravity="center_horizontal"
-                android:textSize="24sp"/>
+                android:text="@string/field_date_name"
+                android:textSize="24sp" />
+
             <TextView
                 android:id="@+id/textViewTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/field_time_name"
                 android:gravity="center_horizontal"
-                android:textSize="24sp"/>
+                android:text="@string/field_time_name"
+                android:textSize="24sp" />
 
         </TableRow>
+
         <TableRow>
+
             <EditText
                 android:id="@+id/editTextAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:autofillHints="@string/default_hint_amount"
                 android:ems="5"
-                android:textSize="24sp"
-                android:inputType="numberDecimal"
-                android:hint="@string/default_hint_date"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:hint="@string/default_hint_date"
+                android:inputType="numberDecimal"
+                android:textSize="24sp" />
 
             <ImageButton
                 android:id="@+id/imageButtonCurrency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher" />
+                android:background="@color/main_background_gray"
+                android:contentDescription="@string/currency"
+                android:gravity="center_horizontal|center_vertical"
+                android:src="@drawable/icon_currency" />
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/textViewAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/field_amount_name"
                 android:gravity="center_horizontal"
-                android:textSize="24sp"/>
+                android:text="@string/field_amount_name"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/textViewCurrency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/currency"
                 android:gravity="center_horizontal"
-                android:textSize="24sp"/>
+                android:text="@string/currency"
+                android:textSize="24sp" />
         </TableRow>
+
         <TableRow>
+
             <ImageButton
                 android:id="@+id/imageButtonCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/main_background_gray"
+                android:contentDescription="@string/category"
                 android:gravity="center_horizontal"
                 android:src="@mipmap/ic_launcher" />
+
             <ImageButton
                 android:id="@+id/imageButtonCashVoucher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/main_background_gray"
+                android:contentDescription="@string/cash_voucher"
                 android:gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/icon_check" />
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/textViewCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/category"
                 android:gravity="center_horizontal"
-                android:textSize="24sp"/>
+                android:text="@string/category"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/textViewCashVoucher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cash_voucher"
                 android:gravity="center_horizontal"
-                android:textSize="24sp"/>
+                android:text="@string/cash_voucher"
+                android:textSize="24sp" />
         </TableRow>
     </TableLayout>
 </android.support.constraint.ConstraintLayout>

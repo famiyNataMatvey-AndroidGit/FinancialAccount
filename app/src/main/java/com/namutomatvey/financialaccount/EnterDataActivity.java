@@ -1,6 +1,9 @@
 package com.namutomatvey.financialaccount;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,17 +12,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
-public class EnterDataActivity extends AppCompatActivity {
+public class EnterDataActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     DBHelper dbHelper;
     private Toolbar mActionBarToolbar;
-    private MenuItem menuMenuItem;
-    private MenuItem backMenuItem;
-    private MenuItem acceptMenuItem;
+    TextView dateView;
+    TextView timeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,8 @@ public class EnterDataActivity extends AppCompatActivity {
         ImageButton categoryImageButton = findViewById(R.id.imageButtonCategory);
         ImageButton currencyImageButton = findViewById(R.id.imageButtonCurrency);
         ImageButton cashVoucherImageButton = findViewById(R.id.imageButtonCashVoucher);
-        EditText editTextDate = findViewById(R.id.editTextDate);
+        dateView = findViewById(R.id.textTextDate);
+        timeView = findViewById(R.id.textTextTime);
 
         dbHelper = new DBHelper(this);
 
@@ -39,8 +43,7 @@ public class EnterDataActivity extends AppCompatActivity {
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
 
-
-        editTextDate.setOnClickListener(new View.OnClickListener() {
+        dateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("MyTag","Hello3");
@@ -51,6 +54,16 @@ public class EnterDataActivity extends AppCompatActivity {
             }
         });
 
+        timeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("MyTag","Hello3");
+                FragmentManager manager = getSupportFragmentManager();
+                TimePickerFragment timePickerFragment = new TimePickerFragment();
+                timePickerFragment .show(manager, "dialog");
+
+            }
+        });
 
         categoryImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +85,6 @@ public class EnterDataActivity extends AppCompatActivity {
                 TextView currencyTextView = findViewById(R.id.textViewCurrency);
                 intent.putExtra("title", currencyTextView.getText().toString());
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_currency));
-
                 startActivity(intent);
 
             }
@@ -82,13 +94,28 @@ public class EnterDataActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        menuMenuItem = menu.findItem(R.id.action_menu);
-        backMenuItem = menu.findItem(R.id.action_back);
-        acceptMenuItem = menu.findItem(R.id.action_accept);
+        MenuItem menuMenuItem = menu.findItem(R.id.action_menu);
+        MenuItem backMenuItem = menu.findItem(R.id.action_back);
+        MenuItem acceptMenuItem = menu.findItem(R.id.action_accept);
         menuMenuItem.setVisible(false);
-        backMenuItem.setVisible(true);
+        backMenuItem.setVisible(false);
         acceptMenuItem.setVisible(true);
         mActionBarToolbar.setLogo(R.drawable.icon_back);
         return true;
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        timeView =  findViewById(R.id.textTextTime);
+        timeView.setText("" + hourOfDay + ':' + minute);
+        timeView.setTextColor(Color.BLACK);
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        dateView =  findViewById(R.id.textTextDate);
+        dateView.setText("" + dayOfMonth + "-" + month + "-" + year);
+        dateView.setTextColor(Color.BLACK);
     }
 }
