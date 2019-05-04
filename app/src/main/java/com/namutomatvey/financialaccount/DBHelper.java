@@ -77,7 +77,7 @@ public class DBHelper  extends SQLiteOpenHelper{
         onBaseInsertDatabase(db);
     }
 
-    private void onBaseInsertDatabase(SQLiteDatabase dbHelper) {
+    private void onBaseInsertDatabase(SQLiteDatabase database) {
         String [] CategoryNames = {"Фрукты", "Овощи", "Кисломолочные продукты", "Напитки", "Быт"};
         Integer [] CategoryTypes = {FINANCE_TYPE_INCOME, FINANCE_TYPE_EXPENSES, FINANCE_TYPE_MONEYBOX};
         String [] CurrencyNames = {"Доллар", "Рубль", "Евро"};
@@ -86,18 +86,18 @@ public class DBHelper  extends SQLiteOpenHelper{
             ContentValues contentCategoryValues = new ContentValues();
             contentCategoryValues.put(KEY_NAME, CategoryNames[i]);
             contentCategoryValues.put(KEY_CATEGORY_TYPE, FINANCE_TYPE_INCOME);
-            dbHelper.insert(TABLE_CATEGORY, null, contentCategoryValues);
+            database.insert(TABLE_CATEGORY, null, contentCategoryValues);
         }
         for (int i = 0; i < 3; i += 1) {
             ContentValues contentCurrencyValues = new ContentValues();
             contentCurrencyValues.put(KEY_NAME, CurrencyNames[i]);
             contentCurrencyValues.put(KEY_COEFFICIENT, CurrencyCoefficients[i]);
-            dbHelper.insert(TABLE_CURRENCY, null, contentCurrencyValues);
+            database.insert(TABLE_CURRENCY, null, contentCurrencyValues);
         }
         for (int i = 0; i < 3; i += 1) {
             ContentValues contentCurrencyValues = new ContentValues();
             Date date = Calendar.getInstance().getTime();
-            SimpleDateFormat simpleDate =  new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat simpleDate =  new SimpleDateFormat("dd-MM-yyyy HH:mm");
             String str_date = simpleDate.format(date);
             for (int j = 0; j < 3; j += 1) {
                 contentCurrencyValues.put(KEY_FINANCE_TYPE, CategoryTypes[i]);
@@ -106,7 +106,7 @@ public class DBHelper  extends SQLiteOpenHelper{
                 contentCurrencyValues.put(KEY_FINANCE_AMOUNT, 179 * CurrencyCoefficients[j]);
                 contentCurrencyValues.put(KEY_FINANCE_CATEGORY, i);
                 contentCurrencyValues.put(KEY_FINANCE_CURRENCY, i);
-                dbHelper.insert(TABLE_FINANCE, null, contentCurrencyValues);
+                database.insert(TABLE_FINANCE, null, contentCurrencyValues);
             }
         }
     }

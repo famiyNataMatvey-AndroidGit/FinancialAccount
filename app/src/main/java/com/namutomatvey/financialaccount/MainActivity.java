@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mActionBarToolbar;
     private MenuItem backMenuItem;
     private MenuItem acceptMenuItem;
+    private MenuItem menuMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,40 +41,13 @@ public class MainActivity extends AppCompatActivity {
         if ( !mSettings.contains(APP_PREFERENCES_FIRST_LAUNCH))   // приложение запущено впервые
         {
             Log.d("MyTag","Запускаю в первый раз");
-            // инициализация суммы счета нулем
-            // другой код
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putBoolean(APP_PREFERENCES_FIRST_LAUNCH, true);
             editor.apply();
         }
         dbHelper = new DBHelper(this);
 
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        Cursor cursor = database.query(DBHelper.TABLE_CATEGORY, null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-//            int typeIndex = cursor.getColumnIndex(DBHelper.KEY_CATEGORY_TYPE);
-            do {
-                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
-                        ", name = " + cursor.getString(nameIndex));
-            } while (cursor.moveToNext());
-        } else
-            Log.d("mLog","0 rows");
-        cursor.close();
-
-        Cursor cursor1 = database.query(DBHelper.TABLE_CURRENCY, null, null, null, null, null, null);
-        if (cursor1.moveToFirst()) {
-            int idIndex = cursor1.getColumnIndex(DBHelper.KEY_ID);
-            int nameIndex = cursor1.getColumnIndex(DBHelper.KEY_NAME);
-//            int coefficientIndex = cursor1.getColumnIndex(DBHelper.KEY_COEFFICIENT);
-            do {
-                Log.d("mLog", "ID = " + cursor1.getInt(idIndex) +
-                        ", name = " + cursor1.getString(nameIndex));
-            } while (cursor1.moveToNext());
-        } else
-            Log.d("mLog","0 rows");
-        cursor1.close();
+//        SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         final Intent intent = new Intent(MainActivity.this, EnterDataActivity.class);
         final Intent information_intent = new Intent(MainActivity.this, InformationMainActivity.class);
@@ -129,9 +103,17 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         backMenuItem = menu.findItem(R.id.action_back);
         acceptMenuItem = menu.findItem(R.id.action_accept);
+        menuMenuItem = menu.findItem(R.id.action_menu);
+        menuMenuItem.setVisible(false);
         backMenuItem.setVisible(false);
         acceptMenuItem.setVisible(false);
+        mActionBarToolbar.setLogo(null);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
 //    @Override

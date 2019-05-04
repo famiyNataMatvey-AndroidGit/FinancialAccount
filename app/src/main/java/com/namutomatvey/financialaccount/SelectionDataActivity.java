@@ -19,7 +19,6 @@ public class SelectionDataActivity extends AppCompatActivity {
     private MenuItem backMenuItem;
     private MenuItem acceptMenuItem;
     Cursor cursor;
-    String title;
     int number;
     int resourceCategory;
     int resourceCurrency;
@@ -28,15 +27,17 @@ public class SelectionDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_data);
+
         resourceCategory = getResources().getInteger(R.integer.click_button_category);
         resourceCurrency = getResources().getInteger(R.integer.click_button_currency);
+
         mActionBarToolbar = findViewById(R.id.toolbar_actionbar);
-        title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
+        String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
-        number = getIntent().getIntExtra("number", resourceCategory);
 
-        GridView gridView = (GridView)findViewById(R.id.gridViewSelection);
+        number = getIntent().getIntExtra("number", resourceCategory);
+        GridView gridView = findViewById(R.id.gridViewSelection);
 
         dbHelper = new DBHelper(this);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -76,8 +77,7 @@ public class SelectionDataActivity extends AppCompatActivity {
         acceptMenuItem = menu.findItem(R.id.action_accept);
         menuMenuItem.setVisible(false);
         backMenuItem.setVisible(false);
-        acceptMenuItem.setVisible(true);
-        mActionBarToolbar.setLogo(R.drawable.icon_back);
+        acceptMenuItem.setVisible(false);
         return true;
     }
 }

@@ -6,7 +6,7 @@
         android:id="@+id/action_menu"
         android:title="@string/icon_menu"
         android:icon="@drawable/icon_menu"
-        yourapp:showAsAction="ifRoom" />
+        yourapp:showAsAction="always" />
     <item
         android:id="@+id/action_back"
         android:title="@string/icon_back"
@@ -16,5 +16,5 @@
         android:id="@+id/action_accept"
         android:title="@string/icon_accept"
         android:icon="@drawable/icon_accept"
-        yourapp:showAsAction="always" />
+        yourapp:showAsAction="ifRoom" />
 </menu>
