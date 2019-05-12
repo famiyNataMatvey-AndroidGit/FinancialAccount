@@ -1,5 +1,6 @@
-package com.namutomatvey.financialaccount;
+package com.namutomatvey.financialaccount.activity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,10 +22,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.namutomatvey.financialaccount.fragment.CalendarFragment;
+import com.namutomatvey.financialaccount.DBHelper;
+import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.fragment.TimePickerFragment;
+
 public class EnterDataActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     DBHelper dbHelper;
     private Toolbar mActionBarToolbar;
+    private Intent intent;
+    private static final int requestCodeCategory = 1;
+    private static final int requestCodeCurrency = 2;
     MenuItem menuMenuItem;
     MenuItem backMenuItem;
     MenuItem acceptMenuItem;
@@ -35,7 +45,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_data);
-        final Intent intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
+        intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
 
         ImageButton categoryImageButton = findViewById(R.id.imageButtonCategory);
         ImageButton currencyImageButton = findViewById(R.id.imageButtonCurrency);
@@ -54,7 +64,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         dateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MyTag","Hello3");
                 FragmentManager manager = getSupportFragmentManager();
                 CalendarFragment calendarFragment = new CalendarFragment();
                 calendarFragment.show(manager, "dialog");
@@ -65,7 +74,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         timeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MyTag","Hello3");
                 FragmentManager manager = getSupportFragmentManager();
                 TimePickerFragment timePickerFragment = new TimePickerFragment();
                 timePickerFragment .show(manager, "dialog");
@@ -76,12 +84,11 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         categoryImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MyTag","Hello1");
                 TextView categoryTextView = findViewById(R.id.textViewCategory);
                 intent.putExtra("title", categoryTextView.getText().toString());
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_category));
 
-                startActivity(intent);
+                startActivityForResult(intent, requestCodeCategory);
 
             }
         });
@@ -89,11 +96,10 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         currencyImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MyTag","Hello2");
                 TextView currencyTextView = findViewById(R.id.textViewCurrency);
                 intent.putExtra("title", currencyTextView.getText().toString());
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_currency));
-                startActivity(intent);
+                startActivityForResult(intent, requestCodeCurrency);
 
             }
         });
@@ -135,15 +141,12 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         switch (number) {
             case 2:
                 contentCurrencyValues.put(DBHelper.KEY_FINANCE_TYPE, DBHelper.FINANCE_TYPE_INCOME);
-                Log.d("MyTag","Страница Доходов");
                 return true;
             case 3:
                 contentCurrencyValues.put(DBHelper.KEY_FINANCE_TYPE, DBHelper.FINANCE_TYPE_EXPENSES);
-                Log.d("MyTag","Страница Расходов");
                 return true;
             case 4:
                 contentCurrencyValues.put(DBHelper.KEY_FINANCE_TYPE, DBHelper.FINANCE_TYPE_MONEYBOX);
-                Log.d("MyTag","Страница Копилка");
                 return true;
             default:
                 return false;
@@ -156,6 +159,29 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         timeView.setText("" + hourOfDay + ':' + minute);
         timeView.setTextColor(Color.BLACK);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.d("MyTag", "" + resultCode);
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (requestCodeCategory) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String returnValue = data.getStringExtra("some_key");
+                    Log.d("MyTag", returnValue);
+
+                }
+                break;
+            }
+            case (requestCodeCurrency) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    Log.d("MyTag", "Tut 2");
+                }
+                break;
+
+            }
+        }
     }
 
     @Override

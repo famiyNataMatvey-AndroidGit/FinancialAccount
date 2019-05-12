@@ -1,4 +1,4 @@
-package com.namutomatvey.financialaccount;
+package com.namutomatvey.financialaccount.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

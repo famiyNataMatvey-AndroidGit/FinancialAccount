@@ -1,4 +1,4 @@
-package com.namutomatvey.financialaccount;
+package com.namutomatvey.financialaccount.activity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
+
+import com.namutomatvey.financialaccount.DBHelper;
+import com.namutomatvey.financialaccount.R;
 
 import java.util.ArrayList;
 
@@ -66,6 +69,10 @@ public class SelectionDataActivity extends AppCompatActivity {
             gridView.setAdapter(dataAdapter);
 
         }
+//        Intent resultIntent = new Intent();
+//        resultIntent.putExtra("some_key", "String data");
+//        setResult(Activity.RESULT_OK, resultIntent);
+//        finish();
 
     }
 

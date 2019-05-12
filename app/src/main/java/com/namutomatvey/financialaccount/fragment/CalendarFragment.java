@@ -1,4 +1,4 @@
-package com.namutomatvey.financialaccount;
+package com.namutomatvey.financialaccount.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

@@ -1,4 +1,4 @@
-package com.namutomatvey.financialaccount;
+package com.namutomatvey.financialaccount.fragment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
