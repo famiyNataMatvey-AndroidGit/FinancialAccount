@@ -87,7 +87,18 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                 TextView categoryTextView = findViewById(R.id.textViewCategory);
                 intent.putExtra("title", categoryTextView.getText().toString());
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_category));
-
+                int number = getIntent().getExtras().getInt("number",  2);
+                switch (number) {
+                    case 2:
+                        intent.putExtra(DBHelper.KEY_FINANCE_TYPE, DBHelper.FINANCE_TYPE_INCOME);
+                        break;
+                    case 3:
+                        intent.putExtra(DBHelper.KEY_FINANCE_TYPE, DBHelper.FINANCE_TYPE_EXPENSES);
+                        break;
+                    case 4:
+                        intent.putExtra(DBHelper.KEY_FINANCE_TYPE, DBHelper.FINANCE_TYPE_MONEYBOX);
+                        break;
+                }
                 startActivityForResult(intent, requestCodeCategory);
 
             }
@@ -127,7 +138,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             if(!typeFinanceCategory(contentCurrencyValues))
                 return super.onOptionsItemSelected(item);
             contentCurrencyValues.put(DBHelper.KEY_FINANCE_DATE_TIME, dateView.getText().toString() + ' ' + timeView.getText().toString());
-            contentCurrencyValues.put(DBHelper.KEY_FINANCE_AMOUNT, Integer.parseInt(amountView.getText().toString()));
+            contentCurrencyValues.put(DBHelper.KEY_FINANCE_AMOUNT, Double.parseDouble(amountView.getText().toString()));
             contentCurrencyValues.put(DBHelper.KEY_FINANCE_CATEGORY, 1);
             contentCurrencyValues.put(DBHelper.KEY_FINANCE_CURRENCY, 1);
             database.insert(DBHelper.TABLE_FINANCE, null, contentCurrencyValues);
@@ -164,19 +175,21 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         Log.d("MyTag", "" + resultCode);
-        super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
             case (requestCodeCategory) : {
                 if (resultCode == Activity.RESULT_OK) {
-                    String returnValue = data.getStringExtra("some_key");
-                    Log.d("MyTag", returnValue);
+                    assert data != null;
+                    long returnValue = data.getLongExtra("category", -1);
+                    Log.d("MyTag", Long.toString(returnValue));
 
                 }
                 break;
             }
             case (requestCodeCurrency) : {
                 if (resultCode == Activity.RESULT_OK) {
-                    Log.d("MyTag", "Tut 2");
+                    assert data != null;
+                    long returnValue = data.getLongExtra("currency", -1);
+                    Log.d("MyTag", Long.toString(returnValue));
                 }
                 break;
 

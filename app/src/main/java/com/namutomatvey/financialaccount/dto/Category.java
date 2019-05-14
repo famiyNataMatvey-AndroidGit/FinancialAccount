@@ -8,24 +8,27 @@ import com.namutomatvey.financialaccount.DBHelper;
 public class Category {
     private long id;
     private String name;
-    private int parent;
+    private Integer type;
+    private Integer parent;
 
     private SQLiteDatabase database;
 
-    public Category(SQLiteDatabase database, long id, String name, int parent) {
+    public Category(SQLiteDatabase database, long id, String name, Integer type, Integer parent) {
         this.id = id;
         this.name = name;
+        this.type = type;
         this.parent = parent;
         this.database = database;
     }
 
-    public Category(SQLiteDatabase database, String name, int parent) {
+    public Category(SQLiteDatabase database, String name, Integer type, Integer parent) {
         this.name = name;
+        this.type = type;
         this.parent = parent;
         this.database = database;
         ContentValues contentCategoryValues = new ContentValues();
         contentCategoryValues.put(DBHelper.KEY_NAME, name);
-        contentCategoryValues.put(DBHelper.KEY_CATEGORY_TYPE, DBHelper.FINANCE_TYPE_INCOME);
+        contentCategoryValues.put(DBHelper.KEY_CATEGORY_TYPE, type);
         contentCategoryValues.put(DBHelper.KEY_PARENT, parent);
         this.id = database.insert(DBHelper.TABLE_CATEGORY, null, contentCategoryValues);
     }
@@ -47,6 +50,6 @@ public class Category {
     }
 
     public void delCategory() {
-        int delCount = database.delete(DBHelper.TABLE_CATEGORY, "id = " + this.id, null);
+        int delCount = database.delete(DBHelper.TABLE_CATEGORY, "id = " + id, null);
     }
 }

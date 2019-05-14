@@ -1,9 +1,10 @@
 package com.namutomatvey.financialaccount.adapter;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.dto.Currency;
 
@@ -36,16 +37,16 @@ public class CurrencyAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Button button;
+        TextView textView;
 
         if (convertView == null) {
-            button = new Button(context);
-            button.setText(currencies.get(position).getName());
+            textView = new TextView(context);
+            textView.setText(currencies.get(position).getName());
         } else {
-            button = (Button) convertView;
+            textView = (TextView) convertView;
         }
-        button.setId(position);
+        textView.setId(position);
 
-        return button;
+        return textView;
     }
 }
