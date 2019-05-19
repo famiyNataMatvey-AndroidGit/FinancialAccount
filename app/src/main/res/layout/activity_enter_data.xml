@@ -92,7 +92,7 @@
                 android:background="@color/main_background_gray"
                 android:contentDescription="@string/currency"
                 android:gravity="center_horizontal|center_vertical"
-                android:src="@drawable/icon_currency" />
+                app:srcCompat="@drawable/ic_currency" />
         </TableRow>
 
         <TableRow>
@@ -132,7 +132,7 @@
                 android:background="@color/main_background_gray"
                 android:contentDescription="@string/cash_voucher"
                 android:gravity="center_horizontal"
-                android:src="@drawable/icon_check" />
+                android:src="@drawable/ic_check" />
         </TableRow>
 
         <TableRow>

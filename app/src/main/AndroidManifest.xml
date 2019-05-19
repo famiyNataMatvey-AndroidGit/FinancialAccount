@@ -18,9 +18,9 @@
         </activity>
         <activity android:name=".activity.EnterDataActivity" />
         <activity android:name=".activity.StatisticsActivity" />
+        <activity android:name=".activity.ExpenseChoseActivity" />
         <activity android:name=".activity.SelectionDataActivity" />
         <activity android:name=".activity.InformationMainActivity" />
-        <activity android:name=".activity.CellActivity"></activity>
     </application>
 
 </manifest>

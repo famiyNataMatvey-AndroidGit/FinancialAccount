@@ -6,6 +6,7 @@
     <string name="income">Доходы</string>
     <string name="expenses">Расходы</string>
     <string name="moneybox">Копилка</string>
+    <string name="balance">Баланс</string>
 
     <string name="field_date_name">Дата</string>
     <string name="field_time_name">Время</string>

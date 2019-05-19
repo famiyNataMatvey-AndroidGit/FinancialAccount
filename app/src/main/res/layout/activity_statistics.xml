@@ -8,4 +8,14 @@
 
     <include layout="@layout/toolbar" />
 
+    <GridView
+        android:id="@+id/gridViewFinanceCategory"
+        android:layout_width="395dp"
+        android:layout_height="659dp"
+        android:columnWidth="120dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="64dp" />
+
 </android.support.constraint.ConstraintLayout>

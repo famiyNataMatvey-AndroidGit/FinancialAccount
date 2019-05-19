@@ -9,12 +9,47 @@
 
     <include layout="@layout/toolbar" />
 
-    <TableLayout
+    <android.support.v7.widget.CardView
         android:layout_width="317dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.783">
+
+        <TextView
+            android:id="@+id/textViewBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal|top"
+            android:text="@string/balance"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/textViewBalanceAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="center_vertical|end"
+            android:text="@string/default_hint_amount"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+    </android.support.v7.widget.CardView>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
@@ -24,7 +59,7 @@
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.237">
+        app:layout_constraintVertical_bias="0.45">
 
         <TableRow>
 
@@ -40,7 +75,7 @@
                     android:background="@color/main_background_gray"
                     android:contentDescription="@string/income"
                     android:gravity="center_horizontal"
-                    android:src="@drawable/icon_income" />
+                    android:src="@drawable/ic_income" />
 
                 <TextView
                     android:id="@+id/textViewIncome"
@@ -63,7 +98,7 @@
                     android:background="@color/main_background_gray"
                     android:contentDescription="@string/expenses"
                     android:scaleType="center"
-                    android:src="@drawable/icon_cost" />
+                    android:src="@drawable/ic_cost" />
 
                 <TextView
                     android:id="@+id/textViewExpenses"
@@ -88,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/main_background_gray"
                     android:contentDescription="@string/moneybox"
-                    android:src="@drawable/icon_money_box" />
+                    android:src="@drawable/ic_money_box" />
 
                 <TextView
                     android:id="@+id/textViewMoneybox"
@@ -110,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/main_background_gray"
                     android:contentDescription="@string/title_activity_statistics"
-                    android:src="@drawable/icon_statistic" />
+                    android:src="@drawable/ic_statistic" />
 
                 <TextView
                     android:id="@+id/textViewStatistics"
@@ -122,4 +157,5 @@
             </LinearLayout>
         </TableRow>
     </TableLayout>
+
 </android.support.constraint.ConstraintLayout>

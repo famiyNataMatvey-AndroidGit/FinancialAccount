@@ -29,17 +29,15 @@ import com.namutomatvey.financialaccount.fragment.TimePickerFragment;
 
 public class EnterDataActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    DBHelper dbHelper;
+    private DBHelper dbHelper;
     private Toolbar mActionBarToolbar;
     private Intent intent;
     private static final int requestCodeCategory = 1;
     private static final int requestCodeCurrency = 2;
-    MenuItem menuMenuItem;
-    MenuItem backMenuItem;
-    MenuItem acceptMenuItem;
-    TextView dateView;
-    TextView timeView;
-    EditText amountView;
+    private MenuItem acceptMenuItem;
+    private TextView dateView;
+    private TextView timeView;
+    private EditText amountView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,13 +117,13 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        menuMenuItem = menu.findItem(R.id.action_menu);
-        backMenuItem = menu.findItem(R.id.action_back);
+        MenuItem menuMenuItem = menu.findItem(R.id.action_menu);
+        MenuItem backMenuItem = menu.findItem(R.id.action_back);
         acceptMenuItem = menu.findItem(R.id.action_accept);
         menuMenuItem.setVisible(false);
         backMenuItem.setVisible(false);
         acceptMenuItem.setVisible(true);
-//        mActionBarToolbar.setLogo(R.drawable.icon_back);
+        mActionBarToolbar.setLogo(R.drawable.icon_back);
         return true;
     }
 
@@ -165,14 +163,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        timeView = findViewById(R.id.textTextTime);
-        timeView.setText("" + hourOfDay + ':' + minute);
-        timeView.setTextColor(Color.BLACK);
-
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         Log.d("MyTag", "" + resultCode);
         switch(requestCode) {
@@ -195,6 +185,14 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
 
             }
         }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        timeView = findViewById(R.id.textTextTime);
+        timeView.setText("" + hourOfDay + ':' + minute);
+        timeView.setTextColor(Color.BLACK);
+
     }
 
     @Override

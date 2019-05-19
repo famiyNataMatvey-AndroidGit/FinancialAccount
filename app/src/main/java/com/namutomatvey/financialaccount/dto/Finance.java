@@ -53,6 +53,10 @@ public class Finance {
         return amount;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
     public void updateFinance(int type, int amount, String dateTime, int currency, int category, String comment) {
         ContentValues contentFinanceValues = new ContentValues();
         contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, type);
@@ -71,7 +75,7 @@ public class Finance {
             this.comment = comment;
     }
 
-    public void delCategory() {
+    public void delFinance() {
         int delCount = database.delete(DBHelper.TABLE_FINANCE, "id = " + id, null);
     }
 }

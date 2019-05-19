@@ -17,16 +17,15 @@ import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
 
 public class MainActivity extends AppCompatActivity {
-    // имя файла настройки
+
     public static final String APP_PREFERENCES = "mysettings";
-    public static final String APP_PREFERENCES_FIRST_LAUNCH= "first_launch";
-    DBHelper dbHelper;
+    public static final String APP_PREFERENCES_FIRST_LAUNCH = "first_launch";
+    public static final String APP_PREFERENCES_BALANCE = "first_launch";
 
     private SharedPreferences mSettings;
     private Toolbar mActionBarToolbar;
-    private MenuItem backMenuItem;
-    private MenuItem acceptMenuItem;
-    private MenuItem menuMenuItem;
+    private TextView balanceAmountTextView;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +42,14 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MyTag","Запускаю в первый раз");
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putBoolean(APP_PREFERENCES_FIRST_LAUNCH, true);
+            editor.putFloat(APP_PREFERENCES_BALANCE, (float) 0.0);
             editor.apply();
+            new DBHelper(this);
         }
-        dbHelper = new DBHelper(this);
 
-//        SQLiteDatabase database = dbHelper.getWritableDatabase();
 
-        final Intent intent = new Intent(MainActivity.this, EnterDataActivity.class);
-        final Intent information_intent = new Intent(MainActivity.this, InformationMainActivity.class);
-
-        // в ключ username пихаем текст из первого текстового поля
+        balanceAmountTextView = findViewById(R.id.textViewBalanceAmount);
+        balanceAmountTextView.setText(Float.toString(mSettings.getFloat(APP_PREFERENCES_BALANCE, (float) 0.0)));
 
         ImageButton expensesImageButton = findViewById(R.id.imageButtonExpenses);
         ImageButton incomeImageButton = findViewById(R.id.imageButtonIncome);
@@ -63,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView expensesTextView = findViewById(R.id.textViewExpenses);
+
+                intent = new Intent(MainActivity.this, ExpenseChoseActivity.class);
                 intent.putExtra("title", expensesTextView.getText().toString());
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_expenses));
                 startActivity(intent);
             }
         });
@@ -72,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView incomeTextView = findViewById(R.id.textViewIncome);
+
+                intent = new Intent(MainActivity.this, EnterDataActivity.class);
                 intent.putExtra("title", incomeTextView.getText().toString());
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_income));
                 startActivity(intent);
@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView moneyboxTextView = findViewById(R.id.textViewMoneybox);
+
+                intent = new Intent(MainActivity.this, EnterDataActivity.class);
                 intent.putExtra("title", moneyboxTextView.getText().toString());
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_moneybox));
                 startActivity(intent);
@@ -90,9 +92,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView statisticsTextView = findViewById(R.id.textViewStatistics);
-                information_intent.putExtra("title", statisticsTextView.getText().toString());
-                information_intent.putExtra("number", getResources().getInteger(R.integer.click_button_statistics));
-                startActivity(information_intent);
+
+                intent = new Intent(MainActivity.this, InformationMainActivity.class);
+                intent.putExtra("title", statisticsTextView.getText().toString());
+                intent.putExtra("number", getResources().getInteger(R.integer.click_button_statistics));
+                startActivity(intent);
             }
         });
     }
@@ -101,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        backMenuItem = menu.findItem(R.id.action_back);
-        acceptMenuItem = menu.findItem(R.id.action_accept);
-        menuMenuItem = menu.findItem(R.id.action_menu);
+        MenuItem backMenuItem = menu.findItem(R.id.action_back);
+        MenuItem acceptMenuItem = menu.findItem(R.id.action_accept);
+        MenuItem menuMenuItem = menu.findItem(R.id.action_menu);
         menuMenuItem.setVisible(false);
         backMenuItem.setVisible(false);
         acceptMenuItem.setVisible(false);
@@ -116,13 +120,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        // Запоминаем данные
-//        SharedPreferences.Editor editor = mSettings.edit();
-//        editor.putInt(APP_PREFERENCES_FIRST_LAUNCH, mCounter);
-//        editor.apply();
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Запоминаем данные
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putFloat(APP_PREFERENCES_BALANCE, Float.parseFloat(balanceAmountTextView.getText().toString()));
+        editor.apply();
+    }
 
 }
