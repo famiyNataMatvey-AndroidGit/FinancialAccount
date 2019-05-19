@@ -3,11 +3,13 @@ package com.namutomatvey.financialaccount.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -23,17 +25,23 @@ public class MainActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES_BALANCE = "first_launch";
 
     private SharedPreferences mSettings;
-    private Toolbar mActionBarToolbar;
     private TextView balanceAmountTextView;
     private Intent intent;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mActionBarToolbar = findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mActionBarToolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         // Приложение запущено впервые или восстановлено из памяти?
@@ -101,23 +109,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        MenuItem backMenuItem = menu.findItem(R.id.action_back);
-        MenuItem acceptMenuItem = menu.findItem(R.id.action_accept);
-        MenuItem menuMenuItem = menu.findItem(R.id.action_menu);
-        menuMenuItem.setVisible(false);
-        backMenuItem.setVisible(false);
-        acceptMenuItem.setVisible(false);
-        mActionBarToolbar.setLogo(null);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

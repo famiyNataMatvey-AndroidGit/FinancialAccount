@@ -45,13 +45,9 @@ public class ExpenseChoseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        MenuItem backMenuItem = menu.findItem(R.id.action_back);
         MenuItem acceptMenuItem = menu.findItem(R.id.action_accept);
-        MenuItem menuMenuItem = menu.findItem(R.id.action_menu);
-        menuMenuItem.setVisible(false);
-        backMenuItem.setVisible(false);
         acceptMenuItem.setVisible(false);
-        mActionBarToolbar.setLogo(null);
+        mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }
 }

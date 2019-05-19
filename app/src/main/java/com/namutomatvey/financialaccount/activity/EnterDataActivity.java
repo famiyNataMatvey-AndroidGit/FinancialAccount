@@ -22,9 +22,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 import com.namutomatvey.financialaccount.fragment.TimePickerFragment;
 
 public class EnterDataActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -117,13 +117,8 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        MenuItem menuMenuItem = menu.findItem(R.id.action_menu);
-        MenuItem backMenuItem = menu.findItem(R.id.action_back);
         acceptMenuItem = menu.findItem(R.id.action_accept);
-        menuMenuItem.setVisible(false);
-        backMenuItem.setVisible(false);
-        acceptMenuItem.setVisible(true);
-        mActionBarToolbar.setLogo(R.drawable.icon_back);
+        mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }
 

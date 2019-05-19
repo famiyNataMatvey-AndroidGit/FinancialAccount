@@ -11,12 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.namutomatvey.financialaccount.DBHelper;
@@ -36,8 +34,6 @@ public class SelectionDataActivity extends AppCompatActivity  {
     GridView gridView;
 
     private Toolbar mActionBarToolbar;
-    private MenuItem menuMenuItem;
-    private MenuItem backMenuItem;
     private MenuItem acceptMenuItem;
     Cursor cursor;
     int number;
@@ -147,12 +143,9 @@ public class SelectionDataActivity extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        menuMenuItem = menu.findItem(R.id.action_menu);
-        backMenuItem = menu.findItem(R.id.action_back);
         acceptMenuItem = menu.findItem(R.id.action_accept);
-        menuMenuItem.setVisible(false);
-        backMenuItem.setVisible(false);
         acceptMenuItem.setVisible(false);
+        mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }
 }

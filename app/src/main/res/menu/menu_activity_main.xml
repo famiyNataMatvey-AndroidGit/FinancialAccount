@@ -3,18 +3,8 @@
     xmlns:yourapp="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_menu"
-        android:icon="@drawable/icon_menu"
-        android:title="@string/icon_menu"
-        yourapp:showAsAction="always" />
-    <item
-        android:id="@+id/action_back"
-        android:title="@string/icon_back"
-        android:icon="@drawable/icon_back"
-        yourapp:showAsAction="always" />
-    <item
         android:id="@+id/action_accept"
+        android:icon="@drawable/ic_accept"
         android:title="@string/icon_accept"
-        android:icon="@drawable/icon_accept"
         yourapp:showAsAction="ifRoom" />
 </menu>
