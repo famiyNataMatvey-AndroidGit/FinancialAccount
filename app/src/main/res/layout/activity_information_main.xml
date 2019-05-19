@@ -6,13 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".activity.InformationMainActivity">
 
+    <include layout="@layout/toolbar" />
+
     <Button
         android:id="@+id/buttonEnter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="104dp"
         android:text="@string/category"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

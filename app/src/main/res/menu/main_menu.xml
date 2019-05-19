@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigate_view">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/group_menu"
+        android:checkableBehavior="single">
         <item android:id="@+id/nav_language"
             android:icon="@drawable/ic_language"
             android:title="@string/icon_language"/>

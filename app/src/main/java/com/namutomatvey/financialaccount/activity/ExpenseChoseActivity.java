@@ -24,7 +24,7 @@ public class ExpenseChoseActivity extends AppCompatActivity {
         ImageButton imageButtonExpenses = findViewById(R.id.imageButtonExpenses);
         ImageButton imageButtonCashVoucher = findViewById(R.id.imageButtonCashVoucher);
 
-        mActionBarToolbar = findViewById(R.id.include);
+        mActionBarToolbar = findViewById(R.id.toolbar);
         title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
@@ -44,10 +44,15 @@ public class ExpenseChoseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        MenuItem acceptMenuItem = menu.findItem(R.id.action_accept);
-        acceptMenuItem.setVisible(false);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.setGroupVisible(R.id.group_menu, false);
         mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        this.finish();
+        return super.onOptionsItemSelected(item);
     }
 }

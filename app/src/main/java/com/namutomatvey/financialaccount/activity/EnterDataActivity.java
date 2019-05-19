@@ -54,7 +54,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
 
         dbHelper = new DBHelper(this);
 
-        mActionBarToolbar = findViewById(R.id.toolbar_actionbar);
+        mActionBarToolbar = findViewById(R.id.toolbar);
         String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
@@ -115,9 +115,34 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.d("MyTag", "" + resultCode);
+        switch(requestCode) {
+            case (requestCodeCategory) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    assert data != null;
+                    long returnValue = data.getLongExtra("category", -1);
+                    Log.d("MyTag", Long.toString(returnValue));
+
+                }
+                break;
+            }
+            case (requestCodeCurrency) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    assert data != null;
+                    long returnValue = data.getLongExtra("currency", -1);
+                    Log.d("MyTag", Long.toString(returnValue));
+                }
+                break;
+
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        acceptMenuItem = menu.findItem(R.id.action_accept);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.setGroupVisible(R.id.group_menu, false);
         mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }
@@ -154,31 +179,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                 return true;
             default:
                 return false;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        Log.d("MyTag", "" + resultCode);
-        switch(requestCode) {
-            case (requestCodeCategory) : {
-                if (resultCode == Activity.RESULT_OK) {
-                    assert data != null;
-                    long returnValue = data.getLongExtra("category", -1);
-                    Log.d("MyTag", Long.toString(returnValue));
-
-                }
-                break;
-            }
-            case (requestCodeCurrency) : {
-                if (resultCode == Activity.RESULT_OK) {
-                    assert data != null;
-                    long returnValue = data.getLongExtra("currency", -1);
-                    Log.d("MyTag", Long.toString(returnValue));
-                }
-                break;
-
-            }
         }
     }
 
