@@ -30,15 +30,15 @@ public class ExpenseChoseActivity extends AppCompatActivity {
         setSupportActionBar(mActionBarToolbar);
 
         imageButtonExpenses.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
 
-                        intent = new Intent(ExpenseChoseActivity.this, EnterDataActivity.class);
-                        intent.putExtra("title", title);
-                        intent.putExtra("number", getResources().getInteger(R.integer.click_button_expenses));
-                        startActivity(intent);
-                    }
+                intent = new Intent(ExpenseChoseActivity.this, EnterDataActivity.class);
+                intent.putExtra("title", title);
+                intent.putExtra("number", getResources().getInteger(R.integer.click_button_expenses));
+                startActivity(intent);
                 }
+            }
         );
     }
 

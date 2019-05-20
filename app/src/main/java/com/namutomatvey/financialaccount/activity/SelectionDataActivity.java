@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.namutomatvey.financialaccount.DBHelper;
@@ -126,12 +127,14 @@ public class SelectionDataActivity extends AppCompatActivity  {
                     Currency currency = (Currency) o;
                     Toast.makeText(SelectionDataActivity.this, "Selected :" + " " + currency.getName(), Toast.LENGTH_LONG).show();
                     Intent resultIntent = new Intent();
+                    resultIntent.putExtra("currency_name", currency.getName());
                     resultIntent.putExtra("currency", currency.getId());
                     setResult(Activity.RESULT_OK, resultIntent);
                 } else if (number == resourceCategory) {
                     Category category = (Category) o;
                     Toast.makeText(SelectionDataActivity.this, "Selected :" + " " + category.getName(), Toast.LENGTH_LONG).show();
                     Intent resultIntent = new Intent();
+                    resultIntent.putExtra("category_name", category.getName());
                     resultIntent.putExtra("category", category.getId());
                     setResult(Activity.RESULT_OK, resultIntent);
                 }

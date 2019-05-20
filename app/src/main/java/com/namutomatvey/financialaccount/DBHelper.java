@@ -31,7 +31,7 @@ public class DBHelper  extends SQLiteOpenHelper{
     public static final Integer FINANCE_TYPE_MONEYBOX = 3;
 
     public static final String KEY_FINANCE_TYPE = "type";
-    public static final String KEY_FINANCE_DATE_TIME = "date_time";
+    public static final String KEY_FINANCE_DATE = "date";
     public static final String KEY_FINANCE_COMMENT = "comment";
     public static final String KEY_FINANCE_AMOUNT = "amount";
     public static final String KEY_FINANCE_CATEGORY = "category_id";
@@ -63,7 +63,7 @@ public class DBHelper  extends SQLiteOpenHelper{
                 + KEY_ID + " integer primary key autoincrement,"
                 + KEY_FINANCE_TYPE + " integer not null"
                 + " check (" + KEY_FINANCE_TYPE + " >= 1 and " + KEY_FINANCE_TYPE + " <= 3),"
-                + KEY_FINANCE_DATE_TIME + " text not null,"
+                + KEY_FINANCE_DATE + " text not null,"
                 + KEY_FINANCE_COMMENT + " text,"
                 + KEY_FINANCE_AMOUNT + " real not null"  + " check (" + KEY_FINANCE_AMOUNT + " >= 0),"
                 + KEY_FINANCE_CATEGORY + " integer not null,"
@@ -97,11 +97,11 @@ public class DBHelper  extends SQLiteOpenHelper{
         for (int i = 0; i < 3; i += 1) {
             ContentValues contentCurrencyValues = new ContentValues();
             Date date = Calendar.getInstance().getTime();
-            SimpleDateFormat simpleDate =  new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            SimpleDateFormat simpleDate =  new SimpleDateFormat("dd-MM-yyyy");
             String str_date = simpleDate.format(date);
             for (int j = 0; j < 3; j += 1) {
                 contentCurrencyValues.put(KEY_FINANCE_TYPE, CategoryTypes[i]);
-                contentCurrencyValues.put(KEY_FINANCE_DATE_TIME, str_date);
+                contentCurrencyValues.put(KEY_FINANCE_DATE, str_date);
                 contentCurrencyValues.put(KEY_FINANCE_COMMENT, "Комент 1");
                 contentCurrencyValues.put(KEY_FINANCE_AMOUNT, 179 * CurrencyCoefficients[j]);
                 contentCurrencyValues.put(KEY_FINANCE_CATEGORY, i);

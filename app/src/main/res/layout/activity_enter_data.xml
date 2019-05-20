@@ -7,151 +7,165 @@
     android:background="@color/main_background_gray"
     tools:context=".activity.EnterDataActivity">
 
-    <include layout="@layout/toolbar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TableLayout
-        android:layout_width="317dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:stretchColumns="*"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.237">
+        <include layout="@layout/toolbar" />
 
-        <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textTextDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints="@string/default_hint_date"
-                android:ems="5"
-                android:gravity="center_horizontal"
-                android:hint="@string/default_hint_date"
-                android:textSize="24sp"
-                tools:text="@tools:sample/date/ddmmyy" />
-
-            <TextView
-                android:id="@+id/textTextTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autofillHints="@string/default_hint_time"
-                android:ems="5"
-                android:gravity="center_horizontal"
-                android:hint="@string/default_hint_time"
-                android:textSize="24sp"
-                tools:text="@tools:sample/date/hhmm" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/textViewDate"
+                android:id="@+id/textViewTextDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:padding="10dp"
                 android:text="@string/field_date_name"
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textViewTime"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewDate"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/field_time_name"
-                android:textSize="24sp" />
-
-        </TableRow>
-
-        <TableRow>
-
-            <EditText
-                android:id="@+id/editTextAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:autofillHints="@string/default_hint_amount"
                 android:ems="5"
-                android:gravity="center_horizontal"
-                android:hint="@string/default_hint_amount"
-                android:inputType="numberDecimal"
-                android:textSize="24sp" />
+                android:gravity="end"
+                android:hint="@string/default_hint_date"
+                android:padding="10dp"
+                android:textSize="24sp"
+                tools:text="@tools:sample/date/ddmmyy" />
+        </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/imageButtonCurrency"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/main_background_gray"
-                android:contentDescription="@string/currency"
-                android:gravity="center_horizontal|center_vertical"
-                app:srcCompat="@drawable/ic_currency" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/textViewAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/field_amount_name"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/textViewCurrency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/currency"
-                android:textSize="24sp" />
-        </TableRow>
-
-        <TableRow>
-
-            <ImageButton
-                android:id="@+id/imageButtonCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/main_background_gray"
-                android:contentDescription="@string/category"
-                android:gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher" />
-
-            <ImageButton
-                android:id="@+id/imageButtonCashVoucher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/main_background_gray"
-                android:contentDescription="@string/cash_voucher"
-                android:gravity="center_horizontal"
-                android:src="@drawable/ic_check" />
-        </TableRow>
-
-        <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textViewCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:padding="10dp"
                 android:text="@string/category"
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textViewCashVoucher"
+                android:id="@+id/textViewCategoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:text="@string/category"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="10dp"
+                android:text="@string/field_amount_name"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/editTextAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:ems="5"
+                android:gravity="end"
+                android:hint="@string/default_hint_amount"
+                android:inputType="numberDecimal"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewCurrency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/cash_voucher"
+                android:keepScreenOn="true"
+                android:padding="10dp"
+                android:text="@string/currency"
                 android:textSize="24sp" />
-        </TableRow>
-    </TableLayout>
+
+            <TextView
+                android:id="@+id/textViewCurrencyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:text="@string/currency"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:ems="5"
+                android:gravity="start"
+                android:hint="@string/comment"
+                android:inputType="text"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp">
+
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/design_default_color_primary"
+                android:contentDescription="@string/currency"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/save"/>
+        </LinearLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

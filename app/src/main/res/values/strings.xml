@@ -7,6 +7,7 @@
     <string name="expenses">Расходы</string>
     <string name="moneybox">Копилка</string>
     <string name="balance">Баланс</string>
+    <string name="comment">Коментарий</string>
 
     <string name="field_date_name">Дата</string>
     <string name="field_time_name">Время</string>
@@ -14,6 +15,7 @@
     <string name="currency">Валюта</string>
     <string name="category">Категория</string>
     <string name="cash_voucher">Кассовый\nчек</string>
+    <string name="save">Сохранить</string>
 
     <string name="icon_menu">Меню</string>
     <string name="icon_back">Назад</string>
@@ -23,8 +25,7 @@
     <string name="icon_profile">Профиль</string>
 
     <string name="default_hint_amount">00.00</string>
-    <string name="default_hint_date">00-00-0000</string>
-    <string name="default_hint_time">00:00</string>
+    <string name="default_hint_date">00.00.0000</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

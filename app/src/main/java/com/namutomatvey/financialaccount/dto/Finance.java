@@ -9,28 +9,28 @@ public class Finance {
     private long id;
     private int type;
     private int amount;
-    private String dateTime;
+    private String date;
     private String comment;
-    private int category;
-    private int currency;
+    private long category;
+    private long currency;
 
     private SQLiteDatabase database;
 
-    public Finance(SQLiteDatabase database, long id, int type, int amount, String dateTime, int currency, int category, String comment) {
+    public Finance(SQLiteDatabase database, long id, int type, int amount, String date, long currency, long category, String comment) {
         this.id = id;
         this.type = type;
         this.amount = amount;
-        this.dateTime = dateTime;
+        this.date = date;
         this.currency = currency;
         this.category = category;
         this.comment = comment;
         this.database = database;
     }
 
-    public Finance(SQLiteDatabase database, int type, int amount, String dateTime, int currency, int category, String comment) {
+    public Finance(SQLiteDatabase database, int type, int amount, String date, long currency, long category, String comment) {
         this.type = type;
         this.amount = amount;
-        this.dateTime = dateTime;
+        this.date = date;
         this.currency = currency;
         this.category = category;
         this.comment = comment;
@@ -38,7 +38,7 @@ public class Finance {
         ContentValues contentFinanceValues = new ContentValues();
         contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, type);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, amount);
-        contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE_TIME, dateTime);
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, date);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_COMMENT, comment);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_CATEGORY, category);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_CURRENCY, currency);
@@ -57,11 +57,11 @@ public class Finance {
         return comment;
     }
 
-    public void updateFinance(int type, int amount, String dateTime, int currency, int category, String comment) {
+    public void updateFinance(int type, int amount, String dateTime, long currency, long category, String comment) {
         ContentValues contentFinanceValues = new ContentValues();
         contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, type);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, amount);
-        contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE_TIME, dateTime);
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, dateTime);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_COMMENT, comment);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_CATEGORY, category);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_CURRENCY, currency);
@@ -69,7 +69,7 @@ public class Finance {
         if(updCount != 0)
             this.type = type;
             this.amount = amount;
-            this.dateTime = dateTime;
+            this.date = dateTime;
             this.currency = currency;
             this.category = category;
             this.comment = comment;
