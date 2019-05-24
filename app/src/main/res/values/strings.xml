@@ -14,6 +14,7 @@
     <string name="field_amount_name">Сумма</string>
     <string name="currency">Валюта</string>
     <string name="category">Категория</string>
+    <string name="button_category">Выбрать категорю</string>
     <string name="cash_voucher">Кассовый\nчек</string>
     <string name="save">Сохранить</string>
 

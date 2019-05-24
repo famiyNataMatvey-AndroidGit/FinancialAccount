@@ -2,19 +2,24 @@ package com.namutomatvey.financialaccount.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.google.android.gms.vision.barcode.Barcode;
 import com.namutomatvey.financialaccount.R;
 
 public class ExpenseChoseActivity extends AppCompatActivity {
     private Toolbar mActionBarToolbar;
     private Intent intent;
     private String title;
+
+    public static final int REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +45,23 @@ public class ExpenseChoseActivity extends AppCompatActivity {
                 }
             }
         );
+
+        imageButtonCashVoucher.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  intent = new Intent(ExpenseChoseActivity.this, BeforeAppendStatisticActivity.class);
+                  intent.putExtra("title", title);
+                  startActivity(intent);
+              }
+          }
+        );
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        menu.setGroupVisible(R.id.group_menu, false);
+        MenuItem setting_item = menu.findItem(R.id.menu_settings);
+        setting_item.setVisible(false);
         mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }

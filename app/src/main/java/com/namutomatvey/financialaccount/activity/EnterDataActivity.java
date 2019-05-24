@@ -84,7 +84,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                 FragmentManager manager = getSupportFragmentManager();
                 CalendarFragment calendarFragment = new CalendarFragment();
                 calendarFragment.show(manager, "dialog");
-
             }
         });
 
@@ -114,6 +113,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         if(typeFinanceCategory() != DBHelper.FINANCE_TYPE_EXPENSES){
             editTextComment.setVisibility(View.INVISIBLE);
         }
+
         Button buttonSave = findViewById(R.id.buttonSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +140,8 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        menu.setGroupVisible(R.id.group_menu, false);
+        MenuItem setting_item = menu.findItem(R.id.menu_settings);
+        setting_item.setVisible(false);
         mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }

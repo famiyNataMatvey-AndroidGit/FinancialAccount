@@ -146,7 +146,8 @@ public class SelectionDataActivity extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        menu.setGroupVisible(R.id.group_menu, false);
+        MenuItem setting_item = menu.findItem(R.id.menu_settings);
+        setting_item.setVisible(false);
         mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }
