@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
-
+import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.adapter.ClientCheckAdapter;
+
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 public class BeforeAppendStatisticActivity extends AppCompatActivity {
 
@@ -65,7 +70,22 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
             if(data != null) {
                 Barcode barcode = data.getParcelableExtra("barcode");
                 String qr_value = barcode.displayValue;
-
+                ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter("+79054278197", "123");
+                clientCheckAdapter.setQrData(qr_value);
+                clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_GET_CHECK);
+                JSONObject result = null;
+                while (1 == 1) {
+                    try {
+                        result = clientCheckAdapter.get();
+                        Log.d("MayTag", "get returns " + result);
+                        Toast.makeText(BeforeAppendStatisticActivity.this, "get returns " + result, Toast.LENGTH_LONG).show();
+                        break;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             finish();
         }

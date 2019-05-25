@@ -1,9 +1,13 @@
 package com.namutomatvey.financialaccount.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,11 +16,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.adapter.ClientCheckAdapter;
+
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int PERMISSION_REQUEST = 200;
 
     public static final String APP_PREFERENCES = "mysettings";
     public static final String APP_PREFERENCES_FIRST_LAUNCH = "first_launch";
@@ -92,14 +104,35 @@ public class MainActivity extends AppCompatActivity {
         statisticsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView statisticsTextView = findViewById(R.id.textViewStatistics);
-
-                intent = new Intent(MainActivity.this, StatisticsActivity.class);
-                intent.putExtra("title", statisticsTextView.getText().toString());
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_statistics));
-                startActivity(intent);
+                if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.INTERNET}, PERMISSION_REQUEST);
+                }
+                ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter("+79054278197");
+//                ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter("t4st@mail.ru", "AAA", "89054278199");
+                clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_PASSWORD_RECOVERY);
+                JSONObject result = null;
+                while (1 == 1) {
+                    try {
+                            result = clientCheckAdapter.get();
+                        Log.d("MayTag", "get returns " + result);
+                        Toast.makeText(MainActivity.this, "get returns " + result, Toast.LENGTH_LONG).show();
+                        break;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+//                TextView statisticsTextView = findViewById(R.id.textViewStatistics);
+//
+//                intent = new Intent(MainActivity.this, StatisticsActivity.class);
+//                intent.putExtra("title", statisticsTextView.getText().toString());
+//                intent.putExtra("number", getResources().getInteger(R.integer.click_button_statistics));
+//                startActivity(intent);
             }
         });
+
+
     }
 
     @Override
