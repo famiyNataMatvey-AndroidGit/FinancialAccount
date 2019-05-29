@@ -31,6 +31,7 @@
         <activity android:name=".activity.ExpenseChoseActivity" />
         <activity android:name=".activity.SelectionDataActivity" />
         <activity android:name=".activity.BeforeAppendStatisticActivity" />
+        <activity android:name=".activity.StatisticsChoseActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.BarcodeActivity"
             android:label="Read Barcode"/>

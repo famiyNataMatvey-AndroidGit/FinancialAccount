@@ -17,7 +17,8 @@
             android:id="@+id/datePickerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <ImageButton
                 android:id="@+id/imageButtonLeft"

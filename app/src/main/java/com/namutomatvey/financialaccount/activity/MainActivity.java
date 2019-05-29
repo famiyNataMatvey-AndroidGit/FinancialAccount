@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         // Приложение запущено впервые или восстановлено из памяти?
         if ( !mSettings.contains(APP_PREFERENCES_FIRST_LAUNCH))   // приложение запущено впервые
         {
-            Log.d("MyTag","Запускаю в первый раз");
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putBoolean(APP_PREFERENCES_FIRST_LAUNCH, true);
             editor.putString(APP_PREFERENCES_BALANCE, "0.0");
@@ -94,14 +92,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TextView statisticsTextView = findViewById(R.id.textViewStatistics);
 
-                intent = new Intent(MainActivity.this, StatisticsActivity.class);
+                intent = new Intent(MainActivity.this, StatisticsChoseActivity.class);
                 intent.putExtra("title", statisticsTextView.getText().toString());
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_statistics));
                 startActivity(intent);
             }
         });
-
-
     }
 
     @Override

@@ -2,6 +2,7 @@
     <string name="app_name">Учёт финансов</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="title_activity_statistics">Статистика</string>
+    <string name="title_activity_graph">Графики</string>
 
     <string name="income">Доходы</string>
     <string name="expenses">Расходы</string>

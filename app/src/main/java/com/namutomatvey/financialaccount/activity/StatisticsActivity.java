@@ -177,19 +177,19 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
 
     public void setPickerLayout(){
         if (datePickerType == getResources().getInteger(R.integer.date_picker_all)){
-            datePickerLayout.setVisibility(View.INVISIBLE);
-            datePickerCustomLayout.setVisibility(View.INVISIBLE);
+            datePickerLayout.setVisibility(View.GONE);
+            datePickerCustomLayout.setVisibility(View.GONE);
         } else if (datePickerType == getResources().getInteger(R.integer.date_picker_custom)) {
-            datePickerLayout.setVisibility(View.INVISIBLE);
+            datePickerLayout.setVisibility(View.GONE);
             datePickerCustomLayout.setVisibility(View.VISIBLE);
         }  else if (datePickerType == getResources().getInteger(R.integer.date_picker_day) || datePickerType == getResources().getInteger(R.integer.date_picker_week)) {
             datePickerLayout.setVisibility(View.VISIBLE);
             imageButtonDatePicker.setVisibility(View.VISIBLE);
-            datePickerCustomLayout.setVisibility(View.INVISIBLE);
+            datePickerCustomLayout.setVisibility(View.GONE);
         } else {
             datePickerLayout.setVisibility(View.VISIBLE);
-            imageButtonDatePicker.setVisibility(View.INVISIBLE);
-            datePickerCustomLayout.setVisibility(View.INVISIBLE);
+            imageButtonDatePicker.setVisibility(View.GONE);
+            datePickerCustomLayout.setVisibility(View.GONE);
         }
     }
 

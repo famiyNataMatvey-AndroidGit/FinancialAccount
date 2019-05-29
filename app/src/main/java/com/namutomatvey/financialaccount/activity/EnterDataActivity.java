@@ -175,7 +175,11 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        date = new Date(year, month, dayOfMonth);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        date = calendar.getTime();
         dateView.setText(simpleDate.format(date));
         dateView.setTextColor(Color.BLACK);
     }
