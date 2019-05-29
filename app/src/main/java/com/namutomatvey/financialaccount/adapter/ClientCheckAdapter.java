@@ -19,8 +19,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
     public static final String PURPOSE_REGISTRATION = "1";
     public static final String PURPOSE_LOGIN = "2";
     public static final String PURPOSE_PASSWORD_RECOVERY = "3";
-    public static final String PURPOSE_IS_CHECK = "4";
-    public static final String PURPOSE_GET_CHECK = "5";
+    public static final String PURPOSE_GET_CHECK = "4";
 
     final private String REGISTRATION_URL = "https://proverkacheka.nalog.ru:9999/v1/mobile/users/signup";
     final private String LOGIN_URL = "https://proverkacheka.nalog.ru:9999/v1/mobile/users/login";
@@ -81,10 +80,8 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             case PURPOSE_PASSWORD_RECOVERY:
                 response = this.passwordRecovery();
                 break;
-            case PURPOSE_IS_CHECK:
-                response = this.isCheck(this.fn, this.fd, this.fpd, this.date, this.sum);
-                break;
             case PURPOSE_GET_CHECK:
+                response = this.getCheck(this.fn, this.fd, this.fpd, this.date, this.sum);
                 break;
         }
 
@@ -123,8 +120,9 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
 
             int responseCode = urlConnection.getResponseCode();
             response_json.put("code", responseCode);
+            response_json.put("data", data);
             if (responseCode != HttpsURLConnection.HTTP_NO_CONTENT) {
-                if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+                if (responseCode == HttpsURLConnection.HTTP_CONFLICT) {
                     response_json.put("massage", "Пользователь с данными" + data + " уже существует в базе ФНС");
                 } else response_json.put("massage", "Ошибка взаимодействия с сервером ФНС");
             }
@@ -198,7 +196,9 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
                 if (responseCode == HttpsURLConnection.HTTP_NOT_FOUND) {
                     response_json.put("massage","Пользователя с логином" + this.phone + " не существует");
                 }
-                response_json.put("massage","Статус запроса отличается от обычного");
+                else {
+                    response_json.put("massage","Статус запроса отличается от обычного");
+                }
             }
         } catch (JSONException e){
             e.printStackTrace();

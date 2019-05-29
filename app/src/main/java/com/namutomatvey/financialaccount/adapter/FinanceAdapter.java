@@ -1,6 +1,5 @@
 package com.namutomatvey.financialaccount.adapter;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +44,8 @@ public class FinanceAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.finance_item_layout, null);
             holder = new ViewHolder();
-            holder.categoryNameView = convertView.findViewById(R.id.textViewCategoryName);
-            holder.amountView = convertView.findViewById(R.id.textViewAmount);
+            holder.categoryNameView = convertView.findViewById(R.id.financeItemCategoryName);
+            holder.amountView = convertView.findViewById(R.id.financeItemAmount);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

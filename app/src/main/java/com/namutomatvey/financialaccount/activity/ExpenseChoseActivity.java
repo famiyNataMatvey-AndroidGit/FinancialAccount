@@ -2,16 +2,13 @@ package com.namutomatvey.financialaccount.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.google.android.gms.vision.barcode.Barcode;
 import com.namutomatvey.financialaccount.R;
 
 public class ExpenseChoseActivity extends AppCompatActivity {
@@ -24,7 +21,7 @@ public class ExpenseChoseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.expense_chose);
+        setContentView(R.layout.activity_expense_chose);
 
         ImageButton imageButtonExpenses = findViewById(R.id.imageButtonExpenses);
         ImageButton imageButtonCashVoucher = findViewById(R.id.imageButtonCashVoucher);

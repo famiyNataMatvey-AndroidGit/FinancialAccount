@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,7 +86,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        textViewCategoryName = findViewById(R.id.textViewCategoryName);
+        textViewCategoryName = findViewById(R.id.financeItemCategoryName);
         textViewCategoryName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

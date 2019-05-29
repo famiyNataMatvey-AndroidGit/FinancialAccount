@@ -13,7 +13,8 @@
 
         <include layout="@layout/toolbar" />
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/datePickerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -22,16 +23,102 @@
                 android:id="@+id/imageButtonLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_left" />
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                app:srcCompat="@drawable/ic_left" />
+
             <TextView
+                android:id="@+id/datePickerView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_toEndOf="@+id/imageButtonLeft"
+                android:layout_toRightOf="@+id/imageButtonLeft"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="февраль 2019"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/imageButtonDatePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@+id/datePickerView"
+                android:layout_toRightOf="@+id/datePickerView"
+                app:srcCompat="@drawable/ic_arrow_down" />
+
             <ImageButton
                 android:id="@+id/imageButtonRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_right" />
-        </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                app:srcCompat="@drawable/ic_right" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/datePickerCustomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/datePickerFromView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="12 фев 2019"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/imageButtonDateFromPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@+id/datePickerFromView"
+                android:layout_toRightOf="@+id/datePickerFromView"
+                app:srcCompat="@drawable/ic_arrow_down" />
+
+            <TextView
+                    android:id="@+id/datePickerToView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_toStartOf="@+id/imageButtonDateToPicker"
+                android:layout_toLeftOf="@+id/imageButtonDateToPicker"
+                android:layout_toEndOf="@+id/imageButtonDateFromPicker"
+                android:layout_toRightOf="@+id/imageButtonDateFromPicker"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="13 фев 2019"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/imageButtonDateToPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                app:srcCompat="@drawable/ic_arrow_down" />
+        </RelativeLayout>
 
         <ImageView
             android:layout_width="match_parent"

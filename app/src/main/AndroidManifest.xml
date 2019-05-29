@@ -27,10 +27,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.EnterDataActivity" />
-        <activity android:name=".activity.StatisticsActivity" />
+        <activity android:name=".activity.StatisticsActivity" android:label="@string/title_activity_settings"/>
         <activity android:name=".activity.ExpenseChoseActivity" />
         <activity android:name=".activity.SelectionDataActivity" />
         <activity android:name=".activity.BeforeAppendStatisticActivity" />
+        <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.BarcodeActivity"
             android:label="Read Barcode"/>
     </application>

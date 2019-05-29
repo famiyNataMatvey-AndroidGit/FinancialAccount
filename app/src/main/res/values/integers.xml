@@ -7,4 +7,11 @@
     <integer name="click_button_moneybox">4</integer>
     <integer name="click_button_category">5</integer>
     <integer name="click_button_currency">6</integer>
+
+    <integer name="date_picker_day">7</integer>
+    <integer name="date_picker_week">8</integer>
+    <integer name="date_picker_month">9</integer>
+    <integer name="date_picker_year">10</integer>
+    <integer name="date_picker_custom">11</integer>
+    <integer name="date_picker_all">12</integer>
 </resources>
