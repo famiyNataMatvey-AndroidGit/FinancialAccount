@@ -3,7 +3,9 @@ package com.namutomatvey.financialaccount.activity;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -12,24 +14,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.adapter.ViewCategoryAdapter;
+import com.namutomatvey.financialaccount.dto.ViewCategory;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class StatisticsActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private DBHelper dbHelper;
+    private SQLiteDatabase database;
+
     private Toolbar mActionBarToolbar;
     private SharedPreferences sharedPreferences;
     private int number;
@@ -65,6 +75,8 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
     private Date dateTo;
     private Date dateFrom;
 
+    private GridView gridViewFinanceCategory;
+
     private static final String APP_PREFERENCES = "mysettings";
     private static final String TYPE_DATE_PICKER= "datePickerType";
     private static final String TITLE= "titleStatisticsActivity";
@@ -82,6 +94,12 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
                 return DBHelper.FINANCE_TYPE_INCOME;
         }
     }
+
+//    private List<ViewCategory> getCategorySum() {
+//        database = dbHelper.getReadableDatabase();
+//        Cursor cursor = database.query(DBHelper.TABLE_FINANCE, null, null, null, DBHelper.KEY_FINANCE_CATEGORY, null, null);
+//        return List [new ViewCategory(1, "A", 12)];
+//    }
 
     private void moveDatePickerType(Date date_to, Boolean is_direction) {
         int sign = 1;
@@ -145,7 +163,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
     }
 
     public void setTitle(int itemId){
-        switch (itemId){
+        switch (itemId) {
             case R.id.menu_day:
                 mActionBarToolbar.setTitle(getResources().getString(R.string.menu_period_day));
                 datePickerType = getResources().getInteger(R.integer.date_picker_day);
@@ -199,6 +217,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         setContentView(R.layout.activity_statistics);
 
         number = getIntent().getExtras().getInt("number",  2);
+        dbHelper = new DBHelper(this);
 
         datePickerLayout = findViewById(R.id.datePickerLayout);
         datePickerCustomLayout = findViewById(R.id.datePickerCustomLayout);
@@ -212,6 +231,8 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         datePickerView = findViewById(R.id.datePickerView);
         datePickerFromView = findViewById(R.id.datePickerFromView);
         datePickerToView = findViewById(R.id.datePickerToView);
+
+        gridViewFinanceCategory = findViewById(R.id.gridViewFinanceCategory);
 
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if ( !sharedPreferences.contains(TYPE_DATE_PICKER))   // приложение запущено впервые
@@ -227,6 +248,12 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
 
         datePickerType = sharedPreferences.getInt(TYPE_DATE_PICKER, getResources().getInteger(R.integer.date_picker_day));
         setPickerLayout();
+
+        final List<ViewCategory> viewCategories = new ArrayList<ViewCategory>();
+        for (int i = 0; i < 15; i += 1){
+            viewCategories.add(new ViewCategory(i, "Тест " + i, 5000.10));
+        }
+        gridViewFinanceCategory.setAdapter(new ViewCategoryAdapter(this, viewCategories));
 
         changeDatePickerType(null, null);
 
@@ -271,6 +298,17 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
                 FragmentManager manager = getSupportFragmentManager();
                 CalendarFragment calendarFragment = new CalendarFragment();
                 calendarFragment.show(manager, "dialog");
+            }
+        });
+
+        gridViewFinanceCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,  int position, long id) {
+                ViewCategory item = (ViewCategory) gridViewFinanceCategory.getItemAtPosition(position);
+                Intent intent = new Intent(StatisticsActivity.this, StatisticsChoseActivity.class);
+                intent.putExtra("title", item.getCategory());
+                intent.putExtra("categoryId", item.getId());
+                startActivity(intent);
             }
         });
     }

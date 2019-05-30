@@ -130,7 +130,7 @@
             android:layout_height="match_parent"
             android:columnWidth="120dp"
             android:gravity="center"
-            android:numColumns="auto_fit"
+            android:numColumns="1"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="64dp" />
     </LinearLayout>

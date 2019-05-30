@@ -1,9 +1,11 @@
 package com.namutomatvey.financialaccount.adapter;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.R;
@@ -42,23 +44,31 @@ public class FinanceAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.finance_item_layout, null);
+            convertView = layoutInflater.inflate(R.layout.item_finance_layout, null);
             holder = new ViewHolder();
-            holder.categoryNameView = convertView.findViewById(R.id.financeItemCategoryName);
-            holder.amountView = convertView.findViewById(R.id.financeItemAmount);
+            holder.StatisticsChoice = convertView.findViewById(R.id.imageViewStatisticsChoice);
+            holder.StatisticsDate = convertView.findViewById(R.id.textViewStatisticsDate);
+            holder.StatisticsComment = convertView.findViewById(R.id.textViewStatisticsComment);
+            holder.StatisticsAmount = convertView.findViewById(R.id.textViewStatisticsAmount);
+            holder.StatisticsCurrency = convertView.findViewById(R.id.textViewStatisticsCurrency);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         Finance finance = this.finances.get(position);
-        holder.categoryNameView.setText(finance.getComment());
-        holder.amountView.setText(Double.toString(finance.getAmount()));
+        holder.StatisticsDate.setText(finance.getDate());
+        holder.StatisticsComment.setText(finance.getComment());
+        holder.StatisticsAmount.setText(Double.toString(finance.getAmount()));
+        holder.StatisticsCurrency.setText(" RUS");
         return convertView;
     }
 
     static class ViewHolder {
-        TextView categoryNameView;
-        TextView amountView;
+        ImageView StatisticsChoice;
+        TextView StatisticsDate;
+        TextView StatisticsComment;
+        TextView StatisticsAmount;
+        TextView StatisticsCurrency;
     }
 }

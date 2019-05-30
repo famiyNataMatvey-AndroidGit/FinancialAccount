@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.namutomatvey.financialaccount.DBHelper;
@@ -35,7 +34,6 @@ public class SelectionDataActivity extends AppCompatActivity  {
     GridView gridView;
 
     private Toolbar mActionBarToolbar;
-    private MenuItem acceptMenuItem;
     Cursor cursor;
     int number;
     int resourceCategory;

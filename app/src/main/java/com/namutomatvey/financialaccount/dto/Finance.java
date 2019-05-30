@@ -57,6 +57,10 @@ public class Finance {
         return comment;
     }
 
+    public String getDate() {
+        return date;
+    }
+
     public void updateFinance(int type, int amount, String dateTime, long currency, long category, String comment) {
         ContentValues contentFinanceValues = new ContentValues();
         contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, type);
