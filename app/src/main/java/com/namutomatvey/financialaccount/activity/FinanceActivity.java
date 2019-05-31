@@ -38,10 +38,15 @@ public class FinanceActivity extends AppCompatActivity  {
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
 
-        gridView = findViewById(R.id.gridViewSelection);
+        dbHelper = new DBHelper(this);
+        database = dbHelper.getWritableDatabase();
+
+        gridView = findViewById(R.id.gridViewFinance);
 
         final List<Finance> finances = new ArrayList<Finance>();
-
+        for(int i = 1; i < 50; i += 1) {
+            finances.add(new Finance(database, i, 1, 5000.00, "вт, 21 Май 2019", 1, 1, "Comment " + i));
+        }
         gridView.setAdapter(new FinanceAdapter(this, finances));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

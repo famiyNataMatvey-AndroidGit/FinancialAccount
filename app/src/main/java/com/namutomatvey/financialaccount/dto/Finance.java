@@ -8,7 +8,7 @@ import com.namutomatvey.financialaccount.DBHelper;
 public class Finance {
     private long id;
     private int type;
-    private int amount;
+    private double amount;
     private String date;
     private String comment;
     private long category;
@@ -16,7 +16,7 @@ public class Finance {
 
     private SQLiteDatabase database;
 
-    public Finance(SQLiteDatabase database, long id, int type, int amount, String date, long currency, long category, String comment) {
+    public Finance(SQLiteDatabase database, long id, int type, double amount, String date, long currency, long category, String comment) {
         this.id = id;
         this.type = type;
         this.amount = amount;
@@ -27,7 +27,7 @@ public class Finance {
         this.database = database;
     }
 
-    public Finance(SQLiteDatabase database, int type, int amount, String date, long currency, long category, String comment) {
+    public Finance(SQLiteDatabase database, int type, double amount, String date, long currency, long category, String comment) {
         this.type = type;
         this.amount = amount;
         this.date = date;
@@ -61,7 +61,7 @@ public class Finance {
         return date;
     }
 
-    public void updateFinance(int type, int amount, String dateTime, long currency, long category, String comment) {
+    public void updateFinance(int type, double amount, String dateTime, long currency, long category, String comment) {
         ContentValues contentFinanceValues = new ContentValues();
         contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, type);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, amount);

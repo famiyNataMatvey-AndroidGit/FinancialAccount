@@ -305,7 +305,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onItemClick(AdapterView<?> parent, View v,  int position, long id) {
                 ViewCategory item = (ViewCategory) gridViewFinanceCategory.getItemAtPosition(position);
-                Intent intent = new Intent(StatisticsActivity.this, StatisticsChoseActivity.class);
+                Intent intent = new Intent(StatisticsActivity.this, FinanceActivity.class);
                 intent.putExtra("title", item.getCategory());
                 intent.putExtra("categoryId", item.getId());
                 startActivity(intent);
