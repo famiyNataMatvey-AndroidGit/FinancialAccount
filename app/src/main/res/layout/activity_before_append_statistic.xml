@@ -20,10 +20,15 @@
         <GridView
             android:id="@+id/gridViewCheckItem"
             android:layout_width="match_parent"
-            android:layout_height="480dp"
+            android:layout_height="420dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
             android:columnWidth="120dp"
             android:gravity="center"
             android:numColumns="1"
+            android:scrollbars="vertical"
+            android:verticalSpacing="2dp"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="64dp">
 
@@ -35,9 +40,16 @@
         android:id="@+id/buttonChoiceCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
         android:layout_marginBottom="54dp"
+        android:background="@color/colorLight"
         android:text="@string/button_category"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
