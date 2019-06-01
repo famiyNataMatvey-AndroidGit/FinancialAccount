@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,11 +22,14 @@ import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.dto.Category;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class EnterDataActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -70,7 +74,29 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
 
+        long finance_id = getIntent().getExtras().getLong("finance_id", -1);
         dbHelper = new DBHelper(this);
+        if (finance_id != -1) {
+            SQLiteDatabase database = dbHelper.getReadableDatabase();
+            Cursor cursor = database.query(DBHelper.TABLE_CATEGORY, null, DBHelper.KEY_ID + " = " + finance_id, null, null, null, null);
+            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+            int amountIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_AMOUNT);
+            int categoryIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CATEGORY);
+            int commentIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_COMMENT);
+            int currencyIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CURRENCY);
+            int dateIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_DATE);
+            int typeIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_TYPE);
+            final List<Category> categories = new ArrayList<Category>();
+            if (cursor.moveToFirst()) {
+
+//                categories.add(new Category(database,
+//                        cursor.getLong(idIndex),
+//                        cursor.getString(nameIndex),
+//                        cursor.getInt(typeIndex),
+//                        cursor.getInt(parentIndex)));
+            }
+
+        }
 
         date = Calendar.getInstance().getTime();
         simpleDate = new SimpleDateFormat("dd.MM.yyyy");

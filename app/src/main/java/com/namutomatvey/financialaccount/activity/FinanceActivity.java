@@ -21,9 +21,10 @@ import java.util.List;
 
 public class FinanceActivity extends AppCompatActivity  {
 
-    DBHelper dbHelper;
-    SQLiteDatabase database;
-    GridView gridView;
+    private DBHelper dbHelper;
+    private SQLiteDatabase database;
+    private GridView gridView;
+    public int number;
 
     private Toolbar mActionBarToolbar;
     Cursor cursor;
@@ -32,6 +33,8 @@ public class FinanceActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finance_layout);
+
+        number = getIntent().getIntExtra("number", 2);
 
         mActionBarToolbar = findViewById(R.id.toolbar);
         String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
@@ -47,7 +50,7 @@ public class FinanceActivity extends AppCompatActivity  {
         for(int i = 1; i < 50; i += 1) {
             finances.add(new Finance(database, i, 1, 5000.00, "вт, 21 Май 2019", 1, 1, "Comment " + i));
         }
-        gridView.setAdapter(new FinanceAdapter(this, finances));
+        gridView.setAdapter(new FinanceAdapter(this, finances, 2));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

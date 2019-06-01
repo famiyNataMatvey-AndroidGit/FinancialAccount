@@ -14,20 +14,11 @@
         <include layout="@layout/toolbar" />
 
         <android.support.v7.widget.CardView
-            android:layout_width="317dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tableLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.512"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.783">
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="96dp"
+            android:layout_marginEnd="24dp">
 
             <TextView
                 android:id="@+id/textViewBalance"
@@ -48,22 +39,12 @@
         </android.support.v7.widget.CardView>
 
         <TableLayout
-            android:id="@+id/tableLayout"
-            android:layout_width="317dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:stretchColumns="*"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.45">
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:stretchColumns="*">
 
             <TableRow>
 
@@ -75,16 +56,16 @@
                     <ImageButton
                         android:id="@+id/imageButtonIncome"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@color/main_background_gray"
                         android:contentDescription="@string/income"
                         android:gravity="center_horizontal"
-                        android:src="@drawable/ic_income" />
+                        app:srcCompat="@drawable/ic_income" />
 
                     <TextView
                         android:id="@+id/textViewIncome"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center_horizontal"
                         android:text="@string/income"
                         android:textSize="24sp" />
@@ -98,19 +79,23 @@
                     <ImageButton
                         android:id="@+id/imageButtonExpenses"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
                         android:background="@color/main_background_gray"
                         android:contentDescription="@string/expenses"
                         android:scaleType="center"
-                        android:src="@drawable/ic_cost" />
+                        app:srcCompat="@drawable/ic_cost"
+                        android:layout_marginStart="16dp" />
 
                     <TextView
                         android:id="@+id/textViewExpenses"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
                         android:gravity="center_horizontal"
                         android:text="@string/expenses"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:layout_marginStart="16dp" />
                 </LinearLayout>
             </TableRow>
 
@@ -124,15 +109,15 @@
                     <ImageButton
                         android:id="@+id/imageButtonMoneybox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@color/main_background_gray"
                         android:contentDescription="@string/moneybox"
-                        android:src="@drawable/ic_money_box" />
+                        app:srcCompat="@drawable/ic_money_box" />
 
                     <TextView
                         android:id="@+id/textViewMoneybox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center_horizontal"
                         android:text="@string/moneybox"
                         android:textSize="24sp" />
@@ -146,18 +131,22 @@
                     <ImageButton
                         android:id="@+id/imageButtonStatistics"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
                         android:background="@color/main_background_gray"
                         android:contentDescription="@string/title_activity_statistics"
-                        android:src="@drawable/ic_statistic" />
+                        app:srcCompat="@drawable/ic_statistic"
+                        android:layout_marginStart="16dp" />
 
                     <TextView
                         android:id="@+id/textViewStatistics"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
                         android:gravity="center_horizontal"
                         android:text="@string/title_activity_statistics"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:layout_marginStart="16dp" />
                 </LinearLayout>
             </TableRow>
         </TableLayout>

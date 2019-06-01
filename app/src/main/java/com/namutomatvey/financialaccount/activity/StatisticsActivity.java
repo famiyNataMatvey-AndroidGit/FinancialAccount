@@ -307,6 +307,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
                 ViewCategory item = (ViewCategory) gridViewFinanceCategory.getItemAtPosition(position);
                 Intent intent = new Intent(StatisticsActivity.this, FinanceActivity.class);
                 intent.putExtra("title", item.getCategory());
+                intent.putExtra("number", number);
                 intent.putExtra("categoryId", item.getId());
                 startActivity(intent);
             }

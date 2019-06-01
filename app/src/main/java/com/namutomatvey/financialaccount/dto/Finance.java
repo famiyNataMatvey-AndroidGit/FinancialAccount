@@ -11,6 +11,7 @@ public class Finance {
     private double amount;
     private String date;
     private String comment;
+    private String category_name;
     private long category;
     private long currency;
 
@@ -59,6 +60,10 @@ public class Finance {
 
     public String getDate() {
         return date;
+    }
+
+    public String getCategory() {
+        return category_name;
     }
 
     public void updateFinance(int type, double amount, String dateTime, long currency, long category, String comment) {

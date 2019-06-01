@@ -17,7 +17,9 @@
         <TableLayout
             android:id="@+id/tableStatisticsLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:stretchColumns="*">
 
             <TableRow
@@ -36,15 +38,17 @@
                         android:id="@+id/imageButtonStatisticsIncome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
                         android:background="@color/main_background_gray"
                         android:contentDescription="@string/income"
                         android:gravity="center_horizontal"
-                        android:src="@drawable/ic_income" />
+                        app:srcCompat="@drawable/ic_income" />
 
                     <TextView
                         android:id="@+id/textViewStatisticsIncome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
                         android:gravity="center_horizontal"
                         android:text="@string/income"
                         android:textSize="24sp" />
@@ -59,15 +63,17 @@
                         android:id="@+id/imageButtonStatisticsExpenses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:background="@color/main_background_gray"
                         android:contentDescription="@string/expenses"
                         android:scaleType="center"
-                        android:src="@drawable/ic_cost" />
+                        app:srcCompat="@drawable/ic_cost" />
 
                     <TextView
                         android:id="@+id/textViewStatisticsExpenses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:gravity="center_horizontal"
                         android:text="@string/expenses"
                         android:textSize="24sp" />
@@ -87,14 +93,16 @@
                         android:id="@+id/imageButtonStatisticsMoneybox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
                         android:background="@color/main_background_gray"
                         android:contentDescription="@string/moneybox"
-                        android:src="@drawable/ic_money_box" />
+                        app:srcCompat="@drawable/ic_money_box" />
 
                     <TextView
                         android:id="@+id/textViewStatisticsMoneybox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
                         android:gravity="center_horizontal"
                         android:text="@string/moneybox"
                         android:textSize="24sp" />
@@ -109,14 +117,16 @@
                         android:id="@+id/imageButtonStatisticsAllGraph"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:background="@color/main_background_gray"
                         android:contentDescription="@string/title_activity_graph"
-                        android:src="@drawable/ic_statistic" />
+                        app:srcCompat="@drawable/ic_statistic" />
 
                     <TextView
                         android:id="@+id/textViewStatisticsAllGraph"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:gravity="center_horizontal"
                         android:text="@string/title_activity_graph"
                         android:textSize="24sp" />

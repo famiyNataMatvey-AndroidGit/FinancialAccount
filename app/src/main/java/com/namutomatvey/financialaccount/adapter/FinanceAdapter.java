@@ -1,6 +1,7 @@
 package com.namutomatvey.financialaccount.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.activity.EnterDataActivity;
 import com.namutomatvey.financialaccount.dto.Finance;
 
 import java.util.List;
@@ -18,10 +20,12 @@ public class FinanceAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private List<Finance> finances;
+    private int number;
 
-    public FinanceAdapter(Context context, List<Finance> finances) {
+    public FinanceAdapter(Context context, List<Finance> finances, int number) {
         this.context = context;
         this.finances = finances;
+        this.number = number;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -31,13 +35,13 @@ public class FinanceAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Finance getItem(int position) {
         return finances.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return this.getItem(position).getId();
     }
 
 
@@ -56,13 +60,24 @@ public class FinanceAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Finance finance = this.finances.get(position);
+        final Finance finance = this.finances.get(position);
         holder.StatisticsDate.setText(finance.getDate());
         holder.StatisticsComment.setText(finance.getComment());
         holder.StatisticsAmount.setText(Double.toString(finance.getAmount()));
-        holder.StatisticsCurrency.setText(" RUS");
+        holder.StatisticsCurrency.setText(finance.getCategory());
+        holder.StatisticsChoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EnterDataActivity.class);
+                intent.putExtra("title", context.getResources().getString(R.string.title_activity_edit));
+                intent.putExtra("number", number);
+                intent.putExtra("finance_id", finance.getId());
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
+
 
     static class ViewHolder {
         ImageView StatisticsChoice;

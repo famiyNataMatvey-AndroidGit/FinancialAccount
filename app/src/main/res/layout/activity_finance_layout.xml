@@ -12,7 +12,6 @@
 
         <include layout="@layout/toolbar" />
 
-
         <GridView
             android:id="@+id/gridViewFinance"
             android:layout_width="match_parent"
