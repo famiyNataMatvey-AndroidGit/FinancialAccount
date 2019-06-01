@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:gravity="center_vertical|start"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorBase"
     android:theme="@style/AppTheme"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 

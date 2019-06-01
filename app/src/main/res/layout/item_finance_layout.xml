@@ -54,7 +54,7 @@
         android:text="RUS"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageViewStatisticsChoice"
         android:layout_width="35dp"
         android:layout_height="43dp"

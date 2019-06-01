@@ -58,20 +58,17 @@ public class MainActivity extends AppCompatActivity {
         expensesImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView expensesTextView = findViewById(R.id.textViewExpenses);
-
                 intent = new Intent(MainActivity.this, ExpenseChoseActivity.class);
-                intent.putExtra("title", expensesTextView.getText().toString());
+                intent.putExtra("title", getResources().getString(R.string.expenses));
                 startActivity(intent);
             }
         });
         incomeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView incomeTextView = findViewById(R.id.textViewIncome);
 
                 intent = new Intent(MainActivity.this, EnterDataActivity.class);
-                intent.putExtra("title", incomeTextView.getText().toString());
+                intent.putExtra("title", getResources().getString(R.string.income));
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_income));
                 startActivity(intent);
             }
@@ -79,10 +76,9 @@ public class MainActivity extends AppCompatActivity {
         moneyboxImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView moneyboxTextView = findViewById(R.id.textViewMoneybox);
 
                 intent = new Intent(MainActivity.this, EnterDataActivity.class);
-                intent.putExtra("title", moneyboxTextView.getText().toString());
+                intent.putExtra("title", getResources().getString(R.string.moneybox));
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_moneybox));
                 startActivity(intent);
             }
@@ -90,10 +86,9 @@ public class MainActivity extends AppCompatActivity {
         statisticsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView statisticsTextView = findViewById(R.id.textViewStatistics);
 
                 intent = new Intent(MainActivity.this, StatisticsChoseActivity.class);
-                intent.putExtra("title", statisticsTextView.getText().toString());
+                intent.putExtra("title", getResources().getString(R.string.title_activity_statistics));
                 startActivity(intent);
             }
         });

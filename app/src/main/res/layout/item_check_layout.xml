@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textViewStatisticsDate"
+        android:id="@+id/textViewQRComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -18,11 +18,11 @@
 
 
     <TextView
-        android:id="@+id/textViewStatisticsAmount"
+        android:id="@+id/textViewQRAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/imageViewStatisticsChoice"
-        android:layout_alignRight="@id/imageViewStatisticsChoice"
+        android:layout_alignEnd="@id/imageViewQRChoice"
+        android:layout_alignRight="@id/imageViewQRChoice"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -33,12 +33,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/textViewStatisticsCurrency"
+        android:id="@+id/textViewQRCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewStatisticsAmount"
-        android:layout_alignEnd="@id/imageViewStatisticsChoice"
-        android:layout_alignRight="@id/imageViewStatisticsChoice"
+        android:layout_below="@+id/textViewQRAmount"
+        android:layout_alignEnd="@id/imageViewQRChoice"
+        android:layout_alignRight="@id/imageViewQRChoice"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="48dp"
@@ -47,7 +47,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
-        android:id="@+id/imageViewStatisticsChoice"
+        android:id="@+id/imageViewQRChoice"
         android:layout_width="35dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"

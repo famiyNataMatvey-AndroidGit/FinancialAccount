@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/main_background_white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:background="@color/main_background_gray"
+                        android:background="@color/colorLight"
                         android:contentDescription="@string/income"
                         android:gravity="center_horizontal"
                         app:srcCompat="@drawable/ic_income" />
@@ -64,7 +65,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:background="@color/main_background_gray"
+                        android:background="@color/colorLight"
                         android:contentDescription="@string/expenses"
                         android:scaleType="center"
                         app:srcCompat="@drawable/ic_cost" />
@@ -94,7 +95,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:background="@color/main_background_gray"
+                        android:background="@color/colorLight"
                         android:contentDescription="@string/moneybox"
                         app:srcCompat="@drawable/ic_money_box" />
 
@@ -118,7 +119,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:background="@color/main_background_gray"
+                        android:background="@color/colorLight"
                         android:contentDescription="@string/title_activity_graph"
                         app:srcCompat="@drawable/ic_statistic" />
 

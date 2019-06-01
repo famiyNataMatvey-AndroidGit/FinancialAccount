@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.R;
@@ -80,7 +80,7 @@ public class FinanceAdapter extends BaseAdapter {
 
 
     static class ViewHolder {
-        ImageView StatisticsChoice;
+        ImageButton StatisticsChoice;
         TextView StatisticsDate;
         TextView StatisticsComment;
         TextView StatisticsAmount;

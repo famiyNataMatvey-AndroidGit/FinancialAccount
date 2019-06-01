@@ -1,6 +1,7 @@
 package com.namutomatvey.financialaccount.activity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,19 +11,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
+import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.adapter.CheckAdapter;
 import com.namutomatvey.financialaccount.adapter.ClientCheckAdapter;
+import com.namutomatvey.financialaccount.dto.Finance;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class BeforeAppendStatisticActivity extends AppCompatActivity {
 
     private Toolbar mActionBarToolbar;
+    private GridView gridView;
+    private DBHelper dbHelper;
+    private SQLiteDatabase database;
 
     public static final int REQUEST_CODE = 100;
 
@@ -32,9 +42,20 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
         setContentView(R.layout.activity_before_append_statistic);
 
         mActionBarToolbar = findViewById(R.id.toolbar);
-        String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
-        mActionBarToolbar.setTitle(title);
+        mActionBarToolbar.setTitle(getResources().getString(R.string.expenses));
         setSupportActionBar(mActionBarToolbar);
+
+
+        dbHelper = new DBHelper(this);
+        database = dbHelper.getWritableDatabase();
+
+        gridView = findViewById(R.id.gridViewCheckItem);
+
+        final List<Finance> finances = new ArrayList<Finance>();
+        for(int i = 1; i < 50; i += 1) {
+            finances.add(new Finance(database, i, 1, 5000.00, "вт, 21 Май 2019", 1, 1, "Comment " + i));
+        }
+        gridView.setAdapter(new CheckAdapter(this, finances));
 
         Button buttonChoiceCategory = findViewById(R.id.buttonChoiceCategory);
         buttonChoiceCategory.setOnClickListener(new View.OnClickListener() {
