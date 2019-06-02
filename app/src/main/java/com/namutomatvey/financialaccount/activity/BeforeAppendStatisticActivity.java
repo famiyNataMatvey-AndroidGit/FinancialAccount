@@ -71,7 +71,7 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
         if (!mSettings.contains(getResources().getString(R.string.APP_PREFERENCES_REGISTRATION))) {
-            Intent intent = new Intent(BeforeAppendStatisticActivity.this, SettingActivity.class);
+            Intent intent = new Intent(BeforeAppendStatisticActivity.this, FnsActivity.class);
             startActivityForResult(intent, REQUEST_CODE_REGISTRATION);
 
         } else {

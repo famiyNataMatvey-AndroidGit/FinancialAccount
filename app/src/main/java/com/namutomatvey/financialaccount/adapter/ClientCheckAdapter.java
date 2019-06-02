@@ -123,8 +123,8 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             response_json.put("data", data);
             if (responseCode != HttpsURLConnection.HTTP_NO_CONTENT) {
                 if (responseCode == HttpsURLConnection.HTTP_CONFLICT) {
-                    response_json.put("massage", "Пользователь с данными" + data + " уже существует в базе ФНС");
-                } else response_json.put("massage", "Ошибка взаимодействия с сервером ФНС");
+                    response_json.put("error", "Пользователь с этими данными" + " уже существует в базе ФНС");
+                } else response_json.put("error", "Ошибка взаимодействия с сервером ФНС");
             }
         } catch (JSONException e){
             e.printStackTrace();
@@ -150,8 +150,8 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             response_json.put("code", responseCode);
             if(responseCode != HttpsURLConnection.HTTP_OK){
                 if(responseCode == HttpsURLConnection.HTTP_FORBIDDEN) {
-                    response_json.put("massage", "Некоректный номер телефона или пароль!");
-                } else response_json.put("massage", "Ошибка взаимодействия с сервером ФНС");
+                    response_json.put("error", "Некоректный номер телефона или пароль!");
+                } else response_json.put("error", "Ошибка взаимодействия с сервером ФНС");
             }
         } catch (JSONException e){
             e.printStackTrace();
@@ -194,10 +194,10 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
 
             if (responseCode != HttpsURLConnection.HTTP_NO_CONTENT) {
                 if (responseCode == HttpsURLConnection.HTTP_NOT_FOUND) {
-                    response_json.put("massage","Пользователя с логином" + this.phone + " не существует");
+                    response_json.put("error","Пользователя с логином" + this.phone + " не существует");
                 }
                 else {
-                    response_json.put("massage","Статус запроса отличается от обычного");
+                    response_json.put("error","Ошибка взаимодействия с сервером ФНС");
                 }
             }
         } catch (JSONException e){

@@ -5,6 +5,7 @@
     <string name="title_activity_graph">Графики</string>
     <string name="title_activity_edit">Редактировать</string>
     <string name="title_activity_choice_expenses">Расходы</string>
+    <string name="title_activity_fns">Регистрация FNS</string>
     <string name="title_activity_qr">Сканированный QR Code</string>
 
     <string name="income">Доходы</string>

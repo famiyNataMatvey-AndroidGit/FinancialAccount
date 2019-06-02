@@ -246,7 +246,9 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         datePickerType = sharedPreferences.getInt(TYPE_DATE_PICKER, getResources().getInteger(R.integer.date_picker_day));
         setPickerLayout();
 
-        String table = DBHelper.TABLE_FINANCE + " left outer join " + DBHelper.TABLE_CATEGORY + " on " + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY + " = " + DBHelper.TABLE_CATEGORY + "." + DBHelper.KEY_ID;
+        String table = DBHelper.TABLE_FINANCE + " left outer join " + DBHelper.TABLE_CATEGORY + " on "
+                + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY + " = " + DBHelper.TABLE_CATEGORY
+                + "." + DBHelper.KEY_ID;
         String columns[] = {
                 DBHelper.TABLE_CATEGORY + "." + DBHelper.KEY_NAME + " as " + AS_CATEGORY_NAME,
                 "sum(" + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_AMOUNT + ") as " + AS_FINANCE_SUM,
