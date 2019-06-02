@@ -17,38 +17,32 @@ import com.namutomatvey.financialaccount.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String APP_PREFERENCES = "mysettings";
-    public static final String APP_PREFERENCES_FIRST_LAUNCH = "first_launch";
-    public static final String APP_PREFERENCES_BALANCE = "first_launch";
-
-    private Toolbar mActionBarToolbar;
     private SharedPreferences mSettings;
-    private TextView balanceAmountTextView;
     private Intent intent;
-
+    private TextView balanceAmountTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mActionBarToolbar = findViewById(R.id.toolbar);
+        Toolbar mActionBarToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
 
-        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        // Приложение запущено впервые или восстановлено из памяти?
-        if ( !mSettings.contains(APP_PREFERENCES_FIRST_LAUNCH))   // приложение запущено впервые
+        mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
+
+        if (!mSettings.contains(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH)))   // приложение запущено впервые
         {
             SharedPreferences.Editor editor = mSettings.edit();
-            editor.putBoolean(APP_PREFERENCES_FIRST_LAUNCH, true);
-            editor.putString(APP_PREFERENCES_BALANCE, "0.0");
+            editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH), true);
+            editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount));
             editor.apply();
             new DBHelper(this);
         }
 
 
         balanceAmountTextView = findViewById(R.id.textViewBalanceAmount);
-        balanceAmountTextView.setText(mSettings.getString(APP_PREFERENCES_BALANCE, "0.0"));
+        balanceAmountTextView.setText(mSettings.getString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount)));
 
         ImageButton expensesImageButton = findViewById(R.id.imageButtonExpenses);
         ImageButton incomeImageButton = findViewById(R.id.imageButtonIncome);
@@ -59,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 intent = new Intent(MainActivity.this, ExpenseChoseActivity.class);
-                intent.putExtra("title", getResources().getString(R.string.expenses));
                 startActivity(intent);
             }
         });
@@ -109,13 +102,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        balanceAmountTextView.setText(mSettings.getString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount)));
+        super.onStart();
+    }
+
 
     @Override
     protected void onPause() {
         super.onPause();
-        // Запоминаем данные
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(APP_PREFERENCES_BALANCE, balanceAmountTextView.getText().toString());
+        editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), balanceAmountTextView.getText().toString());
         editor.apply();
     }
 

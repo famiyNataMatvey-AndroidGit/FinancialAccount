@@ -2,8 +2,9 @@ package com.namutomatvey.financialaccount.activity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -22,14 +23,12 @@ import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
-import com.namutomatvey.financialaccount.dto.Category;
+import com.namutomatvey.financialaccount.dto.Finance;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class EnterDataActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -44,9 +43,13 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     private TextView textViewCategoryName;
     private TextView textViewCurrencyName;
     private EditText editTextComment;
+    private EditText editTextAmount;
     private long category;
     private long currency;
+    private long finance_id;
     private int number;
+
+    private Finance finance = null;
 
     private int typeFinanceCategory() {
         switch (number) {
@@ -61,24 +64,42 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         }
     }
 
+    private void updateBalance(Double amount){
+        SharedPreferences mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
+        Double balance = Double.parseDouble(mSettings.getString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount)));
+        balance += amount;
+
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), balance.toString());
+        editor.apply();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_data);
 
         intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
-        number = getIntent().getExtras().getInt("number",  2);
+        number = getIntent().getExtras().getInt("number",  getResources().getInteger(R.integer.click_button_income));
+
+        simpleDate = new SimpleDateFormat("dd.MM.yyyy");
 
         mActionBarToolbar = findViewById(R.id.toolbar);
         String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
 
-        long finance_id = getIntent().getExtras().getLong("finance_id", -1);
+        dateView = findViewById(R.id.textViewDate);
+        textViewCategoryName = findViewById(R.id.financeItemCategoryName);
+        textViewCurrencyName = findViewById(R.id.textViewCurrencyName);
+        editTextComment = findViewById(R.id.editTextComment);
+        editTextAmount = findViewById(R.id.editTextAmount);
+
+        finance_id = getIntent().getExtras().getLong("finance_id", -1);
         dbHelper = new DBHelper(this);
         if (finance_id != -1) {
-            SQLiteDatabase database = dbHelper.getReadableDatabase();
-            Cursor cursor = database.query(DBHelper.TABLE_CATEGORY, null, DBHelper.KEY_ID + " = " + finance_id, null, null, null, null);
+            SQLiteDatabase database = dbHelper.getWritableDatabase();
+            Cursor cursor = database.query(DBHelper.TABLE_FINANCE, null, DBHelper.KEY_ID + " = " + finance_id, null, null, null, null);
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
             int amountIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_AMOUNT);
             int categoryIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CATEGORY);
@@ -86,23 +107,40 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             int currencyIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CURRENCY);
             int dateIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_DATE);
             int typeIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_TYPE);
-            final List<Category> categories = new ArrayList<Category>();
-            if (cursor.moveToFirst()) {
 
-//                categories.add(new Category(database,
-//                        cursor.getLong(idIndex),
-//                        cursor.getString(nameIndex),
-//                        cursor.getInt(typeIndex),
-//                        cursor.getInt(parentIndex)));
+            if (cursor.moveToFirst()) {
+                currency = cursor.getLong(currencyIndex);
+                category = cursor.getLong(categoryIndex);
+
+                finance = new Finance(database,
+                        cursor.getLong(idIndex),
+                        cursor.getInt(typeIndex),
+                        cursor.getDouble(amountIndex),
+                        cursor.getString(dateIndex),
+                        currency,
+                        category,
+                        cursor.getString(commentIndex));
+
+                dateView.setText(finance.getDate());
+                textViewCategoryName.setText(finance.getCategory());
+                textViewCurrencyName.setText(finance.getCurrency());
+                editTextComment.setText(finance.getComment());
+                editTextAmount.setText(Double.toString(finance.getAmount()));
+
+                dateView.setTextColor(Color.BLACK);
+                textViewCategoryName.setTextColor(Color.BLACK);
+                textViewCategoryName.setTextColor(Color.BLACK);
+
             }
+            cursor.close();
 
         }
 
-        date = Calendar.getInstance().getTime();
-        simpleDate = new SimpleDateFormat("dd.MM.yyyy");
+        if(dateView.getText().toString().isEmpty()) {
+            date = Calendar.getInstance().getTime();
+            dateView.setText(simpleDate.format(date));
+        }
 
-        dateView = findViewById(R.id.textViewDate);
-        dateView.setText(simpleDate.format(date));
         dateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +150,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        textViewCategoryName = findViewById(R.id.financeItemCategoryName);
         textViewCategoryName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +160,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        textViewCurrencyName = findViewById(R.id.textViewCurrencyName);
         textViewCurrencyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,20 +179,38 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editTextAmount = findViewById(R.id.editTextAmount);
-
-                SQLiteDatabase database = dbHelper.getWritableDatabase();
-                ContentValues contentCurrencyValues = new ContentValues();
                 String amount = editTextAmount.getText().toString();
                 if(amount.isEmpty() || category == -1 || currency == -1)
                     return;
-                contentCurrencyValues.put(DBHelper.KEY_FINANCE_TYPE, typeFinanceCategory());
-                contentCurrencyValues.put(DBHelper.KEY_FINANCE_DATE, dateView.getText().toString());
-                contentCurrencyValues.put(DBHelper.KEY_FINANCE_AMOUNT, Double.parseDouble(amount));
-                contentCurrencyValues.put(DBHelper.KEY_FINANCE_CATEGORY, category);
-                contentCurrencyValues.put(DBHelper.KEY_FINANCE_CURRENCY, currency);
-                contentCurrencyValues.put(DBHelper.KEY_FINANCE_COMMENT, editTextComment.getText().toString());
-                database.insert(DBHelper.TABLE_FINANCE, null, contentCurrencyValues);
+
+                if(finance_id != -1) {
+                    Double old_amount = finance.getCoefficient();
+                    if(typeFinanceCategory() == DBHelper.FINANCE_TYPE_INCOME)
+                        updateBalance(-1.0 * old_amount);
+                    else
+                        updateBalance(old_amount);
+                    finance.updateFinance(typeFinanceCategory(),
+                            Double.parseDouble(amount),
+                            dateView.getText().toString(),
+                            currency,
+                            category,
+                            editTextComment.getText().toString());
+                } else {
+                    SQLiteDatabase database = dbHelper.getWritableDatabase();
+                    finance = new Finance(database,
+                            typeFinanceCategory(),
+                            Double.parseDouble(amount),
+                            dateView.getText().toString(),
+                            currency,
+                            category,
+                            editTextComment.getText().toString()
+                    );
+                }
+                Double new_amount = finance.getCoefficient();
+                if(typeFinanceCategory() == DBHelper.FINANCE_TYPE_INCOME)
+                    updateBalance(new_amount);
+                else
+                    updateBalance(-1.0 * new_amount);
                 finish();
             }
         });
@@ -185,6 +239,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     assert data != null;
                     category = data.getLongExtra("category", -1);
                     textViewCategoryName.setText(data.getStringExtra("category_name"));
+                    textViewCategoryName.setTextColor(Color.BLACK);
                 }
                 break;
             }
@@ -193,6 +248,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     assert data != null;
                     currency = data.getLongExtra("currency", -1);
                     textViewCurrencyName.setText(data.getStringExtra("currency_name"));
+                    textViewCurrencyName.setTextColor(Color.BLACK);
                 }
                 break;
             }

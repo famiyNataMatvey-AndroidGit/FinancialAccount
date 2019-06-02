@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class CalendarFragment extends AppCompatDialogFragment {
@@ -19,6 +20,5 @@ public class CalendarFragment extends AppCompatDialogFragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         return  new DatePickerDialog(getActivity(),(DatePickerDialog.OnDateSetListener) getActivity(),year, month, day);
     }
-
 
 }

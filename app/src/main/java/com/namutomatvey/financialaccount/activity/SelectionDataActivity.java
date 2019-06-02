@@ -1,6 +1,7 @@
 package com.namutomatvey.financialaccount.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -29,18 +31,18 @@ import java.util.List;
 //implements AdapterView.OnItemSelectedListener
 public class SelectionDataActivity extends AppCompatActivity  {
 
-    DBHelper dbHelper;
-    SQLiteDatabase database;
-    GridView gridView;
+    private DBHelper dbHelper;
+    private SQLiteDatabase database;
+    private GridView gridView;
+    private CategoryAdapter categoryAdapter;
 
     private Toolbar mActionBarToolbar;
-    Cursor cursor;
-    int number;
-    int resourceCategory;
-    int resourceCurrency;
+    private Cursor cursor;
+    private int number;
+    private int resourceCategory;
+    private int resourceCurrency;
 
-    EditText editTextNewCategory;
-    ImageButton imageButtonAccept;
+    private EditText editTextNewCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,9 @@ public class SelectionDataActivity extends AppCompatActivity  {
             int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
             int typeIndex = cursor.getColumnIndex(DBHelper.KEY_CATEGORY_TYPE);
             int parentIndex = cursor.getColumnIndex(DBHelper.KEY_PARENT);
+
             final List<Category> categories = new ArrayList<Category>();
+
             if (cursor.moveToFirst()) {
                 do {
                     categories.add(new Category(database,
@@ -77,10 +81,11 @@ public class SelectionDataActivity extends AppCompatActivity  {
                                                 cursor.getInt(parentIndex)));
                 } while (cursor.moveToNext());
             }
-            gridView.setAdapter(new CategoryAdapter(this, categories));
+            categoryAdapter = new CategoryAdapter(this, categories);
+            gridView.setAdapter(categoryAdapter);
 
             editTextNewCategory = findViewById(R.id.editTextNewCategory);
-            imageButtonAccept = findViewById(R.id.imageButtonAccept);
+            ImageButton imageButtonAccept = findViewById(R.id.imageButtonAccept);
 
             imageButtonAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,19 +95,27 @@ public class SelectionDataActivity extends AppCompatActivity  {
                         Toast.makeText(SelectionDataActivity.this, "Введите наименование категории", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    categories.add(new Category(database, newCategory, categoryType, null));
+                    categoryAdapter.addingItemAdapter(new Category(database, newCategory, categoryType, null));
+                    gridView.setAdapter(categoryAdapter);
+                    editTextNewCategory.setText("");
+                    InputMethodManager inputManager = (InputMethodManager) SelectionDataActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(SelectionDataActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             });
         } else if(number == resourceCurrency){
             LinearLayout linearLayoutCategory = findViewById(R.id.linearLayoutCategory);
             linearLayoutCategory.setVisibility(View.INVISIBLE);
+
             database = dbHelper.getReadableDatabase();
             cursor = database.query(DBHelper.TABLE_CURRENCY, null, null, null, null, null, null);
+
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
             int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
             int shortNameIndex = cursor.getColumnIndex(DBHelper.KEY_SHORT_NAME);
             int coefficientIndex = cursor.getColumnIndex(DBHelper.KEY_COEFFICIENT);
+
             List<Currency> currencies = new ArrayList<Currency>();
+
             if (cursor.moveToFirst()) {
                 do {
                     currencies.add(new Currency(cursor.getLong(idIndex),
@@ -111,26 +124,22 @@ public class SelectionDataActivity extends AppCompatActivity  {
                                                 cursor.getDouble(coefficientIndex)));
                 } while (cursor.moveToNext());
             }
+
             gridView.setAdapter(new CurrencyAdapter(this, currencies));
         }
-//        gridView.setOnItemSelectedListener(this);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                // TODO Auto-generated method stub
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Object o = gridView.getItemAtPosition(position);
                 if (number == resourceCurrency) {
                     Currency currency = (Currency) o;
-                    Toast.makeText(SelectionDataActivity.this, "Selected :" + " " + currency.getName(), Toast.LENGTH_LONG).show();
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("currency_name", currency.getName());
                     resultIntent.putExtra("currency", currency.getId());
                     setResult(Activity.RESULT_OK, resultIntent);
                 } else if (number == resourceCategory) {
                     Category category = (Category) o;
-                    Toast.makeText(SelectionDataActivity.this, "Selected :" + " " + category.getName(), Toast.LENGTH_LONG).show();
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("category_name", category.getName());
                     resultIntent.putExtra("category", category.getId());

@@ -42,7 +42,7 @@ public class CurrencyAdapter extends BaseAdapter {
         if (convertView == null) {
             textView = new TextView(context);
             textView.setText(currencies.get(position).getName());
-            textView.setTextSize(18);
+            textView.setTextSize(24);
         } else {
             textView = (TextView) convertView;
         }

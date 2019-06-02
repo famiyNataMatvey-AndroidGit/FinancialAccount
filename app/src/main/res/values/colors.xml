@@ -3,6 +3,6 @@
     <color name="colorDark">#005b9f</color>
     <color name="colorLight">#5EB8FF</color>
     <color name="colorBase">#0288D1</color>
-    <color name="main_background_white">#ffffff</color>
+    <color name="main_background_white">#FFFFFF</color>
     <color name="main_background_gray">#b0bec5</color>
 </resources>

@@ -26,7 +26,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|center_horizontal|top"
                 android:text="@string/balance"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/textViewBalanceAmount"
@@ -35,7 +36,8 @@
                 android:layout_gravity="end"
                 android:gravity="center_vertical|end"
                 android:text="@string/default_hint_amount"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="24sp" />
         </android.support.v7.widget.CardView>
 
         <TableLayout

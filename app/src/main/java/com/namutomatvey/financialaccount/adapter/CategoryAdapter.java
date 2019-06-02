@@ -42,12 +42,16 @@ public class CategoryAdapter extends BaseAdapter {
         if (convertView == null) {
             textView = new TextView(context);
             textView.setText(categories.get(position).getName());
-            textView.setTextSize(18);
+            textView.setTextSize(24);
         } else {
             textView = (TextView) convertView;
         }
         textView.setId(position);
 
         return textView;
+    }
+
+    public void addingItemAdapter(Category category){
+        this.categories.add(category);
     }
 }

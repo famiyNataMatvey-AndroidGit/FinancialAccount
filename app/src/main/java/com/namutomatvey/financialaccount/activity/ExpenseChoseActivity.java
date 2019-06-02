@@ -14,9 +14,6 @@ import com.namutomatvey.financialaccount.R;
 public class ExpenseChoseActivity extends AppCompatActivity {
     private Toolbar mActionBarToolbar;
     private Intent intent;
-    private String title;
-
-    public static final int REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +24,7 @@ public class ExpenseChoseActivity extends AppCompatActivity {
         ImageButton imageButtonCashVoucher = findViewById(R.id.imageButtonCashVoucher);
 
         mActionBarToolbar = findViewById(R.id.toolbar);
-        title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
-        mActionBarToolbar.setTitle(title);
+        mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_choice_expenses));
         setSupportActionBar(mActionBarToolbar);
 
         imageButtonExpenses.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +32,7 @@ public class ExpenseChoseActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                 intent = new Intent(ExpenseChoseActivity.this, EnterDataActivity.class);
-                intent.putExtra("title", title);
+                intent.putExtra("title", getResources().getString(R.string.expenses));
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_expenses));
                 startActivity(intent);
                 }
@@ -47,7 +43,6 @@ public class ExpenseChoseActivity extends AppCompatActivity {
               @Override
               public void onClick(View v) {
                   intent = new Intent(ExpenseChoseActivity.this, BeforeAppendStatisticActivity.class);
-                  intent.putExtra("title", title);
                   startActivity(intent);
               }
           }

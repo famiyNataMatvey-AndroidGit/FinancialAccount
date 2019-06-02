@@ -4,6 +4,8 @@
     <string name="title_activity_statistics">Статистика</string>
     <string name="title_activity_graph">Графики</string>
     <string name="title_activity_edit">Редактировать</string>
+    <string name="title_activity_choice_expenses">Расходы</string>
+    <string name="title_activity_qr">Сканированный QR Code</string>
 
     <string name="income">Доходы</string>
     <string name="expenses">Расходы</string>
@@ -40,6 +42,8 @@
     <string name="default_hint_amount">00.00</string>
     <string name="default_hint_date">00.00.0000</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="APP_PREFERENCES">mysettings</string>
+    <string name="APP_PREFERENCES_FIRST_LAUNCH">first_launch</string>
+    <string name="APP_PREFERENCES_BALANCE">balance</string>
+    <string name="APP_PREFERENCES_REGISTRATION">registration_fns</string>
 </resources>
