@@ -24,33 +24,50 @@ public class FinanceActivity extends AppCompatActivity  {
     private DBHelper dbHelper;
     private SQLiteDatabase database;
     private GridView gridView;
-    public int number;
-
+    private long category_id;
     private Toolbar mActionBarToolbar;
-    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finance_layout);
 
-        number = getIntent().getIntExtra("number", 2);
-
         mActionBarToolbar = findViewById(R.id.toolbar);
         String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
 
+        category_id = getIntent().getExtras().getLong("categoryId");
+
         dbHelper = new DBHelper(this);
         database = dbHelper.getWritableDatabase();
+        Cursor cursor = database.query(DBHelper.TABLE_FINANCE, null, DBHelper.KEY_FINANCE_CATEGORY + " = " + category_id, null, null, null, null);
+
+        int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+        int amountIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_AMOUNT);
+        int categoryIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CATEGORY);
+        int commentIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_COMMENT);
+        int currencyIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CURRENCY);
+        int dateIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_DATE);
+        int typeIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_TYPE);
+
+        final List<Finance> finances = new ArrayList<Finance>();
+        if (cursor.moveToFirst()) {
+            do {
+                finances.add(new Finance(database,
+                        cursor.getLong(idIndex),
+                        cursor.getInt(typeIndex),
+                        cursor.getDouble(amountIndex),
+                        cursor.getString(dateIndex),
+                        cursor.getLong(currencyIndex),
+                        cursor.getLong(categoryIndex),
+                        cursor.getString(commentIndex)));
+            } while (cursor.moveToNext());
+        }
 
         gridView = findViewById(R.id.gridViewFinance);
 
-        final List<Finance> finances = new ArrayList<Finance>();
-        for(int i = 1; i < 50; i += 1) {
-            finances.add(new Finance(database, i, 1, 5000.00, "вт, 21 Май 2019", 1, 1, "Comment " + i));
-        }
-        gridView.setAdapter(new FinanceAdapter(this, finances, 2));
+        gridView.setAdapter(new FinanceAdapter(this, finances));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

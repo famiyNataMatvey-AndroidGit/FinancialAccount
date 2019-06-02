@@ -14,6 +14,7 @@
         android:layout_marginTop="8dp"
         android:text="Country Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="24sp" />
 
 
@@ -30,7 +31,8 @@
         android:layout_marginEnd="48dp"
         android:layout_marginRight="48dp"
         android:text="Сумма"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
         android:id="@+id/textViewQRCurrency"
@@ -50,10 +52,11 @@
         android:id="@+id/imageViewQRChoice"
         android:layout_width="35dp"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="8dp"
         app:srcCompat="@drawable/ic_accept" />
 
 

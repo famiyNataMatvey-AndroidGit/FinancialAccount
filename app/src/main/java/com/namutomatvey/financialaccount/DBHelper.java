@@ -5,13 +5,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 public class DBHelper  extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "financialAccountDb";
     public static final String TABLE_CURRENCY = "currency";
     public static final String TABLE_CATEGORY = "category";
@@ -81,33 +77,20 @@ public class DBHelper  extends SQLiteOpenHelper{
         String [] CategoryNames = {"Фрукты", "Овощи", "Кисломолочные продукты", "Напитки", "Быт"};
         Integer [] CategoryTypes = {FINANCE_TYPE_INCOME, FINANCE_TYPE_EXPENSES, FINANCE_TYPE_MONEYBOX};
         String [] CurrencyNames = {"Доллар", "Рубль", "Евро"};
-        Double [] CurrencyCoefficients = {66.7, 1.0, 75.25};
+        String [] CurrencyShortNames = {"DOL", "RUB", "EUR"};
+        Double [] CurrencyCoefficients = {66.00, 1.0, 75.00};
         for (int i = 0; i < 5; i += 1) {
             ContentValues contentCategoryValues = new ContentValues();
             contentCategoryValues.put(KEY_NAME, CategoryNames[i]);
-            contentCategoryValues.put(KEY_CATEGORY_TYPE, FINANCE_TYPE_INCOME);
+            contentCategoryValues.put(KEY_CATEGORY_TYPE, FINANCE_TYPE_EXPENSES);
             database.insert(TABLE_CATEGORY, null, contentCategoryValues);
         }
         for (int i = 0; i < 3; i += 1) {
             ContentValues contentCurrencyValues = new ContentValues();
             contentCurrencyValues.put(KEY_NAME, CurrencyNames[i]);
+            contentCurrencyValues.put(KEY_SHORT_NAME, CurrencyShortNames[i]);
             contentCurrencyValues.put(KEY_COEFFICIENT, CurrencyCoefficients[i]);
             database.insert(TABLE_CURRENCY, null, contentCurrencyValues);
-        }
-        for (int i = 0; i < 3; i += 1) {
-            ContentValues contentCurrencyValues = new ContentValues();
-            Date date = Calendar.getInstance().getTime();
-            SimpleDateFormat simpleDate =  new SimpleDateFormat("dd-MM-yyyy");
-            String str_date = simpleDate.format(date);
-            for (int j = 0; j < 3; j += 1) {
-                contentCurrencyValues.put(KEY_FINANCE_TYPE, CategoryTypes[i]);
-                contentCurrencyValues.put(KEY_FINANCE_DATE, str_date);
-                contentCurrencyValues.put(KEY_FINANCE_COMMENT, "Комент 1");
-                contentCurrencyValues.put(KEY_FINANCE_AMOUNT, 179 * CurrencyCoefficients[j]);
-                contentCurrencyValues.put(KEY_FINANCE_CATEGORY, i);
-                contentCurrencyValues.put(KEY_FINANCE_CURRENCY, i);
-                database.insert(TABLE_FINANCE, null, contentCurrencyValues);
-            }
         }
     }
 

@@ -12,8 +12,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/buttonChoiceCategory"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        >
+        app:layout_constraintVertical_bias="0.0">
 
         <include layout="@layout/toolbar" />
 
@@ -21,12 +20,12 @@
             android:id="@+id/gridViewCheckItem"
             android:layout_width="match_parent"
             android:layout_height="420dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="16dp"
             android:columnWidth="120dp"
             android:gravity="center"
             android:numColumns="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
             android:scrollbars="vertical"
             android:verticalSpacing="2dp"
             tools:layout_editor_absoluteX="8dp"

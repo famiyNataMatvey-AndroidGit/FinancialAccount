@@ -20,12 +20,10 @@ public class FinanceAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private List<Finance> finances;
-    private int number;
 
-    public FinanceAdapter(Context context, List<Finance> finances, int number) {
+    public FinanceAdapter(Context context, List<Finance> finances) {
         this.context = context;
         this.finances = finances;
-        this.number = number;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -64,13 +62,13 @@ public class FinanceAdapter extends BaseAdapter {
         holder.StatisticsDate.setText(finance.getDate());
         holder.StatisticsComment.setText(finance.getComment());
         holder.StatisticsAmount.setText(Double.toString(finance.getAmount()));
-        holder.StatisticsCurrency.setText(finance.getCategory());
+        holder.StatisticsCurrency.setText(finance.getCurrency());
         holder.StatisticsChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EnterDataActivity.class);
                 intent.putExtra("title", context.getResources().getString(R.string.title_activity_edit));
-                intent.putExtra("number", number);
+                intent.putExtra("number", finance.getType() + 1);
                 intent.putExtra("finance_id", finance.getId());
                 context.startActivity(intent);
             }

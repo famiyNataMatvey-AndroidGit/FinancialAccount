@@ -51,6 +51,10 @@ public class Finance {
         return id;
     }
 
+    public int getType() {
+        return type;
+    }
+
     public double getAmount() {
         return amount;
     }

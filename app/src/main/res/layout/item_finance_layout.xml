@@ -5,14 +5,16 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textViewStatisticsDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Country Name"
-        android:id="@+id/textViewStatisticsDate"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="2dp"
+        android:text="Country Name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
         android:id="@+id/textViewStatisticsComment"
@@ -34,10 +36,11 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginRight="35dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
         android:text="Сумма"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
         android:id="@+id/textViewStatisticsCurrency"
@@ -49,8 +52,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginRight="34dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
         android:text="RUS"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -61,7 +64,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        app:srcCompat="@drawable/ic_simple_menu" />
+        android:layout_marginRight="8dp"
+        app:srcCompat="@drawable/ic_simple_menu"
+        android:layout_marginEnd="8dp" />
 
 
 </RelativeLayout>

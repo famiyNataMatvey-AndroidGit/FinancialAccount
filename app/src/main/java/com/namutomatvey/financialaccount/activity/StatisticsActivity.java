@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -75,6 +76,8 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
     private Date dateTo;
     private Date dateFrom;
 
+    private String AS_CATEGORY_NAME = "category_name";
+    private String AS_FINANCE_SUM = "amount_sum";
     private GridView gridViewFinanceCategory;
 
     private static final String APP_PREFERENCES = "mysettings";
@@ -94,12 +97,6 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
                 return DBHelper.FINANCE_TYPE_INCOME;
         }
     }
-
-//    private List<ViewCategory> getCategorySum() {
-//        database = dbHelper.getReadableDatabase();
-//        Cursor cursor = database.query(DBHelper.TABLE_FINANCE, null, null, null, DBHelper.KEY_FINANCE_CATEGORY, null, null);
-//        return List [new ViewCategory(1, "A", 12)];
-//    }
 
     private void moveDatePickerType(Date date_to, Boolean is_direction) {
         int sign = 1;
@@ -249,9 +246,30 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         datePickerType = sharedPreferences.getInt(TYPE_DATE_PICKER, getResources().getInteger(R.integer.date_picker_day));
         setPickerLayout();
 
+        String table = DBHelper.TABLE_FINANCE + " left outer join " + DBHelper.TABLE_CATEGORY + " on " + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY + " = " + DBHelper.TABLE_CATEGORY + "." + DBHelper.KEY_ID;
+        String columns[] = {
+                DBHelper.TABLE_CATEGORY + "." + DBHelper.KEY_NAME + " as " + AS_CATEGORY_NAME,
+                "sum(" + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_AMOUNT + ") as " + AS_FINANCE_SUM,
+                DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY};
+        String selection = DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_TYPE + " = " + typeFinanceCategory();
+        String groupBy = DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY;
+        dbHelper = new DBHelper(this);
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.query(table, columns, selection, null, groupBy, null, null);
+
         final List<ViewCategory> viewCategories = new ArrayList<ViewCategory>();
-        for (int i = 0; i < 15; i += 1){
-            viewCategories.add(new ViewCategory(i, "Тест " + i, 5000.10));
+        if (cursor.moveToFirst()) {
+            int categoryIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CATEGORY);
+            int categoryNameIndex = cursor.getColumnIndex(AS_CATEGORY_NAME);
+            int sumIndex = cursor.getColumnIndex(AS_FINANCE_SUM);
+            do {
+
+                viewCategories.add(new ViewCategory(
+                        cursor.getLong(categoryIndex),
+                        cursor.getString(categoryNameIndex),
+                        cursor.getDouble(sumIndex)));
+
+            } while (cursor.moveToNext());
         }
         gridViewFinanceCategory.setAdapter(new ViewCategoryAdapter(this, viewCategories));
 
@@ -317,7 +335,6 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-
         menu.setGroupVisible(R.id.menu_group_period, true);
         MenuItem setting_item = menu.findItem(R.id.menu_settings);
         setting_item.setVisible(false);

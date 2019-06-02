@@ -107,6 +107,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
             linearLayoutCategory.setVisibility(View.INVISIBLE);
 
             database = dbHelper.getReadableDatabase();
+
             cursor = database.query(DBHelper.TABLE_CURRENCY, null, null, null, null, null, null);
 
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
@@ -135,7 +136,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
                 if (number == resourceCurrency) {
                     Currency currency = (Currency) o;
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("currency_name", currency.getName());
+                    resultIntent.putExtra("currency_name", currency.getShortName());
                     resultIntent.putExtra("currency", currency.getId());
                     setResult(Activity.RESULT_OK, resultIntent);
                 } else if (number == resourceCategory) {
