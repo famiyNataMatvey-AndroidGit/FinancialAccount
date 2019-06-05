@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,6 +28,8 @@ import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.adapter.ViewCategoryAdapter;
 import com.namutomatvey.financialaccount.dto.ViewCategory;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
+
+import org.achartengine.GraphicalView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,6 +49,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
     private int number;
     private int datePickerType;
     private int datePickerIdentifier;
+    private GraphicalView graphicalView;
 
     private RelativeLayout datePickerLayout;
     private RelativeLayout datePickerCustomLayout;
@@ -75,6 +79,8 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
 
     private Date dateTo;
     private Date dateFrom;
+
+    private List<ViewCategory> viewCategories;
 
     private String AS_CATEGORY_NAME = "category_name";
     private String AS_FINANCE_SUM = "amount_sum";
@@ -208,6 +214,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -259,13 +266,17 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.query(table, columns, selection, null, groupBy, null, null);
 
-        final List<ViewCategory> viewCategories = new ArrayList<ViewCategory>();
+        List<String> categoryNames =  new ArrayList<String>();;
+        List<Double> categoryAmounts =  new ArrayList<Double>();;
+
+        viewCategories = new ArrayList<ViewCategory>();
         if (cursor.moveToFirst()) {
             int categoryIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CATEGORY);
             int categoryNameIndex = cursor.getColumnIndex(AS_CATEGORY_NAME);
             int sumIndex = cursor.getColumnIndex(AS_FINANCE_SUM);
             do {
-
+                categoryNames.add(cursor.getString(categoryNameIndex));
+                categoryAmounts.add(cursor.getDouble(sumIndex));
                 viewCategories.add(new ViewCategory(
                         cursor.getLong(categoryIndex),
                         cursor.getString(categoryNameIndex),
@@ -274,6 +285,11 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
             } while (cursor.moveToNext());
         }
         gridViewFinanceCategory.setAdapter(new ViewCategoryAdapter(this, viewCategories));
+
+        PieGraph pieGraph = new PieGraph();
+        GraphicalView graphicalView = pieGraph.getGraphicalView(this, categoryNames, categoryAmounts);
+        LinearLayout pieGraphLinerLayout = findViewById(R.id.pieGraphLinerLayout);
+        pieGraphLinerLayout.addView(graphicalView);
 
         changeDatePickerType(null, null);
 

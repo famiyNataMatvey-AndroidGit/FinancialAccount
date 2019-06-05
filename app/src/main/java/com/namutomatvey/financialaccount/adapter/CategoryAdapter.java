@@ -1,6 +1,7 @@
 package com.namutomatvey.financialaccount.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -42,10 +43,12 @@ public class CategoryAdapter extends BaseAdapter {
         if (convertView == null) {
             textView = new TextView(context);
             textView.setText(categories.get(position).getName());
-            textView.setTextSize(24);
+            textView.setTextColor(Color.BLACK);
+            textView.setTextSize(18);
         } else {
             textView = (TextView) convertView;
         }
+//        textView.setBackgroundResource(R.drawable.border_box);
         textView.setId(position);
 
         return textView;

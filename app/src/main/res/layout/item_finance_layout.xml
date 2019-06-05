@@ -12,6 +12,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toStartOf="@+id/textViewStatisticsAmount"
+        android:layout_toLeftOf="@+id/textViewStatisticsAmount"
         android:text="Country Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/common_google_signin_btn_text_dark_focused" />
@@ -23,13 +27,17 @@
         android:layout_below="@+id/textViewStatisticsDate"
         android:layout_alignStart="@+id/textViewStatisticsDate"
         android:layout_alignLeft="@+id/textViewStatisticsDate"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_toStartOf="@+id/textViewStatisticsCurrency"
+        android:layout_toLeftOf="@+id/textViewStatisticsCurrency"
         android:text="Population"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/textViewStatisticsAmount"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:layout_alignEnd="@id/imageViewStatisticsChoice"
         android:layout_alignRight="@id/imageViewStatisticsChoice"
         android:layout_alignParentTop="true"
@@ -51,7 +59,6 @@
         android:layout_alignRight="@id/imageViewStatisticsChoice"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="0dp"
         android:layout_marginEnd="48dp"
         android:layout_marginRight="48dp"
         android:text="RUS"

@@ -9,5 +9,17 @@
         android:orientation="vertical">
 
         <include layout="@layout/toolbar" />
+
+        <Button
+            android:id="@+id/buttonGoToFns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="Аккаунт FNS"
+            android:visibility="visible" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

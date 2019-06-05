@@ -25,7 +25,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="25dp"
                 android:layout_marginLeft="25dp"
-                android:background="@color/colorLight"
+                android:background="@drawable/border_box"
                 app:srcCompat="@drawable/ic_edit" />
 
             <ImageButton
@@ -37,7 +37,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="25dp"
                 android:layout_marginRight="25dp"
-                android:background="@color/colorLight"
+                android:background="@drawable/border_box"
                 app:srcCompat="@drawable/ic_camera" />
         </RelativeLayout>
     </LinearLayout>

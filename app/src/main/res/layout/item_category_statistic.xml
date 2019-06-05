@@ -7,10 +7,18 @@
         android:id="@+id/financeItemCategoryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_toStartOf="@+id/financeItemAmount"
+        android:layout_toLeftOf="@+id/financeItemAmount"
         android:text="Category Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="24sp" />
+        android:textSize="18sp"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/financeItemAmount"
@@ -22,6 +30,7 @@
         android:text="Amount"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="24sp" />
+        android:textSize="18sp"
+        android:layout_marginEnd="8dp" />
 
 </RelativeLayout>
