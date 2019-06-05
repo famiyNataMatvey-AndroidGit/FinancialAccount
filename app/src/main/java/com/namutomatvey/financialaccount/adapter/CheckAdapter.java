@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.dto.Finance;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckAdapter extends BaseAdapter {
@@ -18,6 +19,7 @@ public class CheckAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private List<Finance> finances;
+
 
     public CheckAdapter(Context context, List<Finance> finances) {
         this.context = context;
@@ -40,7 +42,6 @@ public class CheckAdapter extends BaseAdapter {
         return this.getItem(position).getId();
     }
 
-
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
@@ -55,13 +56,23 @@ public class CheckAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Finance finance = this.finances.get(position);
-        holder.QRCurrency.setText("Тест " + position);
+        final Finance finance = this.getItem(position);
+        holder.QRCurrency.setText(finance.getCurrency());
         holder.QRComment.setText(finance.getComment());
         holder.QRAmount.setText(Double.toString(finance.getAmount()));
+        holder.QRChoice.setTag(position);
         holder.QRChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Finance tempItem = getItem((Integer) v.getTag());
+                ImageView imageViewTemp = (ImageView) v;
+                if(tempItem.box){
+                    tempItem.box = false;
+                    imageViewTemp.setImageResource(R.drawable.ic_check_false);
+                } else {
+                    tempItem.box = true;
+                    imageViewTemp.setImageResource(R.drawable.ic_check_true);
+                }
             }
         });
         return convertView;
@@ -73,5 +84,14 @@ public class CheckAdapter extends BaseAdapter {
         TextView QRComment;
         TextView QRAmount;
         TextView QRCurrency;
+    }
+
+    public ArrayList<Finance> getCheckFinance() {
+        ArrayList<Finance> arrayFinances = new ArrayList<Finance>();
+        for (Finance finance : finances) {
+            if (finance.box)
+                arrayFinances.add(finance);
+        }
+        return arrayFinances;
     }
 }

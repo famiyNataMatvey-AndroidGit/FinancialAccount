@@ -15,7 +15,7 @@
         android:text="Country Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
 
     <TextView
@@ -32,7 +32,8 @@
         android:layout_marginRight="48dp"
         android:text="Сумма"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textViewQRCurrency"
@@ -57,7 +58,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="5dp"
         android:layout_marginRight="8dp"
-        app:srcCompat="@drawable/ic_accept" />
+        app:srcCompat="@drawable/ic_check_false" />
 
 
 </RelativeLayout>

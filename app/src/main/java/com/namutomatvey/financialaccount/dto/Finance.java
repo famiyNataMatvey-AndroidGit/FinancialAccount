@@ -14,8 +14,18 @@ public class Finance {
     private String comment;
     private long category;
     private long currency;
+    public boolean box = false;
 
     private SQLiteDatabase database;
+
+    public Finance(SQLiteDatabase database, int type, double amount, String date, long currency, String comment) {
+        this.type = type;
+        this.amount = amount;
+        this.date = date;
+        this.currency = currency;
+        this.comment = comment;
+        this.database = database;
+    }
 
     public Finance(SQLiteDatabase database, long id, int type, double amount, String date, long currency, long category, String comment) {
         this.id = id;
@@ -37,14 +47,6 @@ public class Finance {
         this.comment = comment;
         this.database = database;
         this.getCoefficient();
-        ContentValues contentFinanceValues = new ContentValues();
-        contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE,  this.type);
-        contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, this.amount);
-        contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, this.date);
-        contentFinanceValues.put(DBHelper.KEY_FINANCE_COMMENT, this.comment);
-        contentFinanceValues.put(DBHelper.KEY_FINANCE_CATEGORY, this.category);
-        contentFinanceValues.put(DBHelper.KEY_FINANCE_CURRENCY, this.currency);
-        this.id = database.insert(DBHelper.TABLE_FINANCE, null, contentFinanceValues);
     }
 
     public long getId() {
@@ -95,6 +97,21 @@ public class Finance {
              coefficientTemp = cursor.getDouble(coefficientIndex);
         cursor.close();
         return this.amount * coefficientTemp;
+    }
+
+    public void setCategory(long category_id){
+        this.category = category_id;
+    }
+
+    public void createFinance(){
+        ContentValues contentFinanceValues = new ContentValues();
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE,  this.type);
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, this.amount);
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, this.date);
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_COMMENT, this.comment);
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_CATEGORY, this.category);
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_CURRENCY, this.currency);
+        this.id = database.insert(DBHelper.TABLE_FINANCE, null, contentFinanceValues);
     }
 
     public void updateFinance(int type, double amount, String date, long currency, long category, String comment) {

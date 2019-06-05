@@ -205,6 +205,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                             category,
                             editTextComment.getText().toString()
                     );
+                    finance.createFinance();
                 }
                 Double new_amount = finance.getCoefficient();
                 if(typeFinanceCategory() == DBHelper.FINANCE_TYPE_INCOME)

@@ -227,10 +227,10 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             response_json.put("code", responseCode);
             if(responseCode != HttpsURLConnection.HTTP_NO_CONTENT){
                 if(responseCode == HttpsURLConnection.HTTP_NOT_ACCEPTABLE) {
-                    response_json.put("massage", "Чек не найден.");
+                    response_json.put("error", "Чек не найден.");
                 } else if(responseCode == HttpsURLConnection.HTTP_BAD_REQUEST) {
-                    response_json.put("massage", "Не указана сумма или дата");
-                } else response_json.put("massage", "Ошибка взаимодействия с сервером ФНС");
+                    response_json.put("error", "Не указана сумма или дата");
+                } else response_json.put("error", "Ошибка взаимодействия с сервером ФНС");
             }
         } catch (JSONException e){
             e.printStackTrace();
@@ -240,7 +240,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
         return response_json;
     }
 
-    private JSONObject getCheck(String FN, String FD, String FPD, String date, String sum){
+    private JSONObject getCheck(String FN, String FD, String FPD, String date, String sum) {
         isCheck(FN, FD, FPD, date, sum);
         JSONObject response_json = new JSONObject();
         try {
@@ -260,11 +260,11 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             response_json.put("code", responseCode);
             if (responseCode != HttpsURLConnection.HTTP_OK) {
                 if (responseCode == HttpsURLConnection.HTTP_FORBIDDEN) {
-                    response_json.put("massage","Указаны некоректные данные пользователя.");
+                    response_json.put("error","Указаны некоректные данные пользователя.");
                 } else if (responseCode == HttpsURLConnection.HTTP_NOT_ACCEPTABLE) {
-                    response_json.put("massage", "Чек не найден.");
+                    response_json.put("error", "Чек не найден.");
                 } else {
-                    response_json.put("massage", "Неизвестный код пришел от ФНС");
+                    response_json.put("error", "Неизвестный код пришел от ФНС");
                 }
             }
             else {
@@ -275,7 +275,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
                     sb.append(s);
                 }
                 reader.close();
-                response_json.put("massage", sb.toString());
+                response_json.put("massage", new JSONObject(sb.toString()));
             }
         } catch (JSONException e){
             e.printStackTrace();

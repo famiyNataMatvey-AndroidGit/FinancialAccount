@@ -52,7 +52,7 @@ public class FnsActivity extends AppCompatActivity {
     public static final String APP_PREFERENCES_FNS_EMAIL = "fns_email";
     public static final String APP_PREFERENCES_FNS_NAME = "fns_name";
     public static final String APP_PREFERENCES_FNS_PHONE = "fns_phone";
-    public static final String APP_PREFERENCES_FNS_PASSWORD = "fns_phone";
+    public static final String APP_PREFERENCES_FNS_PASSWORD = "fns_password";
 
     public static final int PERMISSION_REQUEST = 200;
 
@@ -62,7 +62,6 @@ public class FnsActivity extends AppCompatActivity {
 
     private LinearLayout layoutFnsEmail;
     private LinearLayout layoutFnsName;
-    private LinearLayout layoutFnsPhone;
     private LinearLayout layoutFnsPassword;
 
     @Override
@@ -81,7 +80,6 @@ public class FnsActivity extends AppCompatActivity {
 
         layoutFnsEmail = findViewById(R.id.layoutFnsEmail);
         layoutFnsName = findViewById(R.id.layoutFnsName);
-        layoutFnsPhone = findViewById(R.id.layoutFnsPhone);
         layoutFnsPassword = findViewById(R.id.layoutFnsPassword);
 
         registration = findViewById(R.id.buttonReg);

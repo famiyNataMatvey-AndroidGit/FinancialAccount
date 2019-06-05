@@ -169,7 +169,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/home/matvey/.local/share/JetBrains/Toolbox/apps/AndroidStudio/ch-0/183.5452501/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_shopping_cart_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/home/matvey/.local/share/JetBrains/Toolbox/apps/AndroidStudio/ch-0/183.5452501/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_check_circle_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -179,12 +179,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="96" />
-                            <entry key="outputName" value="ic_statistic" />
+                            <entry key="color" value="5eb8ff" />
+                            <entry key="outputName" value="ic_check_true" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="$USER_HOME$/Рабочий стол/Иконки для приложения/increasing-stocks-graphic-of-bars.svg" />
-                            <entry key="width" value="96" />
                           </map>
                         </option>
                       </PersistentState>
