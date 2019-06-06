@@ -47,7 +47,6 @@ public class CurrencyAdapter extends BaseAdapter {
         } else {
             textView = (TextView) convertView;
         }
-//        textView.setBackgroundResource(R.drawable.border_box);
         textView.setId(position);
 
         return textView;

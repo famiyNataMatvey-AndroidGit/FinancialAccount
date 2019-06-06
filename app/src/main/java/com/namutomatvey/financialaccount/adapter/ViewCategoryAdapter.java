@@ -54,7 +54,6 @@ public class ViewCategoryAdapter extends BaseAdapter {
         ViewCategory viewCategorie = this.viewCategories.get(position);
         holder.categoryNameView.setText(viewCategorie.getCategory());
         holder.amountView.setText(Double.toString(viewCategorie.getAmount()));
-        convertView.setBackgroundResource(R.drawable.border_box);
         return convertView;
     }
 
