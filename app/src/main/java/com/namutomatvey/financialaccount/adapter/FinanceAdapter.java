@@ -13,6 +13,7 @@ import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.activity.EnterDataActivity;
 import com.namutomatvey.financialaccount.dto.Finance;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class FinanceAdapter extends BaseAdapter {
@@ -61,7 +62,7 @@ public class FinanceAdapter extends BaseAdapter {
         final Finance finance = this.finances.get(position);
         holder.StatisticsDate.setText(finance.getDate());
         holder.StatisticsComment.setText(finance.getComment());
-        holder.StatisticsAmount.setText(Double.toString(finance.getAmount()));
+        holder.StatisticsAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()));
         holder.StatisticsCurrency.setText(finance.getCurrency());
         holder.StatisticsChoice.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.dto.Finance;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class CheckAdapter extends BaseAdapter {
         final Finance finance = this.getItem(position);
         holder.QRCurrency.setText(finance.getCurrency());
         holder.QRComment.setText(finance.getComment());
-        holder.QRAmount.setText(Double.toString(finance.getAmount()));
+        holder.QRAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()));
         holder.QRChoice.setTag(position);
         holder.QRChoice.setOnClickListener(new View.OnClickListener() {
             @Override

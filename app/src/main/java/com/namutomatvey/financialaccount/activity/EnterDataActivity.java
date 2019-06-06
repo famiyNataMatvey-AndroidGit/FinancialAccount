@@ -26,6 +26,7 @@ import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.dto.Finance;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         balance += amount;
 
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), balance.toString());
+        editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), new DecimalFormat("#0.00").format(balance));
         editor.apply();
     }
 
@@ -125,7 +126,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                 textViewCategoryName.setText(finance.getCategory());
                 textViewCurrencyName.setText(finance.getCurrency());
                 editTextComment.setText(finance.getComment());
-                editTextAmount.setText(Double.toString(finance.getAmount()));
+                editTextAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()));
 
                 dateView.setTextColor(Color.BLACK);
                 textViewCategoryName.setTextColor(Color.BLACK);

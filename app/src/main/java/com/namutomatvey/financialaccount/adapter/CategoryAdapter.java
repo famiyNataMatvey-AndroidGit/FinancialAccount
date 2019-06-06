@@ -2,11 +2,14 @@ package com.namutomatvey.financialaccount.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.dto.Category;
 
 import java.util.List;
@@ -36,6 +39,7 @@ public class CategoryAdapter extends BaseAdapter {
         return position;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView;
@@ -45,6 +49,8 @@ public class CategoryAdapter extends BaseAdapter {
             textView.setText(categories.get(position).getName());
             textView.setTextColor(Color.BLACK);
             textView.setTextSize(18);
+            textView.setPadding(35, 10, 15, 10);
+            textView.setBackgroundResource(R.drawable.border_box);
         } else {
             textView = (TextView) convertView;
         }

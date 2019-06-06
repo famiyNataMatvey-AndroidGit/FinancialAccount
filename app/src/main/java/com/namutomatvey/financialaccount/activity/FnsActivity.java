@@ -70,7 +70,7 @@ public class FnsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fns);
 
         mActionBarToolbar = findViewById(R.id.toolbar);
-        mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns));
+        mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_login));
         setSupportActionBar(mActionBarToolbar);
 
         final EditText email = findViewById(R.id.editTextEmail);
@@ -100,6 +100,7 @@ public class FnsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(operation_mode != MODE_REGISTRATION) {
                     operation_mode = MODE_REGISTRATION;
+                    mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_registration));
                     recovery.setVisibility(View.GONE);
                     layoutFnsEmail.setVisibility(View.VISIBLE);
                     layoutFnsName.setVisibility(View.VISIBLE);
@@ -165,6 +166,7 @@ public class FnsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(operation_mode != MODE_RECOVERY) {
                     operation_mode = MODE_RECOVERY;
+                    mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_recovery));
                     registration.setVisibility(View.GONE);
                     layoutFnsPassword.setVisibility(View.GONE);
                     return;
@@ -212,6 +214,7 @@ public class FnsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(operation_mode != MODE_LOGIN) {
                     operation_mode = MODE_LOGIN;
+                    mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_login));
                     registration.setVisibility(View.VISIBLE);
                     recovery.setVisibility(View.VISIBLE);
                     layoutFnsPassword.setVisibility(View.VISIBLE);
