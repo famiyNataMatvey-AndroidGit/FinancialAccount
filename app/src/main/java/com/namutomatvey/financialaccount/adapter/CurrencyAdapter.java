@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.dto.Currency;
 
 import java.util.List;
@@ -44,6 +45,8 @@ public class CurrencyAdapter extends BaseAdapter {
             textView.setText(currencies.get(position).getName());
             textView.setTextColor(Color.BLACK);
             textView.setTextSize(18);
+            textView.setPadding(35, 10, 15, 10);
+            textView.setBackgroundResource(R.drawable.border_box);
         } else {
             textView = (TextView) convertView;
         }

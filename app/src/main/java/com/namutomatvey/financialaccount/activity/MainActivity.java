@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH), true);
             editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount));
             editor.apply();
-            new DBHelper(this);
+            DBHelper dbHelper = new DBHelper(this);
+            dbHelper.getWritableDatabase();
         }
 
 

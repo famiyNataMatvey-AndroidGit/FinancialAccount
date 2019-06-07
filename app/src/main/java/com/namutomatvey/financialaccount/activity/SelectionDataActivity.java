@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -104,7 +105,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
             });
         } else if(number == resourceCurrency){
             LinearLayout linearLayoutCategory = findViewById(R.id.linearLayoutCategory);
-            linearLayoutCategory.setVisibility(View.INVISIBLE);
+            linearLayoutCategory.setVisibility(View.GONE);
 
             database = dbHelper.getReadableDatabase();
 
@@ -127,7 +128,10 @@ public class SelectionDataActivity extends AppCompatActivity  {
             }
 
             gridView.setAdapter(new CurrencyAdapter(this, currencies));
-        }
+            LinearLayout linearLayoutSelection = findViewById(R.id.linearLayoutSelection);
+            ViewGroup.LayoutParams params = linearLayoutSelection.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            }
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

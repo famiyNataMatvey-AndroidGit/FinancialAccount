@@ -5,9 +5,17 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.namutomatvey.financialaccount.adapter.GetCurrncyCBRAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
+
 public class DBHelper  extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "financialAccountDb";
     public static final String TABLE_CURRENCY = "currency";
     public static final String TABLE_CATEGORY = "category";
@@ -75,22 +83,34 @@ public class DBHelper  extends SQLiteOpenHelper{
 
     private void onBaseInsertDatabase(SQLiteDatabase database) {
         String [] CategoryNames = {"Фрукты", "Овощи", "Кисломолочные продукты", "Напитки", "Быт"};
-        Integer [] CategoryTypes = {FINANCE_TYPE_INCOME, FINANCE_TYPE_EXPENSES, FINANCE_TYPE_MONEYBOX};
-        String [] CurrencyNames = {"Доллар", "Рубль", "Евро"};
-        String [] CurrencyShortNames = {"DOL", "RUB", "EUR"};
-        Double [] CurrencyCoefficients = {66.00, 1.0, 75.00};
         for (int i = 0; i < 5; i += 1) {
             ContentValues contentCategoryValues = new ContentValues();
             contentCategoryValues.put(KEY_NAME, CategoryNames[i]);
             contentCategoryValues.put(KEY_CATEGORY_TYPE, FINANCE_TYPE_EXPENSES);
             database.insert(TABLE_CATEGORY, null, contentCategoryValues);
         }
-        for (int i = 0; i < 3; i += 1) {
-            ContentValues contentCurrencyValues = new ContentValues();
-            contentCurrencyValues.put(KEY_NAME, CurrencyNames[i]);
-            contentCurrencyValues.put(KEY_SHORT_NAME, CurrencyShortNames[i]);
-            contentCurrencyValues.put(KEY_COEFFICIENT, CurrencyCoefficients[i]);
-            database.insert(TABLE_CURRENCY, null, contentCurrencyValues);
+
+        GetCurrncyCBRAdapter getCurrncyCBRAdapter = new GetCurrncyCBRAdapter();
+        getCurrncyCBRAdapter.execute();
+
+        try {
+            JSONObject currencyCRB = getCurrncyCBRAdapter.get();
+            Iterator<String> keys = currencyCRB.keys();
+            while(keys.hasNext()) {
+                String key = keys.next();
+                JSONObject temp_currency = currencyCRB.getJSONObject(key);
+                ContentValues contentCurrencyValues = new ContentValues();
+                contentCurrencyValues.put(KEY_NAME, temp_currency.getString("Name"));
+                contentCurrencyValues.put(KEY_SHORT_NAME, temp_currency.getString("CharCode"));
+                contentCurrencyValues.put(KEY_COEFFICIENT, temp_currency.getDouble("Value"));
+                database.insert(TABLE_CURRENCY, null, contentCurrencyValues);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
     }
 
