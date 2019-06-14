@@ -155,7 +155,7 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                                     DBHelper.FINANCE_TYPE_EXPENSES,
                                     temp_item.getDouble("sum")/ 100,
                                     date,
-                                    2,
+                                    1,
                                     temp_item.getString("name")));
                         }
                         checkAdapter = new CheckAdapter(this, finances);

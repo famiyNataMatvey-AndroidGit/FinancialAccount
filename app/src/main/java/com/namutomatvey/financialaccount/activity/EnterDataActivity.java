@@ -2,9 +2,7 @@ package com.namutomatvey.financialaccount.activity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -63,16 +61,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             default:
                 return 0;
         }
-    }
-
-    private void updateBalance(Double amount){
-        SharedPreferences mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
-        Double balance = Double.parseDouble(mSettings.getString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount)));
-        balance += amount;
-
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), new DecimalFormat("#0.00").format(balance));
-        editor.apply();
     }
 
     @Override
@@ -185,11 +173,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     return;
 
                 if(finance_id != -1) {
-                    Double old_amount = finance.getCoefficient();
-                    if(typeFinanceCategory() == DBHelper.FINANCE_TYPE_INCOME)
-                        updateBalance(-1.0 * old_amount);
-                    else
-                        updateBalance(old_amount);
                     finance.updateFinance(typeFinanceCategory(),
                             Double.parseDouble(amount),
                             dateView.getText().toString(),
@@ -208,11 +191,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     );
                     finance.createFinance();
                 }
-                Double new_amount = finance.getCoefficient();
-                if(typeFinanceCategory() == DBHelper.FINANCE_TYPE_INCOME)
-                    updateBalance(new_amount);
-                else
-                    updateBalance(-1.0 * new_amount);
                 finish();
             }
         });

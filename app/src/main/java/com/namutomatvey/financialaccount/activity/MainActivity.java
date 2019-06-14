@@ -3,6 +3,8 @@ package com.namutomatvey.financialaccount.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,10 +17,14 @@ import android.widget.TextView;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences mSettings;
     private Intent intent;
+    private DBHelper dbHelper;
+    private SQLiteDatabase database;
     private TextView balanceAmountTextView;
 
     @Override
@@ -37,13 +43,10 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH), true);
             editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount));
             editor.apply();
-            DBHelper dbHelper = new DBHelper(this);
-            dbHelper.getWritableDatabase();
+
         }
 
-
         balanceAmountTextView = findViewById(R.id.textViewBalanceAmount);
-        balanceAmountTextView.setText(mSettings.getString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount)));
 
         ImageButton expensesImageButton = findViewById(R.id.imageButtonExpenses);
         ImageButton incomeImageButton = findViewById(R.id.imageButtonIncome);
@@ -105,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        balanceAmountTextView.setText(mSettings.getString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount)));
+        float balance = get_balance();
+        balanceAmountTextView.setText(new DecimalFormat("#0.00").format(balance));
         super.onStart();
     }
 
@@ -116,6 +120,28 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), balanceAmountTextView.getText().toString());
         editor.apply();
+    }
+
+    private float get_balance() {
+        String table = DBHelper.TABLE_FINANCE;
+        String columns[] = {
+                "case when " + DBHelper.TABLE_FINANCE+ "." + DBHelper.KEY_FINANCE_TYPE + " = " +
+                DBHelper.FINANCE_TYPE_INCOME + " then " +  DBHelper.TABLE_FINANCE+ "." + DBHelper.KEY_FINANCE_AMOUNT
+                + " else (-1 * " + DBHelper.TABLE_FINANCE+ "." + DBHelper.KEY_FINANCE_AMOUNT + ") end as balance"};
+        String groupBy = DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_ID;
+        dbHelper = new DBHelper(this);
+        database = dbHelper.getReadableDatabase();
+        float test = 0;
+        Cursor cursor = database.query(table, columns, null, null, groupBy, null, null);
+        if (cursor.moveToFirst()) {
+            int balanceIndex = cursor.getColumnIndex("balance");
+            do {
+                test += cursor.getFloat(balanceIndex);
+
+            } while (cursor.moveToNext());
+        }
+        return test;
+
     }
 
 }

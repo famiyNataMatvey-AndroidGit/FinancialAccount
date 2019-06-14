@@ -90,6 +90,12 @@ public class DBHelper  extends SQLiteOpenHelper{
             database.insert(TABLE_CATEGORY, null, contentCategoryValues);
         }
 
+        ContentValues contentCurrencyValues = new ContentValues();
+        contentCurrencyValues.put(KEY_NAME, "Российский рубль");
+        contentCurrencyValues.put(KEY_SHORT_NAME, "RUB");
+        contentCurrencyValues.put(KEY_COEFFICIENT, 1.0);
+        database.insert(TABLE_CURRENCY, null, contentCurrencyValues);
+
         GetCurrncyCBRAdapter getCurrncyCBRAdapter = new GetCurrncyCBRAdapter();
         getCurrncyCBRAdapter.execute();
 
@@ -99,7 +105,7 @@ public class DBHelper  extends SQLiteOpenHelper{
             while(keys.hasNext()) {
                 String key = keys.next();
                 JSONObject temp_currency = currencyCRB.getJSONObject(key);
-                ContentValues contentCurrencyValues = new ContentValues();
+                contentCurrencyValues = new ContentValues();
                 contentCurrencyValues.put(KEY_NAME, temp_currency.getString("Name"));
                 contentCurrencyValues.put(KEY_SHORT_NAME, temp_currency.getString("CharCode"));
                 contentCurrencyValues.put(KEY_COEFFICIENT, temp_currency.getDouble("Value"));

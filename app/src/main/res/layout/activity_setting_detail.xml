@@ -65,7 +65,7 @@
             android:layout_marginBottom="24dp"
             android:text="TextView"
             android:textSize="18sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
