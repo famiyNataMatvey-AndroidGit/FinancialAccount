@@ -15,11 +15,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="48dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="48dp"
             android:layout_marginRight="48dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/border_box"
             android:text="Аккаунт FNS"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/buttonLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="Язык"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/buttonNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="Уведомления"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/buttonProblem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="Сообщить о проблеме"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/buttonAboutDeveloper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="О разработчике"
             android:visibility="visible" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

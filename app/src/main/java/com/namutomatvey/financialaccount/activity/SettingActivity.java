@@ -1,7 +1,6 @@
 package com.namutomatvey.financialaccount.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,9 +13,12 @@ import com.namutomatvey.financialaccount.R;
 
 public class SettingActivity extends AppCompatActivity {
 
+    private static final int RESULT_ACTIVITY_LANGUAGE = 1;
+    private static final int RESULT_ACTIVITY_NOTIFICATION = 2;
+    private static final int RESULT_ACTIVITY_PROBLEM = 3;
+    private static final int RESULT_ACTIVITY_ABOUT_DEVELOPER = 4;
+
     private Toolbar mActionBarToolbar;
-    private SharedPreferences mSettings;
-    private Button buttonGoToFns;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,12 @@ public class SettingActivity extends AppCompatActivity {
         mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_settings));
         setSupportActionBar(mActionBarToolbar);
 
-        buttonGoToFns = findViewById(R.id.buttonGoToFns);
+        Button buttonGoToFns = findViewById(R.id.buttonGoToFns);
+        Button buttonLanguage = findViewById(R.id.buttonLanguage);
+        Button buttonNotification = findViewById(R.id.buttonNotification);
+        Button buttonProblem = findViewById(R.id.buttonProblem);
+        Button buttonAboutDeveloper = findViewById(R.id.buttonAboutDeveloper);
+
         buttonGoToFns.setOnClickListener(
             new View.OnClickListener() {
                  @Override
@@ -36,6 +43,50 @@ public class SettingActivity extends AppCompatActivity {
                      startActivity(intent);
                  }
              }
+        );
+
+        buttonLanguage.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SettingActivity.this, SettingDetailActivity.class);
+                        intent.putExtra("selected_button", RESULT_ACTIVITY_LANGUAGE);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        buttonNotification.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SettingActivity.this, SettingDetailActivity.class);
+                        intent.putExtra("selected_button", RESULT_ACTIVITY_NOTIFICATION);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        buttonProblem.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SettingActivity.this, SettingDetailActivity.class);
+                        intent.putExtra("selected_button", RESULT_ACTIVITY_PROBLEM);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        buttonAboutDeveloper.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SettingActivity.this, SettingDetailActivity.class);
+                        intent.putExtra("selected_button", RESULT_ACTIVITY_ABOUT_DEVELOPER);
+                        startActivity(intent);
+                    }
+                }
         );
 
     }
@@ -54,4 +105,5 @@ public class SettingActivity extends AppCompatActivity {
         this.finish();
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <GridView
+            android:id="@+id/gridViewLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:verticalSpacing="5dp"
+            android:visibility="gone" />
+
+        <Switch
+            android:id="@+id/switchNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginRight="16dp"
+            android:text="Уведомление"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/editTextProblemMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginRight="16dp"
+            android:inputType="text"
+            android:maxHeight="480dp"
+            android:text="Massage"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonProblemMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="Отправить Сообщение"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textViewAboutDeveloper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="24dp"
+            android:text="TextView"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

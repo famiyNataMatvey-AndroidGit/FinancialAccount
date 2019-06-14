@@ -35,8 +35,8 @@
         <activity android:name=".activity.BeforeAppendStatisticActivity" />
         <activity android:name=".activity.StatisticsChoseActivity" />
         <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.BarcodeActivity"
-            android:label="Read Barcode"/>
+        <activity android:name=".activity.SettingDetailActivity" />
+        <activity android:name=".activity.BarcodeActivity" />
     </application>
 
 </manifest>
