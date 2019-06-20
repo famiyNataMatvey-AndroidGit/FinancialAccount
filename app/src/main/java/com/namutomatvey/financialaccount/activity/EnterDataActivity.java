@@ -3,6 +3,7 @@ package com.namutomatvey.financialaccount.activity;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -43,6 +44,8 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     private TextView textViewCurrencyName;
     private EditText editTextComment;
     private EditText editTextAmount;
+    private SharedPreferences mSettings;
+
     private long category;
     private long currency;
     private long finance_id;
@@ -68,15 +71,15 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_data);
 
-        intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
-        number = getIntent().getExtras().getInt("number",  getResources().getInteger(R.integer.click_button_income));
-
-        simpleDate = new SimpleDateFormat("dd.MM.yyyy");
-
         mActionBarToolbar = findViewById(R.id.toolbar);
         String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
+
+        intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
+        number = getIntent().getExtras().getInt("number",  getResources().getInteger(R.integer.click_button_income));
+
+        simpleDate = new SimpleDateFormat("dd.MM.yyyy");
 
         dateView = findViewById(R.id.textViewDate);
         textViewCategoryName = findViewById(R.id.financeItemCategoryName);
@@ -191,6 +194,9 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     );
                     finance.createFinance();
                 }
+                SharedPreferences.Editor editor = mSettings.edit();
+                editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), true);
+                editor.apply();
                 finish();
             }
         });

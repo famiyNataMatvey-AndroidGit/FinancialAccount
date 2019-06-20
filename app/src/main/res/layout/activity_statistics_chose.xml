@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background_white">
@@ -15,96 +12,38 @@
         <include
             layout="@layout/toolbar" />
 
-        <TableLayout
-            android:id="@+id/tableStatisticsLayout"
+        <Button
+            android:id="@+id/imageButtonStatisticsIncome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:stretchColumns="*">
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="@string/income"
+            android:visibility="visible" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
-                android:orientation="vertical"
-                android:visibility="visible">
+        <Button
+            android:id="@+id/imageButtonStatisticsExpenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="@string/expenses"
+            android:visibility="visible" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/imageButtonStatisticsIncome"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/border_box"
-                        android:contentDescription="@string/income"
-                        android:gravity="center_horizontal"
-                        app:srcCompat="@drawable/ic_income" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/imageButtonStatisticsExpenses"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/border_box"
-                        android:contentDescription="@string/expenses"
-                        android:scaleType="center"
-                        app:srcCompat="@drawable/ic_cost" />
-
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/imageButtonStatisticsMoneybox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/border_box"
-                        android:contentDescription="@string/moneybox"
-                        app:srcCompat="@drawable/ic_money_box" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/imageButtonStatisticsAllGraph"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/border_box"
-                        android:contentDescription="@string/title_activity_graph"
-                        app:srcCompat="@drawable/ic_statistic" />
-
-                </LinearLayout>
-            </TableRow>
-        </TableLayout>
+        <Button
+            android:id="@+id/imageButtonStatisticsMoneybox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_box"
+            android:text="@string/moneybox"
+            android:visibility="visible" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

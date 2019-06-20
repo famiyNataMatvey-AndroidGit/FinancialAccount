@@ -7,30 +7,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 import com.namutomatvey.financialaccount.R;
 
 public class StatisticsChoseActivity extends AppCompatActivity {
     private Toolbar mActionBarToolbar;
     private Intent intent;
-    private String title;
-
-    public static final int REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics_chose);
 
-        ImageButton imageButtonStatisticsExpenses = findViewById(R.id.imageButtonStatisticsExpenses);
-        ImageButton imageButtonStatisticsIncome = findViewById(R.id.imageButtonStatisticsIncome);
-        ImageButton imageButtonStatisticsMoneybox = findViewById(R.id.imageButtonStatisticsMoneybox);
-
         mActionBarToolbar = findViewById(R.id.toolbar);
-        title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
+        String title = getIntent().getExtras().getString("title", getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
+
+        Button imageButtonStatisticsExpenses = findViewById(R.id.imageButtonStatisticsExpenses);
+        Button imageButtonStatisticsIncome = findViewById(R.id.imageButtonStatisticsIncome);
+        Button imageButtonStatisticsMoneybox = findViewById(R.id.imageButtonStatisticsMoneybox);
 
         imageButtonStatisticsExpenses.setOnClickListener(new View.OnClickListener() {
                 @Override

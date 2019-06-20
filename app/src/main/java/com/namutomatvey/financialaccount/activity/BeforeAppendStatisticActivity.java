@@ -128,10 +128,17 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                         finances.remove(temp_finance);
                     }
                     checkAdapter.notifyDataSetChanged();
+                    if(! mSettings.getBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false)) {
+                        SharedPreferences.Editor editor = mSettings.edit();
+                        editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), true);
+                        editor.apply();
+                    }
+
                 }
             }
         } else if(requestCode == REQUEST_CODE_REGISTRATION && resultCode == RESULT_OK) {
             startActivityForResult(intent_barcode , REQUEST_CODE_BARCODE);
+            return;
         } else if(requestCode == REQUEST_CODE_BARCODE && resultCode == RESULT_OK){
             if(data != null) {
                 Barcode barcode = data.getParcelableExtra("barcode");
@@ -139,9 +146,8 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                 ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""), mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
                 clientCheckAdapter.setQrData(qr_value);
                 clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_GET_CHECK);
-                JSONObject result = null;
                 try {
-                    result = clientCheckAdapter.get();
+                    JSONObject result = clientCheckAdapter.get();
                     if (result.getInt("code") ==  HttpsURLConnection.HTTP_OK) {
                         dbHelper = new DBHelper(this);
                         database = dbHelper.getWritableDatabase();

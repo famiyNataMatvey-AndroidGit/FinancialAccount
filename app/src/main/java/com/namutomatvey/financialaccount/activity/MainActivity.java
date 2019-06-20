@@ -21,11 +21,9 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView balanceAmountTextView;
     private SharedPreferences mSettings;
     private Intent intent;
-    private DBHelper dbHelper;
-    private SQLiteDatabase database;
-    private TextView balanceAmountTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
         mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
 
-        if (!mSettings.contains(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH)))   // приложение запущено впервые
+        if (!mSettings.contains(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH)))
         {
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH), true);
-            editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), getResources().getString(R.string.default_hint_amount));
+            editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false);
             editor.apply();
 
         }
@@ -108,8 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        float balance = get_balance();
-        balanceAmountTextView.setText(new DecimalFormat("#0.00").format(balance));
+        if(mSettings.getBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false)){
+            float balance = get_balance();
+            balanceAmountTextView.setText(new DecimalFormat("#0.00").format(balance));
+        }
         super.onStart();
     }
 
@@ -117,30 +117,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(getResources().getString(R.string.APP_PREFERENCES_BALANCE), balanceAmountTextView.getText().toString());
-        editor.apply();
     }
 
     private float get_balance() {
+        float total_balance = 0;
         String table = DBHelper.TABLE_FINANCE;
         String columns[] = {
                 "case when " + DBHelper.TABLE_FINANCE+ "." + DBHelper.KEY_FINANCE_TYPE + " = " +
                 DBHelper.FINANCE_TYPE_INCOME + " then " +  DBHelper.TABLE_FINANCE+ "." + DBHelper.KEY_FINANCE_AMOUNT
                 + " else (-1 * " + DBHelper.TABLE_FINANCE+ "." + DBHelper.KEY_FINANCE_AMOUNT + ") end as balance"};
         String groupBy = DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_ID;
-        dbHelper = new DBHelper(this);
-        database = dbHelper.getReadableDatabase();
-        float test = 0;
+
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase database = dbHelper.getReadableDatabase();
+
         Cursor cursor = database.query(table, columns, null, null, groupBy, null, null);
+
         if (cursor.moveToFirst()) {
             int balanceIndex = cursor.getColumnIndex("balance");
             do {
-                test += cursor.getFloat(balanceIndex);
+                total_balance += cursor.getFloat(balanceIndex);
 
             } while (cursor.moveToNext());
         }
-        return test;
+        return total_balance;
 
     }
 
