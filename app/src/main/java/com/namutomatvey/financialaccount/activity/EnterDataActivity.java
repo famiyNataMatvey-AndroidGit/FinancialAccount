@@ -38,6 +38,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     private Intent intent;
     private Date date ;
     private SimpleDateFormat simpleDate;
+//    private SimpleDateFormat searchSimpleDate;
     private static final int requestCodeCategory = 1;
     private static final int requestCodeCurrency = 2;
     private TextView dateView;
@@ -80,7 +81,8 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
         number = getIntent().getExtras().getInt("number",  getResources().getInteger(R.integer.click_button_income));
 
-        simpleDate = new SimpleDateFormat("dd.MM.yyyy");
+//        simpleDate = new SimpleDateFormat("dd.MM.yyyy");
+        simpleDate = new SimpleDateFormat("yyyy-MM-dd");
 
         dateView = findViewById(R.id.textViewDate);
         textViewCategoryName = findViewById(R.id.financeItemCategoryName);
