@@ -2,6 +2,7 @@ package com.namutomatvey.financialaccount.activity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -117,7 +118,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                 textViewCategoryName.setText(finance.getCategory());
                 textViewCurrencyName.setText(finance.getCurrency());
                 editTextComment.setText(finance.getComment());
-                editTextAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()));
+                editTextAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()).replace(',', '.'));
 
                 dateView.setTextColor(Color.BLACK);
                 textViewCategoryName.setTextColor(Color.BLACK);
@@ -194,6 +195,8 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     );
                     finance.createFinance();
                 }
+
+                mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = mSettings.edit();
                 editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), true);
                 editor.apply();

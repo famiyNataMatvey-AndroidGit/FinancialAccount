@@ -40,7 +40,7 @@ public class CurrencyAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView;
-        if (convertView == null) {
+        if (convertView == null || ((TextView) convertView).getId() != (Integer) position) {
             textView = new TextView(context);
             textView.setText(currencies.get(position).getName());
             textView.setTextColor(Color.BLACK);

@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/linearLayoutSelection"
         android:layout_width="match_parent"
-        android:layout_height="490dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutCategory"
@@ -32,21 +32,21 @@
     <LinearLayout
         android:id="@+id/linearLayoutCategory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="50dp"
-        android:orientation="horizontal"
+        android:layout_height="60dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/main_background_white"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/editTextNewCategory"
-            android:layout_width="382dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
             android:layout_weight="5"
             android:autofillHints="@string/currency"
             android:inputType="text"
@@ -56,8 +56,9 @@
             android:id="@+id/imageButtonAccept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_marginBottom="10dp"
             android:background="@color/main_background_white"
+            android:contentDescription="@string/add_category"
             app:srcCompat="@drawable/ic_adding" />
     </LinearLayout>
 

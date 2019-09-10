@@ -10,6 +10,7 @@
     <string name="title_activity_fns_login">Вход в аккаунт FNS</string>
     <string name="title_activity_qr">Сканированный QR Code</string>
 
+    <string name="add_category">Добавить категорю</string>
     <string name="income">Доходы</string>
     <string name="expenses">Расходы</string>
     <string name="moneybox">Копилка</string>

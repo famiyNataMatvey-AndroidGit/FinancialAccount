@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,6 +59,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
         String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
+        LinearLayout linearLayoutCategory = findViewById(R.id.linearLayoutCategory);
 
         number = getIntent().getIntExtra("number", resourceCategory);
         gridView = findViewById(R.id.gridViewSelection);
@@ -86,14 +89,66 @@ public class SelectionDataActivity extends AppCompatActivity  {
             gridView.setAdapter(categoryAdapter);
 
             editTextNewCategory = findViewById(R.id.editTextNewCategory);
+            editTextNewCategory.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+                    int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
+                    int typeIndex = cursor.getColumnIndex(DBHelper.KEY_CATEGORY_TYPE);
+                    int parentIndex = cursor.getColumnIndex(DBHelper.KEY_PARENT);
+
+                    String tempCategoryName = editTextNewCategory.getText().toString().trim();
+                    if(!tempCategoryName.equals(""))
+                        cursor = database.query(DBHelper.TABLE_CATEGORY,
+                                null,
+                                DBHelper.KEY_CATEGORY_TYPE + " = " + categoryType + " AND " + DBHelper.KEY_NAME + " LIKE '" + tempCategoryName + "%'",
+                                null, null, null, null);
+                    else
+                        cursor = database.query(DBHelper.TABLE_CATEGORY,
+                                null,
+                                DBHelper.KEY_CATEGORY_TYPE + " = " + categoryType,
+                                null, null, null, null);
+                    categories.clear();
+                    if (cursor.moveToFirst()) {
+                        do {
+                            categories.add(new Category(database,
+                                    cursor.getLong(idIndex),
+                                    cursor.getString(nameIndex),
+                                    cursor.getInt(typeIndex),
+                                    cursor.getInt(parentIndex)));
+                        } while (cursor.moveToNext());
+                    }
+                    categoryAdapter.setCategories(categories);
+                    categoryAdapter.notifyDataSetChanged();
+                    gridView.invalidateViews();
+                    gridView.setAdapter(categoryAdapter);
+
+
+                }
+            });
+
             ImageButton imageButtonAccept = findViewById(R.id.imageButtonAccept);
 
             imageButtonAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String newCategory = editTextNewCategory.getText().toString();
+                    String newCategory = editTextNewCategory.getText().toString().trim();
                     if (newCategory.isEmpty()) {
                         Toast.makeText(SelectionDataActivity.this, "Введите наименование категории", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else if(checkCategoryName(newCategory, categoryType)){
+                        Toast.makeText(SelectionDataActivity.this, "Такая категория уже существует", Toast.LENGTH_LONG).show();
                         return;
                     }
                     categoryAdapter.addingItemAdapter(new Category(database, newCategory, categoryType, null));
@@ -104,7 +159,6 @@ public class SelectionDataActivity extends AppCompatActivity  {
                 }
             });
         } else if(number == resourceCurrency){
-            LinearLayout linearLayoutCategory = findViewById(R.id.linearLayoutCategory);
             linearLayoutCategory.setVisibility(View.GONE);
 
             database = dbHelper.getReadableDatabase();
@@ -168,5 +222,13 @@ public class SelectionDataActivity extends AppCompatActivity  {
     public boolean onOptionsItemSelected(MenuItem item) {
         this.finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean checkCategoryName(String name, Integer categoryType){
+        cursor = database.query(DBHelper.TABLE_CATEGORY,
+                null,
+                DBHelper.KEY_CATEGORY_TYPE + " = " + categoryType + " AND " + DBHelper.KEY_NAME + " = '" + name + "'",
+                null, null, null, null);
+        return cursor.getCount() != 0;
     }
 }
