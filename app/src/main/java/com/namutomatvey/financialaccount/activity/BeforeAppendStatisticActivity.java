@@ -86,14 +86,14 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
         });
 
         mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, PERMISSION_REQUEST);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
         if (!mSettings.contains(getResources().getString(R.string.APP_PREFERENCES_REGISTRATION))) {
             Intent intent = new Intent(BeforeAppendStatisticActivity.this, FnsActivity.class);
             startActivityForResult(intent, REQUEST_CODE_REGISTRATION);
         } else {
-            startActivityForResult(intent_barcode , REQUEST_CODE_BARCODE);
+            startActivityForResult(intent_barcode, REQUEST_CODE_BARCODE);
         }
     }
 
@@ -115,20 +115,20 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_CATEGORY && resultCode == RESULT_OK) {
-            if(data != null){
+        if (requestCode == REQUEST_CODE_CATEGORY && resultCode == RESULT_OK) {
+            if (data != null) {
                 long category = data.getLongExtra("category", -1);
-                if(category != -1){
+                if (category != -1) {
                     List<Finance> temp_finances = checkAdapter.getCheckFinance();
                     Finance temp_finance;
-                    for(int i=0; i < temp_finances.size(); i+=1){
+                    for (int i = 0; i < temp_finances.size(); i += 1) {
                         temp_finance = temp_finances.get(i);
                         temp_finance.setCategory(category);
                         temp_finance.createFinance();
                         finances.remove(temp_finance);
                     }
                     checkAdapter.notifyDataSetChanged();
-                    if(! mSettings.getBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false)) {
+                    if (!mSettings.getBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false)) {
                         SharedPreferences.Editor editor = mSettings.edit();
                         editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), true);
                         editor.apply();
@@ -136,11 +136,11 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
 
                 }
             }
-        } else if(requestCode == REQUEST_CODE_REGISTRATION && resultCode == RESULT_OK) {
-            startActivityForResult(intent_barcode , REQUEST_CODE_BARCODE);
+        } else if (requestCode == REQUEST_CODE_REGISTRATION && resultCode == RESULT_OK) {
+            startActivityForResult(intent_barcode, REQUEST_CODE_BARCODE);
             return;
-        } else if(requestCode == REQUEST_CODE_BARCODE && resultCode == RESULT_OK){
-            if(data != null) {
+        } else if (requestCode == REQUEST_CODE_BARCODE && resultCode == RESULT_OK) {
+            if (data != null) {
                 Barcode barcode = data.getParcelableExtra("barcode");
                 String qr_value = barcode.displayValue;
                 ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""), mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
@@ -148,18 +148,18 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                 clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_GET_CHECK);
                 try {
                     JSONObject result = clientCheckAdapter.get();
-                    if (result.getInt("code") ==  HttpsURLConnection.HTTP_OK) {
+                    if (result.getInt("code") == HttpsURLConnection.HTTP_OK) {
                         dbHelper = new DBHelper(this);
                         database = dbHelper.getWritableDatabase();
 
                         JSONObject receipt = result.getJSONObject("massage").getJSONObject("document").getJSONObject("receipt");
-                        String date =  receipt.getString("dateTime").split("T")[0];
+                        String date = receipt.getString("dateTime").split("T")[0];
                         JSONArray items = receipt.getJSONArray("items");
-                        for(int i=0; i < items.length(); i += 1){
+                        for (int i = 0; i < items.length(); i += 1) {
                             JSONObject temp_item = new JSONObject(items.get(i).toString());
                             finances.add(new Finance(database,
                                     DBHelper.FINANCE_TYPE_EXPENSES,
-                                    temp_item.getDouble("sum")/ 100,
+                                    temp_item.getDouble("sum") / 100,
                                     date,
                                     1,
                                     temp_item.getString("name")));
@@ -168,7 +168,7 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                         gridView.setAdapter(checkAdapter);
 
                     } else
-                        Toast.makeText(BeforeAppendStatisticActivity.this,  result.getString("error"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(BeforeAppendStatisticActivity.this, result.getString("error"), Toast.LENGTH_LONG).show();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -178,7 +178,7 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                 }
             }
         }
-        if(finances.size() == 0)
+        if (finances.size() == 0)
             finish();
     }
 }
