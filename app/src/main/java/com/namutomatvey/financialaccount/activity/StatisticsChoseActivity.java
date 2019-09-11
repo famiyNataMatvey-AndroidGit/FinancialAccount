@@ -30,31 +30,31 @@ public class StatisticsChoseActivity extends AppCompatActivity {
         Button imageButtonStatisticsMoneybox = findViewById(R.id.imageButtonStatisticsMoneybox);
 
         imageButtonStatisticsExpenses.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                intent = new Intent(StatisticsChoseActivity.this, StatisticsActivity.class);
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_expenses));
-                startActivity(intent);
-                }
-            }
+                                                             @Override
+                                                             public void onClick(View v) {
+                                                                 intent = new Intent(StatisticsChoseActivity.this, StatisticsActivity.class);
+                                                                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_expenses));
+                                                                 startActivity(intent);
+                                                             }
+                                                         }
         );
         imageButtonStatisticsIncome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                intent = new Intent(StatisticsChoseActivity.this, StatisticsActivity.class);
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_income));
-                startActivity(intent);
-                }
-            }
+                                                           @Override
+                                                           public void onClick(View v) {
+                                                               intent = new Intent(StatisticsChoseActivity.this, StatisticsActivity.class);
+                                                               intent.putExtra("number", getResources().getInteger(R.integer.click_button_income));
+                                                               startActivity(intent);
+                                                           }
+                                                       }
         );
         imageButtonStatisticsMoneybox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                intent = new Intent(StatisticsChoseActivity.this, StatisticsActivity.class);
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_moneybox));
-                startActivity(intent);
-                }
-            }
+                                                             @Override
+                                                             public void onClick(View v) {
+                                                                 intent = new Intent(StatisticsChoseActivity.this, StatisticsActivity.class);
+                                                                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_moneybox));
+                                                                 startActivity(intent);
+                                                             }
+                                                         }
         );
     }
 

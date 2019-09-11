@@ -288,7 +288,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         } catch (ParseException e) {
             e.printStackTrace();
         }
-         return DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_TYPE + " = " + typeFinanceCategory() + " AND " + dateSelection;
+        return DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_TYPE + " = " + typeFinanceCategory() + " AND " + dateSelection;
     }
 
     @Override

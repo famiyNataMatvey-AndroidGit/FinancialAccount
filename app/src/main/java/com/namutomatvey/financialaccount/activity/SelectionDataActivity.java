@@ -31,8 +31,9 @@ import com.namutomatvey.financialaccount.dto.Currency;
 
 import java.util.ArrayList;
 import java.util.List;
+
 //implements AdapterView.OnItemSelectedListener
-public class SelectionDataActivity extends AppCompatActivity  {
+public class SelectionDataActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;
     private SQLiteDatabase database;
@@ -56,7 +57,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
         resourceCurrency = getResources().getInteger(R.integer.click_button_currency);
 
         mActionBarToolbar = findViewById(R.id.toolbar);
-        String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
+        String title = getIntent().getExtras().getString("title", getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
         LinearLayout linearLayoutCategory = findViewById(R.id.linearLayoutCategory);
@@ -65,7 +66,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
         gridView = findViewById(R.id.gridViewSelection);
 
         dbHelper = new DBHelper(this);
-        if(number == resourceCategory) {
+        if (number == resourceCategory) {
             final Integer categoryType = getIntent().getIntExtra(DBHelper.KEY_FINANCE_TYPE, DBHelper.FINANCE_TYPE_INCOME);
             database = dbHelper.getWritableDatabase();
             cursor = database.query(DBHelper.TABLE_CATEGORY, null, DBHelper.KEY_CATEGORY_TYPE + " = " + categoryType, null, null, null, null);
@@ -79,10 +80,10 @@ public class SelectionDataActivity extends AppCompatActivity  {
             if (cursor.moveToFirst()) {
                 do {
                     categories.add(new Category(database,
-                                                cursor.getLong(idIndex),
-                                                cursor.getString(nameIndex),
-                                                cursor.getInt(typeIndex),
-                                                cursor.getInt(parentIndex)));
+                            cursor.getLong(idIndex),
+                            cursor.getString(nameIndex),
+                            cursor.getInt(typeIndex),
+                            cursor.getInt(parentIndex)));
                 } while (cursor.moveToNext());
             }
             categoryAdapter = new CategoryAdapter(this, categories);
@@ -108,7 +109,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
                     int parentIndex = cursor.getColumnIndex(DBHelper.KEY_PARENT);
 
                     String tempCategoryName = editTextNewCategory.getText().toString().trim();
-                    if(!tempCategoryName.equals(""))
+                    if (!tempCategoryName.equals(""))
                         cursor = database.query(DBHelper.TABLE_CATEGORY,
                                 null,
                                 DBHelper.KEY_CATEGORY_TYPE + " = " + categoryType + " AND " + DBHelper.KEY_NAME + " LIKE '" + tempCategoryName + "%'",
@@ -146,8 +147,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
                     if (newCategory.isEmpty()) {
                         Toast.makeText(SelectionDataActivity.this, "Введите наименование категории", Toast.LENGTH_LONG).show();
                         return;
-                    }
-                    else if(checkCategoryName(newCategory, categoryType)){
+                    } else if (checkCategoryName(newCategory, categoryType)) {
                         Toast.makeText(SelectionDataActivity.this, "Такая категория уже существует", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -158,7 +158,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
                     inputManager.hideSoftInputFromWindow(SelectionDataActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             });
-        } else if(number == resourceCurrency){
+        } else if (number == resourceCurrency) {
             linearLayoutCategory.setVisibility(View.GONE);
 
             database = dbHelper.getReadableDatabase();
@@ -175,9 +175,9 @@ public class SelectionDataActivity extends AppCompatActivity  {
             if (cursor.moveToFirst()) {
                 do {
                     currencies.add(new Currency(cursor.getLong(idIndex),
-                                                cursor.getString(nameIndex),
-                                                cursor.getString(shortNameIndex),
-                                                cursor.getDouble(coefficientIndex)));
+                            cursor.getString(nameIndex),
+                            cursor.getString(shortNameIndex),
+                            cursor.getDouble(coefficientIndex)));
                 } while (cursor.moveToNext());
             }
 
@@ -185,7 +185,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
             LinearLayout linearLayoutSelection = findViewById(R.id.linearLayoutSelection);
             ViewGroup.LayoutParams params = linearLayoutSelection.getLayoutParams();
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            }
+        }
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -224,7 +224,7 @@ public class SelectionDataActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean checkCategoryName(String name, Integer categoryType){
+    public boolean checkCategoryName(String name, Integer categoryType) {
         cursor = database.query(DBHelper.TABLE_CATEGORY,
                 null,
                 DBHelper.KEY_CATEGORY_TYPE + " = " + categoryType + " AND " + DBHelper.KEY_NAME + " = '" + name + "'",
