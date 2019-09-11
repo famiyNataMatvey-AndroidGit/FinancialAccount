@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
-public class DBHelper  extends SQLiteOpenHelper{
+public class DBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "financialAccountDb";
@@ -69,7 +69,7 @@ public class DBHelper  extends SQLiteOpenHelper{
                 + " check (" + KEY_FINANCE_TYPE + " >= 1 and " + KEY_FINANCE_TYPE + " <= 3),"
                 + KEY_FINANCE_DATE + " text not null,"
                 + KEY_FINANCE_COMMENT + " text,"
-                + KEY_FINANCE_AMOUNT + " real not null"  + " check (" + KEY_FINANCE_AMOUNT + " >= 0),"
+                + KEY_FINANCE_AMOUNT + " real not null" + " check (" + KEY_FINANCE_AMOUNT + " >= 0),"
                 + KEY_FINANCE_CATEGORY + " integer not null,"
                 + KEY_FINANCE_CURRENCY + " integer not null,"
                 + "foreign key "
@@ -82,7 +82,7 @@ public class DBHelper  extends SQLiteOpenHelper{
     }
 
     private void onBaseInsertDatabase(SQLiteDatabase database) {
-        String [] CategoryNames = {"Фрукты", "Овощи", "Кисломолочные продукты", "Напитки", "Быт"};
+        String[] CategoryNames = {"Фрукты", "Овощи", "Кисломолочные продукты", "Напитки", "Быт"};
         for (int i = 0; i < 5; i += 1) {
             ContentValues contentCategoryValues = new ContentValues();
             contentCategoryValues.put(KEY_NAME, CategoryNames[i]);
@@ -102,7 +102,7 @@ public class DBHelper  extends SQLiteOpenHelper{
         try {
             JSONObject currencyCRB = getCurrncyCBRAdapter.get();
             Iterator<String> keys = currencyCRB.keys();
-            while(keys.hasNext()) {
+            while (keys.hasNext()) {
                 String key = keys.next();
                 JSONObject temp_currency = currencyCRB.getJSONObject(key);
                 contentCurrencyValues = new ContentValues();

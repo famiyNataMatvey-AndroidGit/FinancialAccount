@@ -36,9 +36,9 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     private DBHelper dbHelper;
     private Toolbar mActionBarToolbar;
     private Intent intent;
-    private Date date ;
+    private Date date;
     private SimpleDateFormat simpleDate;
-//    private SimpleDateFormat searchSimpleDate;
+    //    private SimpleDateFormat searchSimpleDate;
     private static final int requestCodeCategory = 1;
     private static final int requestCodeCurrency = 2;
     private TextView dateView;
@@ -74,12 +74,12 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         setContentView(R.layout.activity_enter_data);
 
         mActionBarToolbar = findViewById(R.id.toolbar);
-        String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
+        String title = getIntent().getExtras().getString("title", getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
 
         intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
-        number = getIntent().getExtras().getInt("number",  getResources().getInteger(R.integer.click_button_income));
+        number = getIntent().getExtras().getInt("number", getResources().getInteger(R.integer.click_button_income));
 
 //        simpleDate = new SimpleDateFormat("dd.MM.yyyy");
         simpleDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -131,7 +131,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
 
         }
 
-        if(dateView.getText().toString().isEmpty()) {
+        if (dateView.getText().toString().isEmpty()) {
             date = Calendar.getInstance().getTime();
             dateView.setText(simpleDate.format(date));
         }
@@ -166,7 +166,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         });
 
         editTextComment = findViewById(R.id.editTextComment);
-        if(typeFinanceCategory() != DBHelper.FINANCE_TYPE_EXPENSES){
+        if (typeFinanceCategory() != DBHelper.FINANCE_TYPE_EXPENSES) {
             editTextComment.setVisibility(View.INVISIBLE);
         }
 
@@ -175,10 +175,10 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             @Override
             public void onClick(View v) {
                 String amount = editTextAmount.getText().toString();
-                if(amount.isEmpty() || category == -1 || currency == -1)
+                if (amount.isEmpty() || category == -1 || currency == -1)
                     return;
 
-                if(finance_id != -1) {
+                if (finance_id != -1) {
                     finance.updateFinance(typeFinanceCategory(),
                             Double.parseDouble(amount),
                             dateView.getText().toString(),
@@ -224,8 +224,8 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch(requestCode) {
-            case (requestCodeCategory) : {
+        switch (requestCode) {
+            case (requestCodeCategory): {
                 if (resultCode == Activity.RESULT_OK) {
                     assert data != null;
                     category = data.getLongExtra("category", -1);
@@ -234,7 +234,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                 }
                 break;
             }
-            case (requestCodeCurrency) : {
+            case (requestCodeCurrency): {
                 if (resultCode == Activity.RESULT_OK) {
                     assert data != null;
                     currency = data.getLongExtra("currency", -1);

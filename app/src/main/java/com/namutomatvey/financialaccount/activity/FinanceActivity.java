@@ -19,7 +19,7 @@ import com.namutomatvey.financialaccount.dto.Finance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FinanceActivity extends AppCompatActivity  {
+public class FinanceActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;
     private SQLiteDatabase database;
@@ -33,7 +33,7 @@ public class FinanceActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_finance_layout);
 
         mActionBarToolbar = findViewById(R.id.toolbar);
-        String title = getIntent().getExtras().getString("title",  getResources().getString(R.string.app_name));
+        String title = getIntent().getExtras().getString("title", getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
 

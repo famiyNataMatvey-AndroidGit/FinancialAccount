@@ -1,15 +1,11 @@
 package com.namutomatvey.financialaccount.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -54,9 +50,7 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
 
 
     public static final int REQUEST_CODE_CATEGORY = 100;
-    public static final int REQUEST_CODE_REGISTRATION = 101;
     public static final int REQUEST_CODE_BARCODE = 102;
-    public static final int PERMISSION_REQUEST = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +80,7 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
         });
 
         mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST);
-        }
-        if (!mSettings.contains(getResources().getString(R.string.APP_PREFERENCES_REGISTRATION))) {
-            Intent intent = new Intent(BeforeAppendStatisticActivity.this, FnsActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_REGISTRATION);
-        } else {
-            startActivityForResult(intent_barcode, REQUEST_CODE_BARCODE);
-        }
+        startActivityForResult(intent_barcode, REQUEST_CODE_BARCODE);
     }
 
     @Override
@@ -127,7 +113,10 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                         temp_finance.createFinance();
                         finances.remove(temp_finance);
                     }
+                    checkAdapter.setFinances(finances);
                     checkAdapter.notifyDataSetChanged();
+                    gridView.invalidateViews();
+                    gridView.setAdapter(checkAdapter);
                     if (!mSettings.getBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false)) {
                         SharedPreferences.Editor editor = mSettings.edit();
                         editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), true);
@@ -136,17 +125,14 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
 
                 }
             }
-        } else if (requestCode == REQUEST_CODE_REGISTRATION && resultCode == RESULT_OK) {
-            startActivityForResult(intent_barcode, REQUEST_CODE_BARCODE);
-            return;
         } else if (requestCode == REQUEST_CODE_BARCODE && resultCode == RESULT_OK) {
             if (data != null) {
                 Barcode barcode = data.getParcelableExtra("barcode");
                 String qr_value = barcode.displayValue;
                 ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""), mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
                 clientCheckAdapter.setQrData(qr_value);
-                clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_GET_CHECK);
                 try {
+                    clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_GET_CHECK);
                     JSONObject result = clientCheckAdapter.get();
                     if (result.getInt("code") == HttpsURLConnection.HTTP_OK) {
                         dbHelper = new DBHelper(this);

@@ -28,6 +28,10 @@ public class CheckAdapter extends BaseAdapter {
         layoutInflater = LayoutInflater.from(context);
     }
 
+    public void setFinances(List<Finance> finances){
+        this.finances = finances;
+    }
+
     @Override
     public int getCount() {
         return finances.size();
@@ -44,8 +48,12 @@ public class CheckAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
+        ViewHolder holder = null;
+        if (convertView != null) {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        if (holder == null || (Integer) holder.QRChoice.getTag() != position) {
             convertView = layoutInflater.inflate(R.layout.item_check_layout, null);
             holder = new ViewHolder();
             holder.QRChoice = convertView.findViewById(R.id.imageViewQRChoice);
@@ -53,14 +61,18 @@ public class CheckAdapter extends BaseAdapter {
             holder.QRAmount = convertView.findViewById(R.id.textViewQRAmount);
             holder.QRCurrency = convertView.findViewById(R.id.textViewQRCurrency);
             convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
         }
 
         final Finance finance = this.getItem(position);
         holder.QRCurrency.setText(finance.getCurrency());
         holder.QRComment.setText(finance.getComment());
         holder.QRAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()));
+        ImageView imageViewTemp = (ImageView) holder.QRChoice;
+        if(finance.box){
+            imageViewTemp.setImageResource(R.drawable.ic_check_true);
+        } else {
+            imageViewTemp.setImageResource(R.drawable.ic_check_false);
+        }
         holder.QRChoice.setTag(position);
         holder.QRChoice.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -280,7 +280,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
                 if (startDate.equals(endDate))
                     dateSelection = fieldFinanceDate + " = '" + searchDateFormat.format(startDate) + "'";
                 else if (startDate.after(endDate))
-                    dateSelection = fieldFinanceDate+ " BETWEEN '" + searchDateFormat.format(endDate) + "' AND '" + searchDateFormat.format(startDate) + "'";
+                    dateSelection = fieldFinanceDate + " BETWEEN '" + searchDateFormat.format(endDate) + "' AND '" + searchDateFormat.format(startDate) + "'";
                 else
                     dateSelection = fieldFinanceDate + " BETWEEN '" + searchDateFormat.format(startDate) + "' AND '" + searchDateFormat.format(endDate) + "'";
             } else
