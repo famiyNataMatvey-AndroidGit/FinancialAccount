@@ -36,13 +36,13 @@ public class SettingActivity extends AppCompatActivity {
         Button buttonAboutDeveloper = findViewById(R.id.buttonAboutDeveloper);
 
         buttonGoToFns.setOnClickListener(
-            new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     Intent intent = new Intent(SettingActivity.this, FnsActivity.class);
-                     startActivity(intent);
-                 }
-             }
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SettingActivity.this, FnsActivity.class);
+                        startActivity(intent);
+                    }
+                }
         );
 
         buttonLanguage.setOnClickListener(

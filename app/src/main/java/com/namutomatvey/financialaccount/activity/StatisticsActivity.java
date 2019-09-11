@@ -127,6 +127,42 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         }
         Date date = calendarDate.getTime();
         changeDatePickerType(null, date);
+        String table = DBHelper.TABLE_FINANCE + " left outer join " + DBHelper.TABLE_CATEGORY + " on "
+                + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY + " = " + DBHelper.TABLE_CATEGORY
+                + "." + DBHelper.KEY_ID;
+        String columns[] = {
+                DBHelper.TABLE_CATEGORY + "." + DBHelper.KEY_NAME + " as " + AS_CATEGORY_NAME,
+                "sum(" + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_AMOUNT + ") as " + AS_FINANCE_SUM,
+                DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY};
+        String selection = getSelection();
+        String groupBy = DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY;
+        Cursor cursor = database.query(table, columns, selection, null, groupBy, null, null);
+
+        List<String> categoryNames = new ArrayList<String>();
+        List<Double> categoryAmounts = new ArrayList<Double>();
+
+        viewCategories = new ArrayList<ViewCategory>();
+        if (cursor.moveToFirst()) {
+            int categoryIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_CATEGORY);
+            int categoryNameIndex = cursor.getColumnIndex(AS_CATEGORY_NAME);
+            int sumIndex = cursor.getColumnIndex(AS_FINANCE_SUM);
+            do {
+                categoryNames.add(cursor.getString(categoryNameIndex));
+                categoryAmounts.add(cursor.getDouble(sumIndex));
+                viewCategories.add(new ViewCategory(
+                        cursor.getLong(categoryIndex),
+                        cursor.getString(categoryNameIndex),
+                        cursor.getDouble(sumIndex)));
+
+            } while (cursor.moveToNext());
+        }
+        gridViewFinanceCategory.setAdapter(new ViewCategoryAdapter(this, viewCategories));
+
+        PieGraph pieGraph = new PieGraph();
+        GraphicalView graphicalView = pieGraph.getGraphicalView(this, categoryNames, categoryAmounts);
+        LinearLayout pieGraphLinerLayout = findViewById(R.id.pieGraphLinerLayout);
+        pieGraphLinerLayout.removeAllViews();
+        pieGraphLinerLayout.addView(graphicalView);
     }
 
     private void changeDatePickerType(@Nullable Date date_from, @Nullable Date date_to) {
@@ -231,6 +267,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
                 String tempStringDate = datePickerView.getText().toString();
                 startDate = weekFromDateFormat.parse(tempStringDate.split(" - ")[0]);
                 endDate = weekToDateFormat.parse(tempStringDate.split(" - ")[1]);
+                startDate.setYear(endDate.getYear());
                 dateSelection = fieldFinanceDate + " BETWEEN '" + searchDateFormat.format(startDate) + "' AND '" + searchDateFormat.format(endDate) + "'";
             } else if (datePickerType == getResources().getInteger(R.integer.date_picker_month)) {
                 startDate = monthDateFormat.parse(datePickerView.getText().toString());
@@ -251,7 +288,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_TYPE + " = " + typeFinanceCategory() + " AND " + dateSelection;
+         return DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_TYPE + " = " + typeFinanceCategory() + " AND " + dateSelection;
     }
 
     @Override

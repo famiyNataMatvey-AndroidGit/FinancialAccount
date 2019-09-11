@@ -31,248 +31,248 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class FnsActivity extends AppCompatActivity {
 
-    private Toolbar mActionBarToolbar;
-    private SharedPreferences mSettings;
-    private Pattern email_pattern;
-    private Pattern phone_pattern;
+  private Toolbar mActionBarToolbar;
+  private SharedPreferences mSettings;
+  private Pattern email_pattern;
+  private Pattern phone_pattern;
 
-    private int MODE_REGISTRATION = 1;
-    private int MODE_LOGIN = 2;
-    private int MODE_RECOVERY = 3;
+  private int MODE_REGISTRATION = 1;
+  private int MODE_LOGIN = 2;
+  private int MODE_RECOVERY = 3;
 
-    private int operation_mode = MODE_LOGIN;
+  private int operation_mode = MODE_LOGIN;
 
-    private static final String PHONE_PATTERN = "^\\+7[0-9]{10}$";
+  private static final String PHONE_PATTERN = "^\\+7[0-9]{10}$";
 
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
-                    "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+  private static final String EMAIL_PATTERN =
+          "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+                  "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-    public static final String APP_PREFERENCES = "mysettings";
-    public static final String APP_PREFERENCES_FNS_EMAIL = "fns_email";
-    public static final String APP_PREFERENCES_FNS_NAME = "fns_name";
-    public static final String APP_PREFERENCES_FNS_PHONE = "fns_phone";
-    public static final String APP_PREFERENCES_FNS_PASSWORD = "fns_password";
+  public static final String APP_PREFERENCES = "mysettings";
+  public static final String APP_PREFERENCES_FNS_EMAIL = "fns_email";
+  public static final String APP_PREFERENCES_FNS_NAME = "fns_name";
+  public static final String APP_PREFERENCES_FNS_PHONE = "fns_phone";
+  public static final String APP_PREFERENCES_FNS_PASSWORD = "fns_password";
 
-    public static final int PERMISSION_REQUEST = 200;
+  public static final int PERMISSION_REQUEST = 200;
 
-    private Button registration;
-    private Button recovery;
-    private Button save;
+  private Button registration;
+  private Button recovery;
+  private Button save;
 
-    private LinearLayout layoutFnsEmail;
-    private LinearLayout layoutFnsName;
-    private LinearLayout layoutFnsPassword;
+  private LinearLayout layoutFnsEmail;
+  private LinearLayout layoutFnsName;
+  private LinearLayout layoutFnsPassword;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fns);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_fns);
 
-        mActionBarToolbar = findViewById(R.id.toolbar);
-        mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_login));
-        setSupportActionBar(mActionBarToolbar);
+    mActionBarToolbar = findViewById(R.id.toolbar);
+    mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_login));
+    setSupportActionBar(mActionBarToolbar);
 
-        final EditText email = findViewById(R.id.editTextEmail);
-        final EditText phone = findViewById(R.id.editTextPhone);
-        final EditText name = findViewById(R.id.editTextName);
-        final EditText password = findViewById(R.id.editTextPassword);
+    final EditText email = findViewById(R.id.editTextEmail);
+    final EditText phone = findViewById(R.id.editTextPhone);
+    final EditText name = findViewById(R.id.editTextName);
+    final EditText password = findViewById(R.id.editTextPassword);
 
-        layoutFnsEmail = findViewById(R.id.layoutFnsEmail);
-        layoutFnsName = findViewById(R.id.layoutFnsName);
-        layoutFnsPassword = findViewById(R.id.layoutFnsPassword);
+    layoutFnsEmail = findViewById(R.id.layoutFnsEmail);
+    layoutFnsName = findViewById(R.id.layoutFnsName);
+    layoutFnsPassword = findViewById(R.id.layoutFnsPassword);
 
-        registration = findViewById(R.id.buttonReg);
-        recovery = findViewById(R.id.buttonRec);
-        save = findViewById(R.id.buttonSaveLogin);
+    registration = findViewById(R.id.buttonReg);
+    recovery = findViewById(R.id.buttonRec);
+    save = findViewById(R.id.buttonSaveLogin);
 
-        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        email.setText(mSettings.getString(APP_PREFERENCES_FNS_EMAIL, ""));
-        name.setText(mSettings.getString(APP_PREFERENCES_FNS_NAME, ""));
-        phone.setText(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""));
-        password.setText(mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
+    mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+    email.setText(mSettings.getString(APP_PREFERENCES_FNS_EMAIL, ""));
+    name.setText(mSettings.getString(APP_PREFERENCES_FNS_NAME, ""));
+    phone.setText(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""));
+    password.setText(mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
 
-        email_pattern = Pattern.compile(EMAIL_PATTERN);
-        phone_pattern = Pattern.compile(PHONE_PATTERN);
+    email_pattern = Pattern.compile(EMAIL_PATTERN);
+    phone_pattern = Pattern.compile(PHONE_PATTERN);
 
-        registration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(operation_mode != MODE_REGISTRATION) {
-                    operation_mode = MODE_REGISTRATION;
-                    mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_registration));
-                    recovery.setVisibility(View.GONE);
-                    layoutFnsEmail.setVisibility(View.VISIBLE);
-                    layoutFnsName.setVisibility(View.VISIBLE);
-                    layoutFnsPassword.setVisibility(View.GONE);
-                    return;
-                }
-                if (ContextCompat.checkSelfPermission(FnsActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(FnsActivity.this, new String[]{Manifest.permission.INTERNET}, PERMISSION_REQUEST);
-                }
+    registration.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(operation_mode != MODE_REGISTRATION) {
+          operation_mode = MODE_REGISTRATION;
+          mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_registration));
+          recovery.setVisibility(View.GONE);
+          layoutFnsEmail.setVisibility(View.VISIBLE);
+          layoutFnsName.setVisibility(View.VISIBLE);
+          layoutFnsPassword.setVisibility(View.GONE);
+          return;
+        }
+        if (ContextCompat.checkSelfPermission(FnsActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+          ActivityCompat.requestPermissions(FnsActivity.this, new String[]{Manifest.permission.INTERNET}, PERMISSION_REQUEST);
+        }
 
-                String temp_email = email.getText().toString();
-                Matcher email_matcher = email_pattern.matcher(temp_email);
-                if(temp_email.isEmpty() | !email_matcher.matches()) {
-                    Toast.makeText(FnsActivity.this, "Неверный формат Email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        String temp_email = email.getText().toString();
+        Matcher email_matcher = email_pattern.matcher(temp_email);
+        if(temp_email.isEmpty() | !email_matcher.matches()) {
+          Toast.makeText(FnsActivity.this, "Неверный формат Email", Toast.LENGTH_SHORT).show();
+          return;
+        }
 
-                String temp_name = name.getText().toString();
-                if(temp_name.isEmpty()) {
-                    Toast.makeText(FnsActivity.this, "Поле имя пустое", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        String temp_name = name.getText().toString();
+        if(temp_name.isEmpty()) {
+          Toast.makeText(FnsActivity.this, "Поле имя пустое", Toast.LENGTH_SHORT).show();
+          return;
+        }
 
-                String temp_phone = phone.getText().toString();
-                Matcher phone_matcher = phone_pattern.matcher(temp_phone);
-                if(temp_phone.isEmpty() | !phone_matcher.matches()) {
-                    Toast.makeText(FnsActivity.this, "Неверный формат Телефона: +70000000000", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        String temp_phone = phone.getText().toString();
+        Matcher phone_matcher = phone_pattern.matcher(temp_phone);
+        if(temp_phone.isEmpty() | !phone_matcher.matches()) {
+          Toast.makeText(FnsActivity.this, "Неверный формат Телефона: +70000000000", Toast.LENGTH_SHORT).show();
+          return;
+        }
 
-                ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(temp_email, temp_name, temp_phone);
-                clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_REGISTRATION);
-                JSONObject result = null;
-                try {
-                    result = clientCheckAdapter.get();
-                    if(result.getInt("code") ==  HttpsURLConnection.HTTP_NO_CONTENT) {
-                        SharedPreferences.Editor editor = mSettings.edit();
-                        editor.putString(APP_PREFERENCES_FNS_EMAIL, temp_email);
-                        editor.putString(APP_PREFERENCES_FNS_NAME, temp_name);
-                        editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
-                        editor.apply();
+        ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(temp_email, temp_name, temp_phone);
+        clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_REGISTRATION);
+        JSONObject result = null;
+        try {
+          result = clientCheckAdapter.get();
+          if(result.getInt("code") ==  HttpsURLConnection.HTTP_NO_CONTENT) {
+            SharedPreferences.Editor editor = mSettings.edit();
+            editor.putString(APP_PREFERENCES_FNS_EMAIL, temp_email);
+            editor.putString(APP_PREFERENCES_FNS_NAME, temp_name);
+            editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
+            editor.apply();
 
-                        operation_mode = MODE_LOGIN;
-                        recovery.setVisibility(View.VISIBLE);
-                        save.setVisibility(View.VISIBLE);
-                        layoutFnsEmail.setVisibility(View.INVISIBLE);
-                        layoutFnsName.setVisibility(View.INVISIBLE);
-                        layoutFnsPassword.setVisibility(View.VISIBLE);
-                    } else
-                        Toast.makeText(FnsActivity.this,  result.getString("error"), Toast.LENGTH_LONG).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+            operation_mode = MODE_LOGIN;
+            recovery.setVisibility(View.VISIBLE);
+            save.setVisibility(View.VISIBLE);
+            layoutFnsEmail.setVisibility(View.INVISIBLE);
+            layoutFnsName.setVisibility(View.INVISIBLE);
+            layoutFnsPassword.setVisibility(View.VISIBLE);
+          } else
+            Toast.makeText(FnsActivity.this,  result.getString("error"), Toast.LENGTH_LONG).show();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } catch (ExecutionException e) {
+          e.printStackTrace();
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }
+    });
 
-        recovery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(operation_mode != MODE_RECOVERY) {
-                    operation_mode = MODE_RECOVERY;
-                    mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_recovery));
-                    registration.setVisibility(View.GONE);
-                    layoutFnsPassword.setVisibility(View.GONE);
-                    return;
-                }
-                if (ContextCompat.checkSelfPermission(FnsActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(FnsActivity.this, new String[]{Manifest.permission.INTERNET}, PERMISSION_REQUEST);
-                }
-                String temp_phone = phone.getText().toString();
-                Matcher phone_matcher = phone_pattern.matcher(temp_phone);
-                if(temp_phone.isEmpty() | !phone_matcher.matches()) {
-                    Toast.makeText(FnsActivity.this, "Неверный формат Телефона: +70000000000", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+    recovery.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(operation_mode != MODE_RECOVERY) {
+          operation_mode = MODE_RECOVERY;
+          mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_recovery));
+          registration.setVisibility(View.GONE);
+          layoutFnsPassword.setVisibility(View.GONE);
+          return;
+        }
+        if (ContextCompat.checkSelfPermission(FnsActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+          ActivityCompat.requestPermissions(FnsActivity.this, new String[]{Manifest.permission.INTERNET}, PERMISSION_REQUEST);
+        }
+        String temp_phone = phone.getText().toString();
+        Matcher phone_matcher = phone_pattern.matcher(temp_phone);
+        if(temp_phone.isEmpty() | !phone_matcher.matches()) {
+          Toast.makeText(FnsActivity.this, "Неверный формат Телефона: +70000000000", Toast.LENGTH_SHORT).show();
+          return;
+        }
 
-                SharedPreferences.Editor editor = mSettings.edit();
-                editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
-                editor.apply();
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
+        editor.apply();
 
-                ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(temp_phone);
-                clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_PASSWORD_RECOVERY);
-                JSONObject result = null;
-                try {
-                    result = clientCheckAdapter.get();
-                    if(result.getInt("code") ==  HttpsURLConnection.HTTP_NO_CONTENT) {
-                        operation_mode = MODE_LOGIN;
-                        registration.setVisibility(View.VISIBLE);
-                        save.setVisibility(View.VISIBLE);
-                        layoutFnsEmail.setVisibility(View.INVISIBLE);
-                        layoutFnsName.setVisibility(View.INVISIBLE);
-                        layoutFnsPassword.setVisibility(View.VISIBLE);
-                    } else
-                        Toast.makeText(FnsActivity.this,  result.getString("error"), Toast.LENGTH_LONG).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(temp_phone);
+        clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_PASSWORD_RECOVERY);
+        JSONObject result = null;
+        try {
+          result = clientCheckAdapter.get();
+          if(result.getInt("code") ==  HttpsURLConnection.HTTP_NO_CONTENT) {
+            operation_mode = MODE_LOGIN;
+            registration.setVisibility(View.VISIBLE);
+            save.setVisibility(View.VISIBLE);
+            layoutFnsEmail.setVisibility(View.INVISIBLE);
+            layoutFnsName.setVisibility(View.INVISIBLE);
+            layoutFnsPassword.setVisibility(View.VISIBLE);
+          } else
+            Toast.makeText(FnsActivity.this,  result.getString("error"), Toast.LENGTH_LONG).show();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } catch (ExecutionException e) {
+          e.printStackTrace();
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }
+    });
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(operation_mode != MODE_LOGIN) {
-                    operation_mode = MODE_LOGIN;
-                    mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_login));
-                    registration.setVisibility(View.VISIBLE);
-                    recovery.setVisibility(View.VISIBLE);
-                    layoutFnsPassword.setVisibility(View.VISIBLE);
-                    layoutFnsEmail.setVisibility(View.GONE);
-                    layoutFnsName.setVisibility(View.GONE);
-                    return;
-                }
-                if (ContextCompat.checkSelfPermission(FnsActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(FnsActivity.this, new String[]{Manifest.permission.INTERNET}, PERMISSION_REQUEST);
-                }
+    save.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(operation_mode != MODE_LOGIN) {
+          operation_mode = MODE_LOGIN;
+          mActionBarToolbar.setTitle(getResources().getString(R.string.title_activity_fns_login));
+          registration.setVisibility(View.VISIBLE);
+          recovery.setVisibility(View.VISIBLE);
+          layoutFnsPassword.setVisibility(View.VISIBLE);
+          layoutFnsEmail.setVisibility(View.GONE);
+          layoutFnsName.setVisibility(View.GONE);
+          return;
+        }
+        if (ContextCompat.checkSelfPermission(FnsActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+          ActivityCompat.requestPermissions(FnsActivity.this, new String[]{Manifest.permission.INTERNET}, PERMISSION_REQUEST);
+        }
 
-                String temp_phone = phone.getText().toString();
-                Matcher phone_matcher = phone_pattern.matcher(temp_phone);
-                if(temp_phone.isEmpty() | !phone_matcher.matches()) {
-                    Toast.makeText(FnsActivity.this, "Неверный формат Телефона: +70000000000", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        String temp_phone = phone.getText().toString();
+        Matcher phone_matcher = phone_pattern.matcher(temp_phone);
+        if(temp_phone.isEmpty() | !phone_matcher.matches()) {
+          Toast.makeText(FnsActivity.this, "Неверный формат Телефона: +70000000000", Toast.LENGTH_SHORT).show();
+          return;
+        }
 
-                String temp_password = password.getText().toString();
-                if(temp_password.isEmpty()) {
-                    Toast.makeText(FnsActivity.this, "Поле пароль пустое", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(temp_phone, temp_password);
-                clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_LOGIN);
-                JSONObject result = null;
-                try {
-                    result = clientCheckAdapter.get();
-                    if(result.getInt("code") ==  HttpsURLConnection.HTTP_OK) {
-                        SharedPreferences.Editor editor = mSettings.edit();
-                        editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
-                        editor.putString(APP_PREFERENCES_FNS_PASSWORD, temp_password);
-                        editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_REGISTRATION), true);
-                        editor.apply();
-                        finish();
-                    } else
-                        Toast.makeText(FnsActivity.this,  result.getString("error"), Toast.LENGTH_LONG).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+        String temp_password = password.getText().toString();
+        if(temp_password.isEmpty()) {
+          Toast.makeText(FnsActivity.this, "Поле пароль пустое", Toast.LENGTH_SHORT).show();
+          return;
+        }
+        ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(temp_phone, temp_password);
+        clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_LOGIN);
+        JSONObject result = null;
+        try {
+          result = clientCheckAdapter.get();
+          if(result.getInt("code") ==  HttpsURLConnection.HTTP_OK) {
+            SharedPreferences.Editor editor = mSettings.edit();
+            editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
+            editor.putString(APP_PREFERENCES_FNS_PASSWORD, temp_password);
+            editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_REGISTRATION), true);
+            editor.apply();
+            finish();
+          } else
+            Toast.makeText(FnsActivity.this,  result.getString("error"), Toast.LENGTH_LONG).show();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } catch (ExecutionException e) {
+          e.printStackTrace();
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem setting_item = menu.findItem(R.id.menu_settings);
-        setting_item.setVisible(false);
-        return true;
-    }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+    MenuItem setting_item = menu.findItem(R.id.menu_settings);
+    setting_item.setVisible(false);
+    return true;
+  }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    return super.onOptionsItemSelected(item);
+  }
 }
