@@ -23,25 +23,14 @@
             android:visibility="visible" />
 
         <Button
-            android:id="@+id/buttonLanguage"
+            android:id="@+id/buttonDefaultCurrency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="48dp"
             android:layout_marginRight="48dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/border_box"
-            android:text="Язык"
-            android:visibility="visible" />
-
-        <Button
-            android:id="@+id/buttonNotification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="48dp"
-            android:layout_marginRight="48dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/border_box"
-            android:text="Уведомления"
+            android:text="Валюта по умолчанию"
             android:visibility="visible" />
 
         <Button

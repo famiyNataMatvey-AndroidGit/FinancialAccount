@@ -89,6 +89,16 @@ public class Finance {
     return currency_name;
   }
 
+  public static String getCurrency(SQLiteDatabase database, long currency) {
+    String currency_name = "";
+    Cursor cursor = database.query(DBHelper.TABLE_CURRENCY, null, DBHelper.KEY_ID + " = " + currency, null, null, null, null);
+    int shortNameIndex = cursor.getColumnIndex(DBHelper.KEY_SHORT_NAME);
+    if (cursor.moveToFirst())
+      currency_name = cursor.getString(shortNameIndex);
+    cursor.close();
+    return currency_name;
+  }
+
   public Double getCoefficient() {
     Double coefficientTemp = 1.0;
     Cursor cursor = database.query(DBHelper.TABLE_CURRENCY, null, DBHelper.KEY_ID + " = " + currency, null, null, null, null);

@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = mSettings.edit();
             editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH), true);
             editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false);
+            editor.putLong(getResources().getString(R.string.APP_PREFERENCES_DEFAULT_CURRENCY), 1);
             editor.apply();
 
         }

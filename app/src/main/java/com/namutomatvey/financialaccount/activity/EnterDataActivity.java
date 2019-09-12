@@ -77,7 +77,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         String title = getIntent().getExtras().getString("title", getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
-
+        mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
         intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
         number = getIntent().getExtras().getInt("number", getResources().getInteger(R.integer.click_button_income));
 
@@ -89,7 +89,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         textViewCurrencyName = findViewById(R.id.textViewCurrencyName);
         editTextComment = findViewById(R.id.editTextComment);
         editTextAmount = findViewById(R.id.editTextAmount);
-
         finance_id = getIntent().getExtras().getLong("finance_id", -1);
         dbHelper = new DBHelper(this);
         if (finance_id != -1) {
@@ -128,6 +127,12 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
 
             }
             cursor.close();
+
+        }
+        else {
+            currency = mSettings.getLong(getResources().getString(R.string.APP_PREFERENCES_DEFAULT_CURRENCY), 1);
+            SQLiteDatabase database = dbHelper.getWritableDatabase();
+            textViewCurrencyName.setText(Finance.getCurrency(database, currency));
 
         }
 
@@ -198,7 +203,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     finance.createFinance();
                 }
 
-                mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = mSettings.edit();
                 editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), true);
                 editor.apply();

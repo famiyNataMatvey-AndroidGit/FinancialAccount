@@ -13,10 +13,9 @@ import com.namutomatvey.financialaccount.R;
 
 public class SettingActivity extends AppCompatActivity {
 
-    private static final int RESULT_ACTIVITY_LANGUAGE = 1;
-    private static final int RESULT_ACTIVITY_NOTIFICATION = 2;
-    private static final int RESULT_ACTIVITY_PROBLEM = 3;
-    private static final int RESULT_ACTIVITY_ABOUT_DEVELOPER = 4;
+    private static final int RESULT_ACTIVITY_DEFAULT_CURRENCY = 1;
+    private static final int RESULT_ACTIVITY_PROBLEM = 2;
+    private static final int RESULT_ACTIVITY_ABOUT_DEVELOPER = 3;
 
     private Toolbar mActionBarToolbar;
 
@@ -30,8 +29,7 @@ public class SettingActivity extends AppCompatActivity {
         setSupportActionBar(mActionBarToolbar);
 
         Button buttonGoToFns = findViewById(R.id.buttonGoToFns);
-        Button buttonLanguage = findViewById(R.id.buttonLanguage);
-        Button buttonNotification = findViewById(R.id.buttonNotification);
+        Button buttonDefaultCurrency = findViewById(R.id.buttonDefaultCurrency);
         Button buttonProblem = findViewById(R.id.buttonProblem);
         Button buttonAboutDeveloper = findViewById(R.id.buttonAboutDeveloper);
 
@@ -45,23 +43,12 @@ public class SettingActivity extends AppCompatActivity {
                 }
         );
 
-        buttonLanguage.setOnClickListener(
+        buttonDefaultCurrency.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(SettingActivity.this, SettingDetailActivity.class);
-                        intent.putExtra("selected_button", RESULT_ACTIVITY_LANGUAGE);
-                        startActivity(intent);
-                    }
-                }
-        );
-
-        buttonNotification.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(SettingActivity.this, SettingDetailActivity.class);
-                        intent.putExtra("selected_button", RESULT_ACTIVITY_NOTIFICATION);
+                        intent.putExtra("selected_button", RESULT_ACTIVITY_DEFAULT_CURRENCY);
                         startActivity(intent);
                     }
                 }

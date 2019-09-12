@@ -262,17 +262,19 @@ public class FnsActivity extends AppCompatActivity {
             }
         });
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem setting_item = menu.findItem(R.id.menu_settings);
         setting_item.setVisible(false);
+        mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        this.finish();
         return super.onOptionsItemSelected(item);
     }
 }

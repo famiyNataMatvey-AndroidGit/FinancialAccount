@@ -15,24 +15,13 @@
         <include layout="@layout/toolbar" />
 
         <GridView
-            android:id="@+id/gridViewLanguage"
+            android:id="@+id/gridViewDefaultCurrency"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
             android:verticalSpacing="5dp"
-            android:visibility="gone" />
-
-        <Switch
-            android:id="@+id/switchNotification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginRight="16dp"
-            android:text="Уведомление"
-            android:textSize="18sp"
             android:visibility="gone" />
 
         <EditText
