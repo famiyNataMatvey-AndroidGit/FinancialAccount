@@ -24,7 +24,7 @@ public class FinanceActivity extends AppCompatActivity {
     private DBHelper dbHelper;
     private SQLiteDatabase database;
     private GridView gridView;
-    private long category_id;
+    private String selection;
     private Toolbar mActionBarToolbar;
 
     @Override
@@ -37,11 +37,42 @@ public class FinanceActivity extends AppCompatActivity {
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
 
-        category_id = getIntent().getExtras().getLong("categoryId");
+        selection = getIntent().getExtras().getString("selection");
 
         dbHelper = new DBHelper(this);
         database = dbHelper.getWritableDatabase();
-        Cursor cursor = database.query(DBHelper.TABLE_FINANCE, null, DBHelper.KEY_FINANCE_CATEGORY + " = " + category_id, null, null, null, null);
+
+        fillingGridView();
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem setting_item = menu.findItem(R.id.menu_settings);
+        setting_item.setVisible(false);
+        mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        this.finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        fillingGridView();
+    }
+
+    private void fillingGridView() {
+        Cursor cursor = database.query(DBHelper.TABLE_FINANCE, null, selection, null, null, null, null);
 
         int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
         int amountIndex = cursor.getColumnIndex(DBHelper.KEY_FINANCE_AMOUNT);
@@ -68,26 +99,7 @@ public class FinanceActivity extends AppCompatActivity {
         gridView = findViewById(R.id.gridViewFinance);
 
         gridView.setAdapter(new FinanceAdapter(this, finances));
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-            }
-        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem setting_item = menu.findItem(R.id.menu_settings);
-        setting_item.setVisible(false);
-        mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        this.finish();
-        return super.onOptionsItemSelected(item);
-    }
 }
