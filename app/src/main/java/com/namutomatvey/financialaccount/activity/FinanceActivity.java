@@ -15,6 +15,7 @@ import android.widget.GridView;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.adapter.FinanceAdapter;
+import com.namutomatvey.financialaccount.dto.Currency;
 import com.namutomatvey.financialaccount.dto.Finance;
 
 import java.text.ParseException;
@@ -92,12 +93,13 @@ public class FinanceActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             do {
                 try {
+                    long currency = cursor.getLong(currencyIndex);
                     finances.add(new Finance(database,
                             cursor.getLong(idIndex),
                             cursor.getInt(typeIndex),
-                            cursor.getDouble(amountIndex),
+                            cursor.getDouble(amountIndex) * Finance.getCoefficient(database, Finance.default_currency) / Finance.getCoefficient(database, currency),
                             dateFormatRevert.format(dateFormat.parse(cursor.getString(dateIndex))),
-                            cursor.getLong(currencyIndex),
+                            currency,
                             cursor.getLong(categoryIndex),
                             cursor.getString(commentIndex)));
                 } catch (ParseException e) {
@@ -105,11 +107,7 @@ public class FinanceActivity extends AppCompatActivity {
                 }
             } while (cursor.moveToNext());
         }
-
         gridView = findViewById(R.id.gridViewFinance);
-
         gridView.setAdapter(new FinanceAdapter(this, finances));
     }
-
-
 }

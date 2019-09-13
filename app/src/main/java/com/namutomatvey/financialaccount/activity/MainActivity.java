@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.dto.Finance;
 
 import java.text.DecimalFormat;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
 
         }
+        Finance.default_currency = mSettings.getLong(getResources().getString(R.string.APP_PREFERENCES_DEFAULT_CURRENCY), 1);
 
         balanceAmountTextView = findViewById(R.id.textViewBalanceAmount);
 

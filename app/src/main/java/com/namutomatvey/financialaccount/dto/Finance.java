@@ -21,10 +21,19 @@ public class Finance {
   private String date;
   private String comment;
   private long category;
+  public static long default_currency;
   private long currency;
   public boolean box = false;
 
   private SQLiteDatabase database;
+
+  public static void updateAmountCurrency( DBHelper dbHelper, long currency_id){
+    SQLiteDatabase database = dbHelper.getWritableDatabase();
+    Double coefficient = getCoefficient(database, default_currency) / getCoefficient(database, currency_id);
+    String qs = "UPDATE " + DBHelper.TABLE_FINANCE + " SET " + DBHelper.KEY_FINANCE_AMOUNT + " = " + DBHelper.KEY_FINANCE_AMOUNT + " * " + coefficient;
+    database.execSQL(qs);
+    Finance.default_currency = currency_id;
+  }
 
   public Finance(SQLiteDatabase database, int type, double amount, String date, long currency, String comment) {
     this.type = type;
@@ -54,7 +63,6 @@ public class Finance {
     this.category = category;
     this.comment = comment;
     this.database = database;
-    this.getCoefficient();
   }
 
   public long getId() {
@@ -97,9 +105,9 @@ public class Finance {
     return currency_name;
   }
 
-  public static String getCurrency(SQLiteDatabase database, long currency) {
+  public static String getCurrency(SQLiteDatabase database, long currency_id) {
     String currency_name = "";
-    Cursor cursor = database.query(DBHelper.TABLE_CURRENCY, null, DBHelper.KEY_ID + " = " + currency, null, null, null, null);
+    Cursor cursor = database.query(DBHelper.TABLE_CURRENCY, null, DBHelper.KEY_ID + " = " + currency_id, null, null, null, null);
     int shortNameIndex = cursor.getColumnIndex(DBHelper.KEY_SHORT_NAME);
     if (cursor.moveToFirst())
       currency_name = cursor.getString(shortNameIndex);
@@ -107,14 +115,14 @@ public class Finance {
     return currency_name;
   }
 
-  public Double getCoefficient() {
+  public static Double getCoefficient(SQLiteDatabase database, long currency_id) {
     Double coefficientTemp = 1.0;
-    Cursor cursor = database.query(DBHelper.TABLE_CURRENCY, null, DBHelper.KEY_ID + " = " + currency, null, null, null, null);
+    Cursor cursor = database.query(DBHelper.TABLE_CURRENCY, null, DBHelper.KEY_ID + " = " + currency_id, null, null, null, null);
     int coefficientIndex = cursor.getColumnIndex(DBHelper.KEY_COEFFICIENT);
     if (cursor.moveToFirst())
       coefficientTemp = cursor.getDouble(coefficientIndex);
     cursor.close();
-    return this.amount * coefficientTemp;
+    return coefficientTemp;
   }
 
   public void setCategory(long category_id){
@@ -124,7 +132,8 @@ public class Finance {
   public void createFinance(){
     ContentValues contentFinanceValues = new ContentValues();
     contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE,  this.type);
-    contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, this.amount);
+    Double amount = this.amount * getCoefficient(database, this.currency) / getCoefficient(database, default_currency);
+    contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, amount);
     try {
       contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, dateFormat.format(dateFormatRevert.parse(this.date)));
     } catch (ParseException e) {
@@ -139,7 +148,8 @@ public class Finance {
   public void updateFinance(int type, double amount, String date, long currency, long category, String comment) {
     ContentValues contentFinanceValues = new ContentValues();
     contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, type);
-    contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, amount);
+    Double temp_amount = amount * getCoefficient(database, currency) / getCoefficient(database, default_currency);
+    contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, temp_amount);
     try {
       contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, dateFormat.format(dateFormatRevert.parse(date)));
     } catch (ParseException e) {

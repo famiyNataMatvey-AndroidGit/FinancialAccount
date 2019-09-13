@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.renderscript.Script;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -110,7 +111,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     finance = new Finance(database,
                             cursor.getLong(idIndex),
                             cursor.getInt(typeIndex),
-                            cursor.getDouble(amountIndex),
+                            cursor.getDouble(amountIndex) * Finance.getCoefficient(database, Finance.default_currency) / Finance.getCoefficient(database, currency),
                             dateFormatRevert.format(dateFormat.parse(cursor.getString(dateIndex))),
                             currency,
                             category,
