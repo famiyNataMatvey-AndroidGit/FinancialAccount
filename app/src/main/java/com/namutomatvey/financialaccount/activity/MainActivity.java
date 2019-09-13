@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         if (mSettings.getBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false)) {
             float balance = get_balance();
-            balanceAmountTextView.setText(new DecimalFormat("#0.00").format(balance));
+            balanceAmountTextView.setText(new DecimalFormat("#0.00").format(balance).replace(",", "."));
         }
         super.onStart();
     }

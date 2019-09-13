@@ -54,7 +54,7 @@ public class ViewCategoryAdapter extends BaseAdapter {
 
     ViewCategory viewCategorie = this.viewCategories.get(position);
     holder.categoryNameView.setText(viewCategorie.getCategory());
-    holder.amountView.setText(new DecimalFormat("#0.00").format(viewCategorie.getAmount()));
+    holder.amountView.setText(new DecimalFormat("#0.00").format(viewCategorie.getAmount()).replace(",", "."));
     return convertView;
   }
 

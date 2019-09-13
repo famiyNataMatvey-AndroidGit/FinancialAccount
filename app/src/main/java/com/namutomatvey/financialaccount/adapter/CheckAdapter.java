@@ -66,7 +66,7 @@ public class CheckAdapter extends BaseAdapter {
         final Finance finance = this.getItem(position);
         holder.QRCurrency.setText(finance.getCurrency());
         holder.QRComment.setText(finance.getComment());
-        holder.QRAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()));
+        holder.QRAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()).replace(",", "."));
         ImageView imageViewTemp = (ImageView) holder.QRChoice;
         if(finance.box){
             imageViewTemp.setImageResource(R.drawable.ic_check_true);

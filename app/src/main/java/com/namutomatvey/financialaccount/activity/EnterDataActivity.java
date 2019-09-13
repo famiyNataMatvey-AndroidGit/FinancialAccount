@@ -1,5 +1,6 @@
 package com.namutomatvey.financialaccount.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -27,18 +28,20 @@ import com.namutomatvey.financialaccount.dto.Finance;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class EnterDataActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-
+    @SuppressLint("SimpleDateFormat")
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    @SuppressLint("SimpleDateFormat")
+    private SimpleDateFormat dateFormatRevert = new SimpleDateFormat("dd-MM-yyyy");
     private DBHelper dbHelper;
     private Toolbar mActionBarToolbar;
     private Intent intent;
     private Date date;
-    private SimpleDateFormat simpleDate;
-    //    private SimpleDateFormat searchSimpleDate;
     private static final int requestCodeCategory = 1;
     private static final int requestCodeCurrency = 2;
     private TextView dateView;
@@ -81,9 +84,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
         number = getIntent().getExtras().getInt("number", getResources().getInteger(R.integer.click_button_income));
 
-//        simpleDate = new SimpleDateFormat("dd.MM.yyyy");
-        simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-
         dateView = findViewById(R.id.textViewDate);
         textViewCategoryName = findViewById(R.id.financeItemCategoryName);
         textViewCurrencyName = findViewById(R.id.textViewCurrencyName);
@@ -106,14 +106,18 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                 currency = cursor.getLong(currencyIndex);
                 category = cursor.getLong(categoryIndex);
 
-                finance = new Finance(database,
-                        cursor.getLong(idIndex),
-                        cursor.getInt(typeIndex),
-                        cursor.getDouble(amountIndex),
-                        cursor.getString(dateIndex),
-                        currency,
-                        category,
-                        cursor.getString(commentIndex));
+                try {
+                    finance = new Finance(database,
+                            cursor.getLong(idIndex),
+                            cursor.getInt(typeIndex),
+                            cursor.getDouble(amountIndex),
+                            dateFormatRevert.format(dateFormat.parse(cursor.getString(dateIndex))),
+                            currency,
+                            category,
+                            cursor.getString(commentIndex));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 dateView.setText(finance.getDate());
                 textViewCategoryName.setText(finance.getCategory());
@@ -133,12 +137,11 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             currency = mSettings.getLong(getResources().getString(R.string.APP_PREFERENCES_DEFAULT_CURRENCY), 1);
             SQLiteDatabase database = dbHelper.getWritableDatabase();
             textViewCurrencyName.setText(Finance.getCurrency(database, currency));
-
         }
 
         if (dateView.getText().toString().isEmpty()) {
             date = Calendar.getInstance().getTime();
-            dateView.setText(simpleDate.format(date));
+            dateView.setText(dateFormatRevert.format(date));
         }
 
         dateView.setOnClickListener(new View.OnClickListener() {
@@ -257,7 +260,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         date = calendar.getTime();
-        dateView.setText(simpleDate.format(date));
+        dateView.setText(dateFormatRevert.format(date));
         dateView.setTextColor(Color.BLACK);
     }
 }

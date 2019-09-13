@@ -65,7 +65,7 @@ public class FinanceAdapter extends BaseAdapter {
         Finance finance = this.finances.get(position);
         holder.StatisticsDate.setText(finance.getDate());
         holder.StatisticsComment.setText(finance.getComment());
-        holder.StatisticsAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()));
+        holder.StatisticsAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()).replace(",", "."));
         holder.StatisticsCurrency.setText(finance.getCurrency());
         holder.StatisticsChoice.setTag(position);
         holder.StatisticsChoice.setOnClickListener(new View.OnClickListener() {

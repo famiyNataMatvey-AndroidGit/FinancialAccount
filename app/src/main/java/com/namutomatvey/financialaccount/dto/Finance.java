@@ -1,12 +1,20 @@
 package com.namutomatvey.financialaccount.dto;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.namutomatvey.financialaccount.DBHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class Finance {
+  @SuppressLint("SimpleDateFormat")
+  private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  @SuppressLint("SimpleDateFormat")
+  private SimpleDateFormat dateFormatRevert = new SimpleDateFormat("dd-MM-yyyy");
   private long id;
   private int type;
   private double amount;
@@ -117,7 +125,11 @@ public class Finance {
     ContentValues contentFinanceValues = new ContentValues();
     contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE,  this.type);
     contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, this.amount);
-    contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, this.date);
+    try {
+      contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, dateFormat.format(dateFormatRevert.parse(this.date)));
+    } catch (ParseException e) {
+      contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, this.date);
+    }
     contentFinanceValues.put(DBHelper.KEY_FINANCE_COMMENT, this.comment);
     contentFinanceValues.put(DBHelper.KEY_FINANCE_CATEGORY, this.category);
     contentFinanceValues.put(DBHelper.KEY_FINANCE_CURRENCY, this.currency);
@@ -128,7 +140,11 @@ public class Finance {
     ContentValues contentFinanceValues = new ContentValues();
     contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, type);
     contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, amount);
-    contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, date);
+    try {
+      contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, dateFormat.format(dateFormatRevert.parse(date)));
+    } catch (ParseException e) {
+      contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, date);
+    }
     contentFinanceValues.put(DBHelper.KEY_FINANCE_COMMENT, comment);
     contentFinanceValues.put(DBHelper.KEY_FINANCE_CATEGORY, category);
     contentFinanceValues.put(DBHelper.KEY_FINANCE_CURRENCY, currency);

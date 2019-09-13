@@ -1,5 +1,6 @@
 package com.namutomatvey.financialaccount.activity;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,11 +17,16 @@ import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.adapter.FinanceAdapter;
 import com.namutomatvey.financialaccount.dto.Finance;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FinanceActivity extends AppCompatActivity {
-
+    @SuppressLint("SimpleDateFormat")
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    @SuppressLint("SimpleDateFormat")
+    private SimpleDateFormat dateFormatRevert = new SimpleDateFormat("dd MMM y");
     private DBHelper dbHelper;
     private SQLiteDatabase database;
     private GridView gridView;
@@ -85,14 +91,18 @@ public class FinanceActivity extends AppCompatActivity {
         final List<Finance> finances = new ArrayList<Finance>();
         if (cursor.moveToFirst()) {
             do {
-                finances.add(new Finance(database,
-                        cursor.getLong(idIndex),
-                        cursor.getInt(typeIndex),
-                        cursor.getDouble(amountIndex),
-                        cursor.getString(dateIndex),
-                        cursor.getLong(currencyIndex),
-                        cursor.getLong(categoryIndex),
-                        cursor.getString(commentIndex)));
+                try {
+                    finances.add(new Finance(database,
+                            cursor.getLong(idIndex),
+                            cursor.getInt(typeIndex),
+                            cursor.getDouble(amountIndex),
+                            dateFormatRevert.format(dateFormat.parse(cursor.getString(dateIndex))),
+                            cursor.getLong(currencyIndex),
+                            cursor.getLong(categoryIndex),
+                            cursor.getString(commentIndex)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             } while (cursor.moveToNext());
         }
 
