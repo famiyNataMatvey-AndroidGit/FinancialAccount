@@ -31,9 +31,12 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="48dp"
             android:layout_marginRight="16dp"
-            android:inputType="text"
+            android:hint="Введите сообщение разработчикам!"
+            android:inputType="textAutoCorrect|textMultiLine"
+            android:isScrollContainer="true"
             android:maxHeight="480dp"
-            android:text="Massage"
+            android:maxLines="10"
+            android:text=""
             android:visibility="gone" />
 
         <Button
@@ -56,7 +59,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="24dp"
-            android:text="TextView"
+            android:text="Это первое приложение для Григорьевой Натальи и Довгалева Матвея. Надеемся, вам нравится пользоваться нашим приложением."
             android:textSize="18sp"
             android:visibility="gone" />
 
