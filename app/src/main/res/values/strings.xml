@@ -25,6 +25,7 @@
     <string name="button_category">Выбрать категорю</string>
     <string name="cash_voucher">Кассовый\nчек</string>
     <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
 
     <string name="menu_period_day">День</string>
     <string name="menu_period_week">Неделя</string>

@@ -71,7 +71,7 @@ public class FinanceActivity extends AppCompatActivity {
         fillingGridView();
     }
 
-    private void fillingGridView() {
+    public void fillingGridView() {
         Cursor cursor = database.query(DBHelper.TABLE_FINANCE, null, selection, null, null, null, null);
 
         int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);

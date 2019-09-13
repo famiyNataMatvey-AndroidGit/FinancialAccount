@@ -3,14 +3,17 @@ package com.namutomatvey.financialaccount.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.support.v7.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.activity.EnterDataActivity;
+import com.namutomatvey.financialaccount.activity.FinanceActivity;
 import com.namutomatvey.financialaccount.dto.Finance;
 
 import java.text.DecimalFormat;
@@ -59,19 +62,16 @@ public class FinanceAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Finance finance = this.finances.get(position);
+        Finance finance = this.finances.get(position);
         holder.StatisticsDate.setText(finance.getDate());
         holder.StatisticsComment.setText(finance.getComment());
         holder.StatisticsAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()));
         holder.StatisticsCurrency.setText(finance.getCurrency());
+        holder.StatisticsChoice.setTag(position);
         holder.StatisticsChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, EnterDataActivity.class);
-                intent.putExtra("title", context.getResources().getString(R.string.title_activity_edit));
-                intent.putExtra("number", finance.getType() + 1);
-                intent.putExtra("finance_id", finance.getId());
-                context.startActivity(intent);
+                showPopupMenu(v);
             }
         });
         return convertView;
@@ -84,5 +84,41 @@ public class FinanceAdapter extends BaseAdapter {
         TextView StatisticsComment;
         TextView StatisticsAmount;
         TextView StatisticsCurrency;
+    }
+
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(context, v);
+        popupMenu.inflate(R.menu.popupmenu);
+        final int position = (int) v.getTag();
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Finance finance = finances.get(position);
+                        switch (item.getItemId()) {
+                            case R.id.edit:
+                                Intent intent = new Intent(context, EnterDataActivity.class);
+                                intent.putExtra("title", context.getResources().getString(R.string.title_activity_edit));
+                                intent.putExtra("number", finance.getType() + 1);
+                                intent.putExtra("finance_id", finance.getId());
+                                context.startActivity(intent);
+                                return true;
+                            case R.id.delete:
+                                finances.remove(position);
+                                finance.delFinance();
+                                FinanceActivity finance_activity = (FinanceActivity) context;
+                                finance_activity.fillingGridView();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+            }
+        });
+        popupMenu.show();
     }
 }

@@ -143,6 +143,6 @@ public class Finance {
   }
 
   public void delFinance() {
-    int delCount = database.delete(DBHelper.TABLE_FINANCE, "id = " + id, null);
+    database.delete(DBHelper.TABLE_FINANCE, DBHelper.KEY_ID + " = " + id, null);
   }
 }

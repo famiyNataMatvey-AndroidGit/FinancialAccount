@@ -102,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPassword" />
+
         </LinearLayout>
 
         <Button
@@ -109,6 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="48dp"
+            android:layout_marginTop="24dp"
             android:layout_marginRight="48dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/border_box"
