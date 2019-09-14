@@ -5,18 +5,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.namutomatvey.financialaccount.adapter.GetCurrncyCBRAdapter;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
+import com.namutomatvey.financialaccount.dto.Currency;
 
 public class DBHelper extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "financialAccountDb";
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "financialAccountDb";
     public static final String TABLE_CURRENCY = "currency";
     public static final String TABLE_CATEGORY = "category";
     public static final String TABLE_FINANCE = "finance";
@@ -82,50 +76,40 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void onBaseInsertDatabase(SQLiteDatabase database) {
-        String[] CategoryNames = {"Фрукты", "Овощи", "Кисломолочные продукты", "Напитки", "Быт"};
-        for (int i = 0; i < 5; i += 1) {
+        String[] incomeCategoryNames = {
+                "Аванс", "Зарплата", "Пенсия", "Подарки", "Помощь",
+                "Премия", "Выйгрыш", "Подработка", "Степендия"
+        };
+        String[] expenseCategoryNames = {
+                "Фрукты", "Овощи", "Кисломолочные продукты", "Напитки",
+                "Мебель", "Отпуск", "Хозяйственные расходы", "Лекарства и медицина", "Транспорт",
+                "Крупная бытовая техника", "Одежда", "Алкоголь", "Мясо и птица", "Рыба и морепродукты"
+        };
+
+        for (String incomeCategoryName : incomeCategoryNames) {
             ContentValues contentCategoryValues = new ContentValues();
-            contentCategoryValues.put(KEY_NAME, CategoryNames[i]);
+            contentCategoryValues.put(KEY_NAME, incomeCategoryName);
+            contentCategoryValues.put(KEY_CATEGORY_TYPE, FINANCE_TYPE_INCOME);
+            database.insert(TABLE_CATEGORY, null, contentCategoryValues);
+        }
+
+        for (String expenseCategoryName : expenseCategoryNames) {
+            ContentValues contentCategoryValues = new ContentValues();
+            contentCategoryValues.put(KEY_NAME, expenseCategoryName);
             contentCategoryValues.put(KEY_CATEGORY_TYPE, FINANCE_TYPE_EXPENSES);
             database.insert(TABLE_CATEGORY, null, contentCategoryValues);
         }
 
-        ContentValues contentCurrencyValues = new ContentValues();
-        contentCurrencyValues.put(KEY_NAME, "Российский рубль");
-        contentCurrencyValues.put(KEY_SHORT_NAME, "RUB");
-        contentCurrencyValues.put(KEY_COEFFICIENT, 1.0);
-        database.insert(TABLE_CURRENCY, null, contentCurrencyValues);
-
-        GetCurrncyCBRAdapter getCurrncyCBRAdapter = new GetCurrncyCBRAdapter();
-        getCurrncyCBRAdapter.execute();
-
-        try {
-            JSONObject currencyCRB = getCurrncyCBRAdapter.get();
-            Iterator<String> keys = currencyCRB.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                JSONObject temp_currency = currencyCRB.getJSONObject(key);
-                contentCurrencyValues = new ContentValues();
-                contentCurrencyValues.put(KEY_NAME, temp_currency.getString("Name"));
-                contentCurrencyValues.put(KEY_SHORT_NAME, temp_currency.getString("CharCode"));
-                contentCurrencyValues.put(KEY_COEFFICIENT, temp_currency.getDouble("Value"));
-                database.insert(TABLE_CURRENCY, null, contentCurrencyValues);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        Currency.createCurrencyData(database);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists " + TABLE_CURRENCY);
-        db.execSQL("drop table if exists " + TABLE_CATEGORY);
-        db.execSQL("drop table if exists " + TABLE_FINANCE);
-        onCreate(db);
-
+        if (oldVersion < newVersion) {
+            db.execSQL("drop table if exists " + TABLE_CURRENCY);
+            db.execSQL("drop table if exists " + TABLE_CATEGORY);
+            db.execSQL("drop table if exists " + TABLE_FINANCE);
+            onCreate(db);
+        }
     }
 }
