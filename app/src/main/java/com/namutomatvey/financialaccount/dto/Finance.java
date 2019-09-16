@@ -27,12 +27,33 @@ public class Finance {
 
   private SQLiteDatabase database;
 
-  public static void updateAmountCurrency( DBHelper dbHelper, long currency_id){
+  public static void updateAmountCurrency(DBHelper dbHelper, long currency_id){
     SQLiteDatabase database = dbHelper.getWritableDatabase();
     Double coefficient = getCoefficient(database, default_currency) / getCoefficient(database, currency_id);
     String qs = "UPDATE " + DBHelper.TABLE_FINANCE + " SET " + DBHelper.KEY_FINANCE_AMOUNT + " = " + DBHelper.KEY_FINANCE_AMOUNT + " * " + coefficient;
     database.execSQL(qs);
     Finance.default_currency = currency_id;
+  }
+
+  public static float getBalance(DBHelper dbHelper){
+    String [] columns = {
+            "CASE WHEN " +
+            DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_TYPE + " = " + DBHelper.FINANCE_TYPE_INCOME +
+            " THEN " + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_AMOUNT +
+            " ELSE (-1 * " + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_AMOUNT
+            + ") END AS balance"};
+
+    SQLiteDatabase database = dbHelper.getReadableDatabase();
+    Cursor cursor = database.query(DBHelper.TABLE_FINANCE, columns, null, null, null, null, null);
+    int balanceIndex = cursor.getColumnIndex("balance");
+    float total_balance = 0;
+    if (cursor.moveToFirst()) {
+      do {
+        total_balance += cursor.getFloat(balanceIndex);
+      } while (cursor.moveToNext());
+    }
+    cursor.close();
+    return total_balance;
   }
 
   public Finance(SQLiteDatabase database, int type, double amount, String date, long currency, String comment) {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.dto.Finance;
 
 import java.text.DecimalFormat;
@@ -35,15 +36,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mActionBarToolbar);
 
         mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
+        SPHelper.setSharedPreferences(mSettings);
+        SPHelper.checkFirstLaunch();
 
-        if (!mSettings.contains(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH))) {
-            SharedPreferences.Editor editor = mSettings.edit();
-            editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_FIRST_LAUNCH), true);
-            editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false);
-            editor.putLong(getResources().getString(R.string.APP_PREFERENCES_DEFAULT_CURRENCY), 1);
-            editor.apply();
-
-        }
         Finance.default_currency = mSettings.getLong(getResources().getString(R.string.APP_PREFERENCES_DEFAULT_CURRENCY), 1);
 
         balanceAmountTextView = findViewById(R.id.textViewBalanceAmount);
@@ -108,42 +103,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        if (mSettings.getBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false)) {
-            float balance = get_balance();
+        if(SPHelper.checkUpdateBalance()) {
+            float balance = Finance.getBalance(new DBHelper(this));
             balanceAmountTextView.setText(new DecimalFormat("#0.00").format(balance).replace(",", "."));
         }
         super.onStart();
     }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    private float get_balance() {
-        float total_balance = 0;
-        String table = DBHelper.TABLE_FINANCE;
-        String columns[] = {
-                "case when " + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_TYPE + " = " +
-                        DBHelper.FINANCE_TYPE_INCOME + " then " + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_AMOUNT
-                        + " else (-1 * " + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_AMOUNT + ") end as balance"};
-        String groupBy = DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_ID;
-
-        DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase database = dbHelper.getReadableDatabase();
-
-        Cursor cursor = database.query(table, columns, null, null, groupBy, null, null);
-
-        if (cursor.moveToFirst()) {
-            int balanceIndex = cursor.getColumnIndex("balance");
-            do {
-                total_balance += cursor.getFloat(balanceIndex);
-
-            } while (cursor.moveToNext());
-        }
-        return total_balance;
-
-    }
-
 }

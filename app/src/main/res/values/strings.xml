@@ -48,8 +48,10 @@
     <string name="default_hint_date">00.00.0000</string>
 
     <string name="APP_PREFERENCES">mysettings</string>
+<!--    todo: Удалить-->
     <string name="APP_PREFERENCES_FIRST_LAUNCH">first_launch</string>
     <string name="APP_PREFERENCES_BALANCE">balance</string>
     <string name="APP_PREFERENCES_REGISTRATION">registration_fns</string>
     <string name="APP_PREFERENCES_DEFAULT_CURRENCY">default_currency</string>
+<!--    -->
 </resources>
