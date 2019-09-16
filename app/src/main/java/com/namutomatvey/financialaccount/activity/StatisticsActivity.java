@@ -197,8 +197,6 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
                 mActionBarToolbar.setTitle(getResources().getString(R.string.menu_period_all));
                 datePickerType = getResources().getInteger(R.integer.date_picker_all);
                 break;
-            default:
-                this.finish();
         }
     }
 
@@ -380,10 +378,21 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        setTitle(item.getItemId());
-        setPickerLayout();
-        changeDatePickerType(null, null);
-        updateDate();
+        switch (item.getItemId()) {
+            case R.id.menu_day:
+            case R.id.menu_week:
+            case R.id.menu_month:
+            case R.id.menu_year:
+            case R.id.menu_custom:
+            case R.id.menu_all:
+                setTitle(item.getItemId());
+                setPickerLayout();
+                changeDatePickerType(null, null);
+                updateDate();
+                break;
+            default:
+                this.finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 

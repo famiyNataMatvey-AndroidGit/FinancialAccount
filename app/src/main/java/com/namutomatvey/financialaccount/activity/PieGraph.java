@@ -9,7 +9,9 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 class PieGraph {
 
@@ -22,13 +24,36 @@ class PieGraph {
         defaultRenderer.setLabelsTextSize(32);
         defaultRenderer.setLabelsColor(Color.BLACK);
         SimpleSeriesRenderer simpleSeriesRenderer = null;
-        int[] colors = {Color.BLUE, Color.GRAY, Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, Color.CYAN};
-        for (int i = 0; i < categoryNames.size(); i++) {
+        int categoryNumber = categoryNames.size();
+        Integer[] colors = getRandomColors(categoryNumber);
+        for (int i = 0; i < categoryNumber; i++) {
             series.add(categoryNames.get(i), categoryAmounts.get(i));
             simpleSeriesRenderer = new SimpleSeriesRenderer();
             simpleSeriesRenderer.setColor(colors[i]);
             defaultRenderer.addSeriesRenderer(simpleSeriesRenderer);
         }
         return ChartFactory.getPieChartView(context, series, defaultRenderer);
+    }
+
+    private Integer [] getRandomColors(int colorNumber){
+        Integer [] colors = new Integer[colorNumber];
+        Integer color;
+        int i = 0;
+        while (i < colorNumber){
+            color = getColor();
+            if(Arrays.asList(colors).contains(color))
+                continue;
+            colors[i] = color;
+            i++;
+        }
+        return colors;
+    }
+
+    private Integer getColor() {
+        Random randomGenerator = new Random();
+        int red = randomGenerator.nextInt(256);
+        int green = randomGenerator.nextInt(256);
+        int blue = randomGenerator.nextInt(256);
+        return Color.rgb(red, green, blue);
     }
 }
