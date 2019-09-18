@@ -38,7 +38,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
     private String fpd = null;
     private String n = null;
     private String date = null;
-    private String sum = null;
+    private Double sum = null;
 
     public ClientCheckAdapter(String email, String name, String phone) {
         this.email = email;
@@ -55,10 +55,17 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
         this.phone = phone;
     }
 
-    public void setQrData(String qr_data){
+    public void setQrData(String qr_data) {
         String[] split_qr = qr_data.split("&");
-        this.date = split_qr[0].split("=")[1];
-        this.sum = split_qr[1].split("=")[1];
+        String dateTime = split_qr[0].split("=")[1];
+        String year = dateTime.substring(0, 4);
+        String month = dateTime.substring(4, 6);
+        String day = dateTime.substring(6, 8);
+        String hour = dateTime.substring(9, 11);
+        String minute = dateTime.substring(11, 13);
+
+        this.date = year + '-' + month + '-' + day + dateTime.charAt(8) + hour + ':' + minute;
+        this.sum = Double.parseDouble(split_qr[1].split("=")[1]) * 100;
         this.fn = split_qr[2].split("=")[1];
         this.fd = split_qr[3].split("=")[1];
         this.fpd = split_qr[4].split("=")[1];
@@ -71,7 +78,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
 
         String purposeRequest = params[0];
 
-        switch (purposeRequest){
+        switch (purposeRequest) {
             case PURPOSE_REGISTRATION:
                 response = this.registration();
                 break;
@@ -85,7 +92,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
                 response = this.isCheck(this.fn, this.fd, this.fpd, this.date, this.sum);
                 break;
             case PURPOSE_GET_CHECK:
-                response = this.getCheck(this.fn, this.fd, this.fpd, this.date, this.sum);
+                response = this.getCheck(this.fn, this.fd, this.fpd);
                 break;
         }
 
@@ -114,7 +121,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
 
 
             outputStream = urlConnection.getOutputStream();
-            OutputStreamWriter  writer = new OutputStreamWriter(outputStream);
+            OutputStreamWriter writer = new OutputStreamWriter(outputStream);
             writer.write(data);
             writer.flush();
             writer.close();
@@ -130,7 +137,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
                     response_json.put("error", "Пользователь с этими данными" + " уже существует в базе ФНС");
                 } else response_json.put("error", "Ошибка взаимодействия с сервером ФНС");
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +145,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
         return response_json;
     }
 
-    private JSONObject login(){
+    private JSONObject login() {
         JSONObject response_json = new JSONObject();
         try {
             URL url = new URL(this.LOGIN_URL);
@@ -148,16 +155,16 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             urlConnection.setRequestProperty("Device-Id", "");
 
             String authString = this.phone + ":" + this.password;
-            String basicAuth = "Basic "  + Base64.encodeToString(authString.getBytes(), Base64.DEFAULT);
-            urlConnection.setRequestProperty ("Authorization", basicAuth);
+            String basicAuth = "Basic " + Base64.encodeToString(authString.getBytes(), Base64.DEFAULT);
+            urlConnection.setRequestProperty("Authorization", basicAuth);
             int responseCode = urlConnection.getResponseCode();
             response_json.put("code", responseCode);
-            if(responseCode != HttpsURLConnection.HTTP_OK){
-                if(responseCode == HttpsURLConnection.HTTP_FORBIDDEN) {
+            if (responseCode != HttpsURLConnection.HTTP_OK) {
+                if (responseCode == HttpsURLConnection.HTTP_FORBIDDEN) {
                     response_json.put("error", "Некоректный номер телефона или пароль!");
                 } else response_json.put("error", "Ошибка взаимодействия с сервером ФНС");
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,7 +193,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             response_json = new JSONObject();
 
             outputStream = urlConnection.getOutputStream();
-            OutputStreamWriter  writer = new OutputStreamWriter(outputStream);
+            OutputStreamWriter writer = new OutputStreamWriter(outputStream);
             writer.write(data);
             writer.flush();
             writer.close();
@@ -198,13 +205,12 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
 
             if (responseCode != HttpsURLConnection.HTTP_NO_CONTENT) {
                 if (responseCode == HttpsURLConnection.HTTP_NOT_FOUND) {
-                    response_json.put("error","Пользователя с логином" + this.phone + " не существует");
-                }
-                else {
-                    response_json.put("error","Ошибка взаимодействия с сервером ФНС");
+                    response_json.put("error", "Пользователя с логином" + this.phone + " не существует");
+                } else {
+                    response_json.put("error", "Ошибка взаимодействия с сервером ФНС");
                 }
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,7 +218,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
         return response_json;
     }
 
-    private JSONObject isCheck(String FN, String FD, String FPD, String date, String sum){
+    private JSONObject isCheck(String FN, String FD, String FPD, String date, double sum) {
         JSONObject response_json = new JSONObject();
         try {
             String baseUrl = this.IS_CHECK_URL + FN + "/operations/1/tickets/" + FD;
@@ -224,19 +230,18 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             urlConnection.setRequestProperty("Device-OS", "Adnroid 6.0");
             urlConnection.setRequestProperty("Device-Id", "");
 
-            String authString = this.phone + ":" + this.password;
-            String basicAuth = "Basic "  + Base64.encodeToString(authString.getBytes(), Base64.DEFAULT);
-            urlConnection.setRequestProperty ("Authorization", basicAuth);
+            urlConnection.connect();
             int responseCode = urlConnection.getResponseCode();
+
             response_json.put("code", responseCode);
-            if(responseCode != HttpsURLConnection.HTTP_NO_CONTENT){
-                if(responseCode == HttpsURLConnection.HTTP_NOT_ACCEPTABLE) {
-                    response_json.put("error", "Чек не найден. 1");
-                } else if(responseCode == HttpsURLConnection.HTTP_BAD_REQUEST) {
-                    response_json.put("error", "Не указана сумма или дата 1");
-                } else response_json.put("error", "Ошибка взаимодействия с сервером ФНС 1");
+            if (responseCode != HttpsURLConnection.HTTP_NO_CONTENT) {
+                if (responseCode == HttpsURLConnection.HTTP_NOT_ACCEPTABLE) {
+                    response_json.put("error", "Чек не найден.");
+                } else if (responseCode == HttpsURLConnection.HTTP_BAD_REQUEST) {
+                    response_json.put("error", "Не указана сумма или дата");
+                } else response_json.put("error", "Ошибка взаимодействия с сервером ФНС");
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -244,7 +249,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
         return response_json;
     }
 
-    private JSONObject getCheck(String FN, String FD, String FPD, String date, String sum) {
+    private JSONObject getCheck(String FN, String FD, String FPD) {
         JSONObject response_json = new JSONObject();
         try {
             String baseUrl = this.GET_CHECK_URL + FN + "/tickets/" + FD;
@@ -257,20 +262,19 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
             urlConnection.setRequestProperty("Device-Id", "");
 
             String authString = this.phone + ":" + this.password;
-            String basicAuth = "Basic "  + Base64.encodeToString(authString.getBytes(), Base64.DEFAULT);
-            urlConnection.setRequestProperty ("Authorization", basicAuth);
+            String basicAuth = "Basic " + Base64.encodeToString(authString.getBytes(), Base64.DEFAULT);
+            urlConnection.setRequestProperty("Authorization", basicAuth);
             int responseCode = urlConnection.getResponseCode();
             response_json.put("code", responseCode);
             if (responseCode != HttpsURLConnection.HTTP_OK) {
                 if (responseCode == HttpsURLConnection.HTTP_FORBIDDEN) {
-                    response_json.put("error","Указаны некоректные данные пользователя.2");
+                    response_json.put("error", "Указаны некоректные данные пользователя.2");
                 } else if (responseCode == HttpsURLConnection.HTTP_NOT_ACCEPTABLE) {
                     response_json.put("error", "Чек не найден.2");
                 } else {
                     response_json.put("error", "Неизвестный код пришел от ФНС 2");
                 }
-            }
-            else {
+            } else {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
                 String s = null;
                 StringBuilder sb = new StringBuilder();
@@ -280,7 +284,7 @@ public class ClientCheckAdapter extends AsyncTask<String, Void, JSONObject> {
                 reader.close();
                 response_json.put("massage", new JSONObject(sb.toString()));
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();

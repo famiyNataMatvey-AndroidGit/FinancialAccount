@@ -59,7 +59,11 @@ public class Finance {
   public Finance(SQLiteDatabase database, int type, double amount, String date, long currency, String comment) {
     this.type = type;
     this.amount = amount;
-    this.date = date;
+    try {
+      this.date = dateFormatRevert.format(dateFormat.parse(date));
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
     this.currency = currency;
     this.comment = comment;
     this.database = database;

@@ -129,11 +129,53 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
             if (data != null) {
                 Barcode barcode = data.getParcelableExtra("barcode");
                 String qr_value = barcode.displayValue;
+                ClientCheckAdapter clientIsCheckAdapter = new ClientCheckAdapter(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""), mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
+                clientIsCheckAdapter.setQrData(qr_value);
+                clientIsCheckAdapter.execute(ClientCheckAdapter.PURPOSE_IS_CHECK);
+                JSONObject result = null;
+                while(true) {
+                    try {
+                        Thread.sleep(1000);
+                        result = clientIsCheckAdapter.get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                    break;
+                }
                 ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""), mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
-                clientCheckAdapter.setQrData(qr_value);
                 try {
-                    clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_GET_CHECK);
-                    JSONObject result = clientCheckAdapter.get();
+                    if(result == null){
+                        finish();
+                        return;
+                    }
+                    else {
+                        if(result.getInt("code") == HttpsURLConnection.HTTP_NO_CONTENT) {
+                            clientCheckAdapter.setQrData(qr_value);
+                            clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_GET_CHECK);
+                        }
+                        else {
+                            Toast.makeText(BeforeAppendStatisticActivity.this, result.getString("error"), Toast.LENGTH_LONG).show();
+                            finish();
+                            return;
+                        }
+                    }
+                 } catch (JSONException e){
+                    e.printStackTrace();
+                }
+                while(true) {
+                    try {
+                        Thread.sleep(1000);
+                        result = clientCheckAdapter.get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        continue;
+                    }
+                    break;
+                }
+                try {
                     if (result.getInt("code") == HttpsURLConnection.HTTP_OK) {
                         dbHelper = new DBHelper(this);
                         database = dbHelper.getWritableDatabase();
@@ -155,10 +197,6 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
 
                     } else
                         Toast.makeText(BeforeAppendStatisticActivity.this, result.getString("error"), Toast.LENGTH_LONG).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
