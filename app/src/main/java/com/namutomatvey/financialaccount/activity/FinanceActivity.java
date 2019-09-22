@@ -14,8 +14,8 @@ import android.widget.GridView;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.adapter.FinanceAdapter;
-import com.namutomatvey.financialaccount.dto.Currency;
 import com.namutomatvey.financialaccount.dto.Finance;
 
 import java.text.ParseException;
@@ -97,7 +97,7 @@ public class FinanceActivity extends AppCompatActivity {
                     finances.add(new Finance(database,
                             cursor.getLong(idIndex),
                             cursor.getInt(typeIndex),
-                            cursor.getDouble(amountIndex) * Finance.getCoefficient(database, Finance.default_currency) / Finance.getCoefficient(database, currency),
+                            cursor.getDouble(amountIndex) * Finance.getCoefficient(database, SPHelper.getDefaultCurrency()) / Finance.getCoefficient(database, currency),
                             dateFormatRevert.format(dateFormat.parse(cursor.getString(dateIndex))),
                             currency,
                             cursor.getLong(categoryIndex),

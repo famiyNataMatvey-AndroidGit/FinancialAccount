@@ -35,13 +35,13 @@ class PieGraph {
         return ChartFactory.getPieChartView(context, series, defaultRenderer);
     }
 
-    private Integer [] getRandomColors(int colorNumber){
-        Integer [] colors = new Integer[colorNumber];
+    private Integer[] getRandomColors(int colorNumber) {
+        Integer[] colors = new Integer[colorNumber];
         Integer color;
         int i = 0;
-        while (i < colorNumber){
+        while (i < colorNumber) {
             color = getColor();
-            if(Arrays.asList(colors).contains(color))
+            if (Arrays.asList(colors).contains(color))
                 continue;
             colors[i] = color;
             i++;

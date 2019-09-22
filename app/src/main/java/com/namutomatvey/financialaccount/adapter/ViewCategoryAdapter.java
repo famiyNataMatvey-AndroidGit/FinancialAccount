@@ -1,4 +1,5 @@
 package com.namutomatvey.financialaccount.adapter;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,52 +15,52 @@ import java.util.List;
 
 public class ViewCategoryAdapter extends BaseAdapter {
 
-  private Context context;
-  private LayoutInflater layoutInflater;
-  private List<ViewCategory> viewCategories;
+    private Context context;
+    private LayoutInflater layoutInflater;
+    private List<ViewCategory> viewCategories;
 
-  public ViewCategoryAdapter(Context context, List<ViewCategory> viewCategories) {
-    this.context = context;
-    this.viewCategories = viewCategories;
-    layoutInflater = LayoutInflater.from(context);
-  }
-
-  @Override
-  public int getCount() {
-    return viewCategories.size();
-  }
-
-  @Override
-  public Object getItem(int position) {
-    return viewCategories.get(position);
-  }
-
-  @Override
-  public long getItemId(int position) {
-    return position;
-  }
-
-
-  public View getView(int position, View convertView, ViewGroup parent) {
-    ViewHolder holder;
-    if (convertView == null) {
-      convertView = layoutInflater.inflate(R.layout.item_category_statistic, null);
-      holder = new ViewHolder();
-      holder.categoryNameView = convertView.findViewById(R.id.financeItemCategoryName);
-      holder.amountView = convertView.findViewById(R.id.financeItemAmount);
-      convertView.setTag(holder);
-    } else {
-      holder = (ViewHolder) convertView.getTag();
+    public ViewCategoryAdapter(Context context, List<ViewCategory> viewCategories) {
+        this.context = context;
+        this.viewCategories = viewCategories;
+        layoutInflater = LayoutInflater.from(context);
     }
 
-    ViewCategory viewCategorie = this.viewCategories.get(position);
-    holder.categoryNameView.setText(viewCategorie.getCategory());
-    holder.amountView.setText(new DecimalFormat("#0.00").format(viewCategorie.getAmount()).replace(",", "."));
-    return convertView;
-  }
+    @Override
+    public int getCount() {
+        return viewCategories.size();
+    }
 
-  static class ViewHolder {
-    TextView categoryNameView;
-    TextView amountView;
-  }
+    @Override
+    public Object getItem(int position) {
+        return viewCategories.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.item_category_statistic, null);
+            holder = new ViewHolder();
+            holder.categoryNameView = convertView.findViewById(R.id.financeItemCategoryName);
+            holder.amountView = convertView.findViewById(R.id.financeItemAmount);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        ViewCategory viewCategorie = this.viewCategories.get(position);
+        holder.categoryNameView.setText(viewCategorie.getCategory());
+        holder.amountView.setText(new DecimalFormat("#0.00").format(viewCategorie.getAmount()).replace(",", "."));
+        return convertView;
+    }
+
+    static class ViewHolder {
+        TextView categoryNameView;
+        TextView amountView;
+    }
 }

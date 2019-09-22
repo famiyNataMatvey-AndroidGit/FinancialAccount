@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -63,7 +62,7 @@ public class CategoryAdapter extends BaseAdapter {
         return textView;
     }
 
-    public void addingItemAdapter(Category category){
+    public void addingItemAdapter(Category category) {
         this.categories.add(category);
     }
 }

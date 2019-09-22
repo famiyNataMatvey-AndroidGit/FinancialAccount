@@ -2,9 +2,7 @@ package com.namutomatvey.financialaccount.activity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -25,6 +23,7 @@ import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.adapter.ViewCategoryAdapter;
 import com.namutomatvey.financialaccount.dto.ViewCategory;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
@@ -45,7 +44,6 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
     private SQLiteDatabase database;
 
     private Toolbar mActionBarToolbar;
-    private SharedPreferences sharedPreferences;
     private int number;
     private int datePickerType;
     private int datePickerIdentifier;
@@ -89,10 +87,6 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
     private String AS_CATEGORY_NAME = "category_name";
     private String AS_FINANCE_SUM = "amount_sum";
     private GridView gridViewFinanceCategory;
-
-    private static final String APP_PREFERENCES = "mysettings";
-    private static final String TYPE_DATE_PICKER = "datePickerType";
-    private static final String TITLE = "titleStatisticsActivity";
 
 
     private int typeFinanceCategory() {
@@ -225,8 +219,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         if (preTable) {
             fieldFinanceDate = DBHelper.TABLE_FINANCE + '.' + DBHelper.KEY_FINANCE_DATE;
             fieldFinanceType = DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_TYPE;
-        }
-        else {
+        } else {
             fieldFinanceDate = DBHelper.KEY_FINANCE_DATE;
             fieldFinanceType = DBHelper.KEY_FINANCE_TYPE;
         }
@@ -287,19 +280,11 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
 
         gridViewFinanceCategory = findViewById(R.id.gridViewFinanceCategory);
 
-        sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if (!sharedPreferences.contains(TYPE_DATE_PICKER))   // приложение запущено впервые
-        {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(TYPE_DATE_PICKER, getResources().getInteger(R.integer.date_picker_day));
-            editor.putString(TITLE, getResources().getString(R.string.menu_period_day));
-            editor.apply();
-        }
         mActionBarToolbar = findViewById(R.id.toolbar);
-        mActionBarToolbar.setTitle(sharedPreferences.getString(TITLE, getResources().getString(R.string.menu_period_day)));
+        mActionBarToolbar.setTitle(SPHelper.getStatisticTitle());
         setSupportActionBar(mActionBarToolbar);
 
-        datePickerType = sharedPreferences.getInt(TYPE_DATE_PICKER, getResources().getInteger(R.integer.date_picker_day));
+        datePickerType = SPHelper.getStatisticTypeDatePicker();
         setPickerLayout();
         changeDatePickerType(null, null);
 
@@ -422,10 +407,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(TYPE_DATE_PICKER, datePickerType);
-        editor.putString(TITLE, mActionBarToolbar.getTitle().toString());
-        editor.apply();
+        SPHelper.saveStatisticParams(datePickerType, mActionBarToolbar.getTitle().toString());
     }
 
     @Override
@@ -434,7 +416,7 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
         super.onRestart();
     }
 
-    private void updateDate(){
+    private void updateDate() {
         String table = DBHelper.TABLE_FINANCE + " left outer join " + DBHelper.TABLE_CATEGORY + " on "
                 + DBHelper.TABLE_FINANCE + "." + DBHelper.KEY_FINANCE_CATEGORY + " = " + DBHelper.TABLE_CATEGORY
                 + "." + DBHelper.KEY_ID;

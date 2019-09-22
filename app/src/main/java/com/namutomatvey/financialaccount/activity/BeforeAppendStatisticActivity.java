@@ -1,8 +1,6 @@
 package com.namutomatvey.financialaccount.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.adapter.CheckAdapter;
 import com.namutomatvey.financialaccount.adapter.ClientCheckAdapter;
 import com.namutomatvey.financialaccount.dto.Finance;
@@ -35,9 +34,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class BeforeAppendStatisticActivity extends AppCompatActivity {
 
     private Toolbar mActionBarToolbar;
-    private SharedPreferences mSettings;
-    public static final String APP_PREFERENCES_FNS_PHONE = "fns_phone";
-    public static final String APP_PREFERENCES_FNS_PASSWORD = "fns_password";
 
     private GridView gridView;
     private DBHelper dbHelper;
@@ -79,15 +75,13 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
             }
         });
 
-        mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
         startActivityForResult(intent_barcode, REQUEST_CODE_BARCODE);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem setting_item = menu.findItem(R.id.menu_settings);
-        setting_item.setVisible(false);
+        menu.findItem(R.id.menu_settings).setVisible(false);
         mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }
@@ -117,23 +111,18 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                     checkAdapter.notifyDataSetChanged();
                     gridView.invalidateViews();
                     gridView.setAdapter(checkAdapter);
-                    if (!mSettings.getBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), false)) {
-                        SharedPreferences.Editor editor = mSettings.edit();
-                        editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), true);
-                        editor.apply();
-                    }
-
+                    SPHelper.setBalanceTrue();
                 }
             }
         } else if (requestCode == REQUEST_CODE_BARCODE && resultCode == RESULT_OK) {
             if (data != null) {
                 Barcode barcode = data.getParcelableExtra("barcode");
                 String qr_value = barcode.displayValue;
-                ClientCheckAdapter clientIsCheckAdapter = new ClientCheckAdapter(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""), mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
+                ClientCheckAdapter clientIsCheckAdapter = new ClientCheckAdapter(SPHelper.getFnsPhone(), SPHelper.getFnsPassword());
                 clientIsCheckAdapter.setQrData(qr_value);
                 clientIsCheckAdapter.execute(ClientCheckAdapter.PURPOSE_IS_CHECK);
                 JSONObject result = null;
-                while(true) {
+                while (true) {
                     try {
                         Thread.sleep(1000);
                         result = clientIsCheckAdapter.get();
@@ -144,27 +133,25 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                     }
                     break;
                 }
-                ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""), mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
+                ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(SPHelper.getFnsPhone(), SPHelper.getFnsPassword());
                 try {
-                    if(result == null){
+                    if (result == null) {
                         finish();
                         return;
-                    }
-                    else {
-                        if(result.getInt("code") == HttpsURLConnection.HTTP_NO_CONTENT) {
+                    } else {
+                        if (result.getInt("code") == HttpsURLConnection.HTTP_NO_CONTENT) {
                             clientCheckAdapter.setQrData(qr_value);
                             clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_GET_CHECK);
-                        }
-                        else {
+                        } else {
                             Toast.makeText(BeforeAppendStatisticActivity.this, result.getString("error"), Toast.LENGTH_LONG).show();
                             finish();
                             return;
                         }
                     }
-                 } catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                while(true) {
+                while (true) {
                     try {
                         Thread.sleep(1000);
                         result = clientCheckAdapter.get();

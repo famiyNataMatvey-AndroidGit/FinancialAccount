@@ -1,8 +1,6 @@
 package com.namutomatvey.financialaccount.activity;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -18,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.adapter.ClientCheckAdapter;
 
 import org.json.JSONException;
@@ -32,7 +31,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class FnsActivity extends AppCompatActivity {
 
     private Toolbar mActionBarToolbar;
-    private SharedPreferences mSettings;
     private Pattern email_pattern;
     private Pattern phone_pattern;
 
@@ -47,12 +45,6 @@ public class FnsActivity extends AppCompatActivity {
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
                     "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-    public static final String APP_PREFERENCES = "mysettings";
-    public static final String APP_PREFERENCES_FNS_EMAIL = "fns_email";
-    public static final String APP_PREFERENCES_FNS_NAME = "fns_name";
-    public static final String APP_PREFERENCES_FNS_PHONE = "fns_phone";
-    public static final String APP_PREFERENCES_FNS_PASSWORD = "fns_password";
 
     public static final int PERMISSION_REQUEST = 200;
 
@@ -86,11 +78,10 @@ public class FnsActivity extends AppCompatActivity {
         recovery = findViewById(R.id.buttonRec);
         save = findViewById(R.id.buttonSaveLogin);
 
-        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        email.setText(mSettings.getString(APP_PREFERENCES_FNS_EMAIL, ""));
-        name.setText(mSettings.getString(APP_PREFERENCES_FNS_NAME, ""));
-        phone.setText(mSettings.getString(APP_PREFERENCES_FNS_PHONE, ""));
-        password.setText(mSettings.getString(APP_PREFERENCES_FNS_PASSWORD, ""));
+        email.setText(SPHelper.getFnsEmail());
+        name.setText(SPHelper.getFnsName());
+        phone.setText(SPHelper.getFnsPhone());
+        password.setText(SPHelper.getFnsClosePassword());
 
         email_pattern = Pattern.compile(EMAIL_PATTERN);
         phone_pattern = Pattern.compile(PHONE_PATTERN);
@@ -137,11 +128,7 @@ public class FnsActivity extends AppCompatActivity {
                 try {
                     result = clientCheckAdapter.get();
                     if (result.getInt("code") == HttpsURLConnection.HTTP_NO_CONTENT) {
-                        SharedPreferences.Editor editor = mSettings.edit();
-                        editor.putString(APP_PREFERENCES_FNS_EMAIL, temp_email);
-                        editor.putString(APP_PREFERENCES_FNS_NAME, temp_name);
-                        editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
-                        editor.apply();
+                        SPHelper.registrationFns(temp_name, temp_email, temp_phone);
 
                         operation_mode = MODE_LOGIN;
                         recovery.setVisibility(View.VISIBLE);
@@ -180,10 +167,6 @@ public class FnsActivity extends AppCompatActivity {
                     Toast.makeText(FnsActivity.this, "Неверный формат Телефона: +70000000000", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                SharedPreferences.Editor editor = mSettings.edit();
-                editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
-                editor.apply();
 
                 ClientCheckAdapter clientCheckAdapter = new ClientCheckAdapter(temp_phone);
                 clientCheckAdapter.execute(ClientCheckAdapter.PURPOSE_PASSWORD_RECOVERY);
@@ -244,11 +227,7 @@ public class FnsActivity extends AppCompatActivity {
                 try {
                     result = clientCheckAdapter.get();
                     if (result.getInt("code") == HttpsURLConnection.HTTP_OK) {
-                        SharedPreferences.Editor editor = mSettings.edit();
-                        editor.putString(APP_PREFERENCES_FNS_PHONE, temp_phone);
-                        editor.putString(APP_PREFERENCES_FNS_PASSWORD, temp_password);
-                        editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_REGISTRATION), true);
-                        editor.apply();
+                        SPHelper.loginFns(temp_phone, temp_password);
                         finish();
                     } else
                         Toast.makeText(FnsActivity.this, result.getString("error"), Toast.LENGTH_LONG).show();
@@ -262,7 +241,7 @@ public class FnsActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);

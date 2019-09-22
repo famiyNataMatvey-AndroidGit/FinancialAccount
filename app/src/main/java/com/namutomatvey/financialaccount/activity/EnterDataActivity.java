@@ -3,14 +3,11 @@ package com.namutomatvey.financialaccount.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.renderscript.Script;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +22,7 @@ import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
+import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.dto.Finance;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 
@@ -50,7 +48,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     private TextView textViewCurrencyName;
     private EditText editTextComment;
     private EditText editTextAmount;
-    private SharedPreferences mSettings;
 
     private long category;
     private long currency;
@@ -81,7 +78,6 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         String title = getIntent().getExtras().getString("title", getResources().getString(R.string.app_name));
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
-        mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
         intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
         number = getIntent().getExtras().getInt("number", getResources().getInteger(R.integer.click_button_income));
 
@@ -111,7 +107,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     finance = new Finance(database,
                             cursor.getLong(idIndex),
                             cursor.getInt(typeIndex),
-                            cursor.getDouble(amountIndex) * Finance.getCoefficient(database, Finance.default_currency) / Finance.getCoefficient(database, currency),
+                            cursor.getDouble(amountIndex) * Finance.getCoefficient(database, SPHelper.getDefaultCurrency()) / Finance.getCoefficient(database, currency),
                             dateFormatRevert.format(dateFormat.parse(cursor.getString(dateIndex))),
                             currency,
                             category,
@@ -133,10 +129,9 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             }
             cursor.close();
 
-        }
-        else {
-            currency = mSettings.getLong(getResources().getString(R.string.APP_PREFERENCES_DEFAULT_CURRENCY), 1);
+        } else {
             SQLiteDatabase database = dbHelper.getWritableDatabase();
+            currency = SPHelper.getDefaultCurrency();
             textViewCurrencyName.setText(Finance.getCurrency(database, currency));
         }
 
@@ -206,10 +201,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     );
                     finance.createFinance();
                 }
-
-                SharedPreferences.Editor editor = mSettings.edit();
-                editor.putBoolean(getResources().getString(R.string.APP_PREFERENCES_BALANCE), true);
-                editor.apply();
+                SPHelper.setBalanceTrue();
                 finish();
             }
         });
@@ -218,8 +210,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem setting_item = menu.findItem(R.id.menu_settings);
-        setting_item.setVisible(false);
+        menu.findItem(R.id.menu_settings).setVisible(false);
         mActionBarToolbar.setNavigationIcon(R.drawable.ic_back);
         return true;
     }

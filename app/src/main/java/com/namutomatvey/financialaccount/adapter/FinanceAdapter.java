@@ -2,13 +2,13 @@ package com.namutomatvey.financialaccount.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.support.v7.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.namutomatvey.financialaccount.R;
@@ -91,28 +91,28 @@ public class FinanceAdapter extends BaseAdapter {
         popupMenu.inflate(R.menu.popupmenu);
         final int position = (int) v.getTag();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Finance finance = finances.get(position);
-                        switch (item.getItemId()) {
-                            case R.id.edit:
-                                Intent intent = new Intent(context, EnterDataActivity.class);
-                                intent.putExtra("title", context.getResources().getString(R.string.title_activity_edit));
-                                intent.putExtra("number", finance.getType() + 1);
-                                intent.putExtra("finance_id", finance.getId());
-                                context.startActivity(intent);
-                                return true;
-                            case R.id.delete:
-                                finances.remove(position);
-                                finance.delFinance();
-                                FinanceActivity finance_activity = (FinanceActivity) context;
-                                finance_activity.fillingGridView();
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Finance finance = finances.get(position);
+                switch (item.getItemId()) {
+                    case R.id.edit:
+                        Intent intent = new Intent(context, EnterDataActivity.class);
+                        intent.putExtra("title", context.getResources().getString(R.string.title_activity_edit));
+                        intent.putExtra("number", finance.getType() + 1);
+                        intent.putExtra("finance_id", finance.getId());
+                        context.startActivity(intent);
+                        return true;
+                    case R.id.delete:
+                        finances.remove(position);
+                        finance.delFinance();
+                        FinanceActivity finance_activity = (FinanceActivity) context;
+                        finance_activity.fillingGridView();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
 
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override

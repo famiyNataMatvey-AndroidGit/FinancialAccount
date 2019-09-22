@@ -11,7 +11,6 @@ import java.util.Calendar;
 
 public class CalendarFragment extends AppCompatDialogFragment {
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Calendar calendar = Calendar.getInstance();

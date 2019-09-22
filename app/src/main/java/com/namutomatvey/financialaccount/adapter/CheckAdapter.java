@@ -28,7 +28,7 @@ public class CheckAdapter extends BaseAdapter {
         layoutInflater = LayoutInflater.from(context);
     }
 
-    public void setFinances(List<Finance> finances){
+    public void setFinances(List<Finance> finances) {
         this.finances = finances;
     }
 
@@ -68,7 +68,7 @@ public class CheckAdapter extends BaseAdapter {
         holder.QRComment.setText(finance.getComment());
         holder.QRAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()).replace(",", "."));
         ImageView imageViewTemp = (ImageView) holder.QRChoice;
-        if(finance.box){
+        if (finance.box) {
             imageViewTemp.setImageResource(R.drawable.ic_check_true);
         } else {
             imageViewTemp.setImageResource(R.drawable.ic_check_false);
@@ -79,7 +79,7 @@ public class CheckAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Finance tempItem = getItem((Integer) v.getTag());
                 ImageView imageViewTemp = (ImageView) v;
-                if(tempItem.box){
+                if (tempItem.box) {
                     tempItem.box = false;
                     imageViewTemp.setImageResource(R.drawable.ic_check_false);
                 } else {

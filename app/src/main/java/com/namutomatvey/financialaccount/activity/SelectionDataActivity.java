@@ -32,7 +32,6 @@ import com.namutomatvey.financialaccount.dto.Currency;
 import java.util.ArrayList;
 import java.util.List;
 
-//implements AdapterView.OnItemSelectedListener
 public class SelectionDataActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;

@@ -3,8 +3,6 @@ package com.namutomatvey.financialaccount.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +22,6 @@ import java.text.DecimalFormat;
 public class MainActivity extends AppCompatActivity {
 
     private TextView balanceAmountTextView;
-    private SharedPreferences mSettings;
     private Intent intent;
 
     @Override
@@ -35,11 +32,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mActionBarToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
 
-        mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
+        SharedPreferences mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
         SPHelper.setSharedPreferences(mSettings);
         SPHelper.checkFirstLaunch();
-
-        Finance.default_currency = mSettings.getLong(getResources().getString(R.string.APP_PREFERENCES_DEFAULT_CURRENCY), 1);
 
         balanceAmountTextView = findViewById(R.id.textViewBalanceAmount);
 
@@ -89,8 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem setting_item = menu.findItem(R.id.menu_settings);
-        setting_item.setVisible(true);
+        menu.findItem(R.id.menu_settings).setVisible(true);
         return true;
     }
 
@@ -103,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        if(SPHelper.checkUpdateBalance()) {
+        if (SPHelper.checkUpdateBalance()) {
             float balance = Finance.getBalance(new DBHelper(this));
             balanceAmountTextView.setText(new DecimalFormat("#0.00").format(balance).replace(",", "."));
         }

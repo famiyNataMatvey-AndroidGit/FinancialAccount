@@ -20,7 +20,7 @@ public class Currency {
     private String short_name;
     private double coefficient;
 
-    public static void createCurrencyData(SQLiteDatabase database){
+    public static void createCurrencyData(SQLiteDatabase database) {
         insertRusCurrency(database);
         JSONObject currencyCRB = requestCurrencyFromCBR();
         Iterator<String> keys = currencyCRB.keys();
@@ -38,7 +38,7 @@ public class Currency {
         }
     }
 
-    public static void updateCurrencyData(SQLiteDatabase database){
+    public static void updateCurrencyData(SQLiteDatabase database) {
         JSONObject currencyCRB = requestCurrencyFromCBR();
         Iterator<String> keys = currencyCRB.keys();
         while (keys.hasNext()) {
@@ -56,7 +56,7 @@ public class Currency {
         }
     }
 
-    private static void insertRusCurrency(SQLiteDatabase database){
+    private static void insertRusCurrency(SQLiteDatabase database) {
         contentCurrencyValues = new ContentValues();
         contentCurrencyValues.put(DBHelper.KEY_NAME, "Российский рубль");
         contentCurrencyValues.put(DBHelper.KEY_SHORT_NAME, "RUB");
@@ -64,10 +64,10 @@ public class Currency {
         database.insert(DBHelper.TABLE_CURRENCY, null, contentCurrencyValues);
     }
 
-    private static JSONObject requestCurrencyFromCBR(){
+    private static JSONObject requestCurrencyFromCBR() {
         GetCurrencyCBRAdapter getCurrncyCBRAdapter = new GetCurrencyCBRAdapter();
         getCurrncyCBRAdapter.execute();
-        while(true) {
+        while (true) {
             try {
                 Thread.sleep(1000);
                 return getCurrncyCBRAdapter.get();
