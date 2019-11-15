@@ -14,6 +14,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
+import com.namutomatvey.financialaccount.ConversionData;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.SPHelper;
@@ -175,7 +176,7 @@ public class BeforeAppendStatisticActivity extends AppCompatActivity {
                             finances.add(new Finance(database,
                                     DBHelper.FINANCE_TYPE_EXPENSES,
                                     temp_item.getDouble("sum") / 100,
-                                    date,
+                                    ConversionData.conversionStringToDate(date),
                                     1,
                                     temp_item.getString("name")));
                         }

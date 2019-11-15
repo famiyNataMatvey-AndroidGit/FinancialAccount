@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.namutomatvey.financialaccount.ConversionData;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.activity.EnterDataActivity;
 import com.namutomatvey.financialaccount.activity.FinanceActivity;
@@ -65,7 +66,7 @@ public class FinanceAdapter extends BaseAdapter {
         Finance finance = this.finances.get(position);
         holder.StatisticsDate.setText(finance.getDate());
         holder.StatisticsComment.setText(finance.getComment());
-        holder.StatisticsAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()).replace(",", "."));
+        holder.StatisticsAmount.setText(ConversionData.conversionDoubleToString(finance.getAmount()));
         holder.StatisticsCurrency.setText(finance.getCurrency());
         holder.StatisticsChoice.setTag(position);
         holder.StatisticsChoice.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +99,7 @@ public class FinanceAdapter extends BaseAdapter {
                     case R.id.edit:
                         Intent intent = new Intent(context, EnterDataActivity.class);
                         intent.putExtra("title", context.getResources().getString(R.string.title_activity_edit));
-                        intent.putExtra("number", finance.getType() + 1);
+                        intent.putExtra("type_finance", finance.getType() + 1);
                         intent.putExtra("finance_id", finance.getId());
                         context.startActivity(intent);
                         return true;

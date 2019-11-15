@@ -1,6 +1,5 @@
 package com.namutomatvey.financialaccount.activity;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,22 +11,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.namutomatvey.financialaccount.ConversionData;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.adapter.FinanceAdapter;
 import com.namutomatvey.financialaccount.dto.Finance;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FinanceActivity extends AppCompatActivity {
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat dateFormatRevert = new SimpleDateFormat("dd MMM y");
     private DBHelper dbHelper;
     private SQLiteDatabase database;
     private GridView gridView;
@@ -92,19 +86,15 @@ public class FinanceActivity extends AppCompatActivity {
         final List<Finance> finances = new ArrayList<Finance>();
         if (cursor.moveToFirst()) {
             do {
-                try {
-                    long currency = cursor.getLong(currencyIndex);
-                    finances.add(new Finance(database,
-                            cursor.getLong(idIndex),
-                            cursor.getInt(typeIndex),
-                            cursor.getDouble(amountIndex) * Finance.getCoefficient(database, SPHelper.getDefaultCurrency()) / Finance.getCoefficient(database, currency),
-                            dateFormatRevert.format(dateFormat.parse(cursor.getString(dateIndex))),
-                            currency,
-                            cursor.getLong(categoryIndex),
-                            cursor.getString(commentIndex)));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                long currency = cursor.getLong(currencyIndex);
+                finances.add(new Finance(database,
+                        cursor.getLong(idIndex),
+                        cursor.getInt(typeIndex),
+                        cursor.getDouble(amountIndex) * Finance.getCoefficient(database, SPHelper.getDefaultCurrency()) / Finance.getCoefficient(database, currency),
+                        ConversionData.conversionStringToDate(cursor.getString(dateIndex)),
+                        currency,
+                        cursor.getLong(categoryIndex),
+                        cursor.getString(commentIndex)));
             } while (cursor.moveToNext());
         }
         gridView = findViewById(R.id.gridViewFinance);

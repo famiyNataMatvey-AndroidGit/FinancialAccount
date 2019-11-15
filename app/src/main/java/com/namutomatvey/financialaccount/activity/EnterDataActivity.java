@@ -1,6 +1,5 @@
 package com.namutomatvey.financialaccount.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -20,27 +19,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.namutomatvey.financialaccount.ConversionData;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.dto.Finance;
 import com.namutomatvey.financialaccount.fragment.CalendarFragment;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class EnterDataActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat dateFormatRevert = new SimpleDateFormat("dd-MM-yyyy");
     private DBHelper dbHelper;
     private Toolbar mActionBarToolbar;
     private Intent intent;
-    private Date date;
     private static final int requestCodeCategory = 1;
     private static final int requestCodeCurrency = 2;
     private TextView dateView;
@@ -52,41 +43,31 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
     private long category;
     private long currency;
     private long finance_id;
-    private int number;
+    private int type_finance;
 
     private Finance finance = null;
-
-    private int typeFinanceCategory() {
-        switch (number) {
-            case 2:
-                return DBHelper.FINANCE_TYPE_INCOME;
-            case 3:
-                return DBHelper.FINANCE_TYPE_EXPENSES;
-            case 4:
-                return DBHelper.FINANCE_TYPE_MONEYBOX;
-            default:
-                return 0;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_data);
 
-        mActionBarToolbar = findViewById(R.id.toolbar);
         String title = getIntent().getExtras().getString("title", getResources().getString(R.string.app_name));
+        mActionBarToolbar = findViewById(R.id.toolbar);
         mActionBarToolbar.setTitle(title);
         setSupportActionBar(mActionBarToolbar);
+
+        type_finance = getIntent().getExtras().getInt("type_finance", DBHelper.FINANCE_TYPE_INCOME);
+        finance_id = getIntent().getExtras().getLong("finance_id", -1);
+
         intent = new Intent(EnterDataActivity.this, SelectionDataActivity.class);
-        number = getIntent().getExtras().getInt("number", getResources().getInteger(R.integer.click_button_income));
 
         dateView = findViewById(R.id.textViewDate);
         textViewCategoryName = findViewById(R.id.financeItemCategoryName);
         textViewCurrencyName = findViewById(R.id.textViewCurrencyName);
         editTextComment = findViewById(R.id.editTextComment);
         editTextAmount = findViewById(R.id.editTextAmount);
-        finance_id = getIntent().getExtras().getLong("finance_id", -1);
+
         dbHelper = new DBHelper(this);
         if (finance_id != -1) {
             SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -103,24 +84,20 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                 currency = cursor.getLong(currencyIndex);
                 category = cursor.getLong(categoryIndex);
 
-                try {
-                    finance = new Finance(database,
-                            cursor.getLong(idIndex),
-                            cursor.getInt(typeIndex),
-                            cursor.getDouble(amountIndex) * Finance.getCoefficient(database, SPHelper.getDefaultCurrency()) / Finance.getCoefficient(database, currency),
-                            dateFormatRevert.format(dateFormat.parse(cursor.getString(dateIndex))),
-                            currency,
-                            category,
-                            cursor.getString(commentIndex));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                finance = new Finance(database,
+                        cursor.getLong(idIndex),
+                        cursor.getInt(typeIndex),
+                        cursor.getDouble(amountIndex) * Finance.getCoefficient(database, SPHelper.getDefaultCurrency()) / Finance.getCoefficient(database, currency),
+                        ConversionData.conversionStringToDate(cursor.getString(dateIndex)),
+                        currency,
+                        category,
+                        cursor.getString(commentIndex));
 
                 dateView.setText(finance.getDate());
                 textViewCategoryName.setText(finance.getCategory());
                 textViewCurrencyName.setText(finance.getCurrency());
                 editTextComment.setText(finance.getComment());
-                editTextAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()).replace(',', '.'));
+                editTextAmount.setText(ConversionData.conversionDoubleToString(finance.getAmount()));
 
                 dateView.setTextColor(Color.BLACK);
                 textViewCategoryName.setTextColor(Color.BLACK);
@@ -136,8 +113,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         }
 
         if (dateView.getText().toString().isEmpty()) {
-            date = Calendar.getInstance().getTime();
-            dateView.setText(dateFormatRevert.format(date));
+            dateView.setText(ConversionData.conversionDateToRevert(Calendar.getInstance().getTime()));
         }
 
         dateView.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +130,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
             public void onClick(View v) {
                 intent.putExtra("title", getResources().getString(R.string.category));
                 intent.putExtra("number", getResources().getInteger(R.integer.click_button_category));
-                intent.putExtra(DBHelper.KEY_FINANCE_TYPE, typeFinanceCategory());
+                intent.putExtra(DBHelper.KEY_FINANCE_TYPE, type_finance);
                 startActivityForResult(intent, requestCodeCategory);
             }
         });
@@ -170,7 +146,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         });
 
         editTextComment = findViewById(R.id.editTextComment);
-        if (typeFinanceCategory() != DBHelper.FINANCE_TYPE_EXPENSES) {
+        if (type_finance != DBHelper.FINANCE_TYPE_EXPENSES) {
             editTextComment.setVisibility(View.INVISIBLE);
         }
 
@@ -183,18 +159,18 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
                     return;
 
                 if (finance_id != -1) {
-                    finance.updateFinance(typeFinanceCategory(),
+                    finance.updateFinance(type_finance,
                             Double.parseDouble(amount),
-                            dateView.getText().toString(),
+                            ConversionData.conversionRevertToDate(dateView.getText().toString()),
                             currency,
                             category,
                             editTextComment.getText().toString());
                 } else {
                     SQLiteDatabase database = dbHelper.getWritableDatabase();
                     finance = new Finance(database,
-                            typeFinanceCategory(),
+                            type_finance,
                             Double.parseDouble(amount),
-                            dateView.getText().toString(),
+                            ConversionData.conversionRevertToDate(dateView.getText().toString()),
                             currency,
                             category,
                             editTextComment.getText().toString()
@@ -251,8 +227,7 @@ public class EnterDataActivity extends AppCompatActivity implements DatePickerDi
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        date = calendar.getTime();
-        dateView.setText(dateFormatRevert.format(date));
+        dateView.setText(ConversionData.conversionDateToRevert(calendar.getTime()));
         dateView.setTextColor(Color.BLACK);
     }
 }

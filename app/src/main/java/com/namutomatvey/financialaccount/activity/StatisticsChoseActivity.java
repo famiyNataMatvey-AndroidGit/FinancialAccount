@@ -21,8 +21,7 @@ public class StatisticsChoseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics_chose);
 
         mActionBarToolbar = findViewById(R.id.toolbar);
-        String title = getIntent().getExtras().getString("title", getResources().getString(R.string.app_name));
-        mActionBarToolbar.setTitle(title);
+        mActionBarToolbar.setTitle(getIntent().getExtras().getString("title", getResources().getString(R.string.app_name)));
         setSupportActionBar(mActionBarToolbar);
 
         Button imageButtonStatisticsExpenses = findViewById(R.id.imageButtonStatisticsExpenses);

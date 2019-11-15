@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.SPHelper;
 
@@ -36,7 +37,7 @@ public class ExpenseChoseActivity extends AppCompatActivity {
                                                    public void onClick(View v) {
                                                        intent = new Intent(ExpenseChoseActivity.this, EnterDataActivity.class);
                                                        intent.putExtra("title", getResources().getString(R.string.expenses));
-                                                       intent.putExtra("number", getResources().getInteger(R.integer.click_button_expenses));
+                                                       intent.putExtra("type_finance", DBHelper.FINANCE_TYPE_EXPENSES);
                                                        startActivity(intent);
                                                    }
                                                }

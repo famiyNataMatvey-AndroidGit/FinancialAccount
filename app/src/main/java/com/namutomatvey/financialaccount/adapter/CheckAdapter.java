@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.namutomatvey.financialaccount.ConversionData;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.dto.Finance;
 
@@ -66,7 +67,7 @@ public class CheckAdapter extends BaseAdapter {
         final Finance finance = this.getItem(position);
         holder.QRCurrency.setText(finance.getCurrency());
         holder.QRComment.setText(finance.getComment());
-        holder.QRAmount.setText(new DecimalFormat("#0.00").format(finance.getAmount()).replace(",", "."));
+        holder.QRAmount.setText(ConversionData.conversionDoubleToString(finance.getAmount()));
         ImageView imageViewTemp = (ImageView) holder.QRChoice;
         if (finance.box) {
             imageViewTemp.setImageResource(R.drawable.ic_check_true);

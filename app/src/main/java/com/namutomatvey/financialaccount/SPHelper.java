@@ -3,6 +3,8 @@ package com.namutomatvey.financialaccount;
 import android.content.SharedPreferences;
 
 public class SPHelper {
+    public static final String APP_PREFERENCES = "mysettings";
+
     private static final String APP_PREFERENCES_FIRST_LAUNCH = "first_launch";
     private static final String APP_PREFERENCES_BALANCE = "balance";
     private static final String APP_PREFERENCES_REGISTRATION = "registration_fns";

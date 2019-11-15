@@ -12,12 +12,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.namutomatvey.financialaccount.ConversionData;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.SPHelper;
 import com.namutomatvey.financialaccount.dto.Finance;
-
-import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mActionBarToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mActionBarToolbar);
 
-        SharedPreferences mSettings = getSharedPreferences(getResources().getString(R.string.APP_PREFERENCES), Context.MODE_PRIVATE);
+        SharedPreferences mSettings = getSharedPreferences(SPHelper.APP_PREFERENCES, Context.MODE_PRIVATE);
         SPHelper.setSharedPreferences(mSettings);
         SPHelper.checkFirstLaunch();
 
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
                 intent = new Intent(MainActivity.this, EnterDataActivity.class);
                 intent.putExtra("title", getResources().getString(R.string.income));
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_income));
+                intent.putExtra("type_finance", DBHelper.FINANCE_TYPE_INCOME);
                 startActivity(intent);
             }
         });
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                 intent = new Intent(MainActivity.this, EnterDataActivity.class);
                 intent.putExtra("title", getResources().getString(R.string.moneybox));
-                intent.putExtra("number", getResources().getInteger(R.integer.click_button_moneybox));
+                intent.putExtra("type_finance", DBHelper.FINANCE_TYPE_MONEYBOX);
                 startActivity(intent);
             }
         });
@@ -82,6 +81,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        if (SPHelper.checkUpdateBalance()) {
+            float balance = Finance.getBalance(new DBHelper(this));
+            balanceAmountTextView.setText(ConversionData.conversionDoubleToString(balance));
+        }
+        super.onStart();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         menu.findItem(R.id.menu_settings).setVisible(true);
@@ -93,14 +101,5 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(MainActivity.this, SettingActivity.class);
         startActivity(intent);
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStart() {
-        if (SPHelper.checkUpdateBalance()) {
-            float balance = Finance.getBalance(new DBHelper(this));
-            balanceAmountTextView.setText(new DecimalFormat("#0.00").format(balance).replace(",", "."));
-        }
-        super.onStart();
     }
 }

@@ -5,11 +5,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.namutomatvey.financialaccount.ConversionData;
 import com.namutomatvey.financialaccount.DBHelper;
 import com.namutomatvey.financialaccount.SPHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Finance {
     @SuppressLint("SimpleDateFormat")
@@ -19,7 +21,7 @@ public class Finance {
     private long id;
     private int type;
     private double amount;
-    private String date;
+    private Date date;
     private String comment;
     private long category;
     private long currency;
@@ -57,20 +59,16 @@ public class Finance {
         return total_balance;
     }
 
-    public Finance(SQLiteDatabase database, int type, double amount, String date, long currency, String comment) {
+    public Finance(SQLiteDatabase database, int type, double amount, Date date, long currency, String comment) {
         this.type = type;
         this.amount = amount;
-        try {
-            this.date = dateFormatRevert.format(dateFormat.parse(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.date = date;
         this.currency = currency;
         this.comment = comment;
         this.database = database;
     }
 
-    public Finance(SQLiteDatabase database, long id, int type, double amount, String date, long currency, long category, String comment) {
+    public Finance(SQLiteDatabase database, long id, int type, double amount, Date date, long currency, long category, String comment) {
         this.id = id;
         this.type = type;
         this.amount = amount;
@@ -81,7 +79,7 @@ public class Finance {
         this.database = database;
     }
 
-    public Finance(SQLiteDatabase database, int type, double amount, String date, long currency, long category, String comment) {
+    public Finance(SQLiteDatabase database, int type, double amount, Date date, long currency, long category, String comment) {
         this.type = type;
         this.amount = amount;
         this.date = date;
@@ -108,7 +106,7 @@ public class Finance {
     }
 
     public String getDate() {
-        return date;
+        return ConversionData.conversionDateToRevert(date);
     }
 
     public String getCategory() {
@@ -160,27 +158,19 @@ public class Finance {
         contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, this.type);
         Double amount = this.amount * getCoefficient(database, this.currency) / getCoefficient(database, SPHelper.getDefaultCurrency());
         contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, amount);
-        try {
-            contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, dateFormat.format(dateFormatRevert.parse(this.date)));
-        } catch (ParseException e) {
-            contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, this.date);
-        }
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, ConversionData.conversionDateToString(this.date));
         contentFinanceValues.put(DBHelper.KEY_FINANCE_COMMENT, this.comment);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_CATEGORY, this.category);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_CURRENCY, this.currency);
         this.id = database.insert(DBHelper.TABLE_FINANCE, null, contentFinanceValues);
     }
 
-    public void updateFinance(int type, double amount, String date, long currency, long category, String comment) {
+    public void updateFinance(int type, double amount, Date date, long currency, long category, String comment) {
         ContentValues contentFinanceValues = new ContentValues();
         contentFinanceValues.put(DBHelper.KEY_FINANCE_TYPE, type);
         Double temp_amount = amount * getCoefficient(database, currency) / getCoefficient(database, SPHelper.getDefaultCurrency());
         contentFinanceValues.put(DBHelper.KEY_FINANCE_AMOUNT, temp_amount);
-        try {
-            contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, dateFormat.format(dateFormatRevert.parse(date)));
-        } catch (ParseException e) {
-            contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, date);
-        }
+        contentFinanceValues.put(DBHelper.KEY_FINANCE_DATE, ConversionData.conversionDateToString(date));
         contentFinanceValues.put(DBHelper.KEY_FINANCE_COMMENT, comment);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_CATEGORY, category);
         contentFinanceValues.put(DBHelper.KEY_FINANCE_CURRENCY, currency);

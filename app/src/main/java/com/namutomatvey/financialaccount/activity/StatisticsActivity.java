@@ -91,8 +91,6 @@ public class StatisticsActivity extends AppCompatActivity implements DatePickerD
 
     private int typeFinanceCategory() {
         switch (number) {
-            case 2:
-                return DBHelper.FINANCE_TYPE_INCOME;
             case 3:
                 return DBHelper.FINANCE_TYPE_EXPENSES;
             case 4:

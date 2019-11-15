@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.namutomatvey.financialaccount.ConversionData;
 import com.namutomatvey.financialaccount.R;
 import com.namutomatvey.financialaccount.dto.ViewCategory;
 
@@ -55,7 +56,7 @@ public class ViewCategoryAdapter extends BaseAdapter {
 
         ViewCategory viewCategorie = this.viewCategories.get(position);
         holder.categoryNameView.setText(viewCategorie.getCategory());
-        holder.amountView.setText(new DecimalFormat("#0.00").format(viewCategorie.getAmount()).replace(",", "."));
+        holder.amountView.setText(ConversionData.conversionDoubleToString(viewCategorie.getAmount()));
         return convertView;
     }
 
